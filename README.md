@@ -1,7 +1,17 @@
-#Clojadelphia SICP.Philly Study Group Solutions to SICP Problems.
+```
+                _              _     _ _ _       
+       ___  ___(_)_ __   _ __ | |__ (_) | |_   _ 
+      / __|/ __| | '_ \ | '_ \| '_ \| | | | | | |
+      \__ \ (__| | |_) || |_) | | | | | | | |_| |
+      |___/\___|_| .__(_) .__/|_| |_|_|_|_|\__, |
+                 |_|    |_|                |___/ 
+                 
+```
+---
 [![Build Status](https://travis-ci.org/dkinzer/sicp.png?branch=master)](https://travis-ci.org/dkinzer/sicp)
 
-This is a working repository to keep my solutions to SICP problem sets.
+This is a working repository to keep my solutions to SICP problem sets
+as part of my participation in the SICP.philly study group.
 It's set up to run the problems as assertions (I like that style of thinking).
 
 ##Requirements
@@ -12,3 +22,4 @@ It's set up to run the problems as assertions (I like that style of thinking).
 
 ##Use
 `make`
+
