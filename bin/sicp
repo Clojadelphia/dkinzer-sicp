@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+source ./lib/colors.sh
+
+for file in $(ls ./src/*.scm)
+do
+  echo -e "$Yel Running Problem Set: $file $RCol"
+  echo ""
+
+  declare -a RESULTS
+  RESULTS=$(cat $file | scheme --quiet --eval)
+
+  OIFS=$IFS
+  IFS=$'\n'
+  for result in $RESULTS
+  do
+    if [[ $result == *PASSED* ]];
+    then
+      echo -e "$Gre $result $RCol\n"
+    else 
+      echo -e "$Red $result $RCol\n"
+    fi
+  done
+  IFS=$OIFS
+done
