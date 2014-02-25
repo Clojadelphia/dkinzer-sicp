@@ -46,7 +46,7 @@
 (assert (= 6 (+ 2 (if (> b a) b a)))
         "An if form can be used as an operand.")  
 
-(assert (= 15 (* (cond ((> a b) a)
+(assert (= 16 (* (cond ((> a b) a)
          ((< a b) b)
          (else -1)) 4))
         "A cond form can be used as an operand.") 
