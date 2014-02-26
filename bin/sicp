@@ -15,12 +15,14 @@ do
   IFS=$'\n'
   for result in $RESULTS
   do
-    if [[ $result == *PASSED* ]];
+    if [[ $result == *PASSED* ]]
     then
-      echo -e "$Gre $result $RCol\n"
-    else 
-      echo -e "$Red $result $RCol\n"
+      color=$Gre
+    elif [[ $result == *FAILED* ]]
+    then
+      color=$Red
     fi
+    echo -e "$color $result $RCol\n"
   done
   IFS=$OIFS
 done
