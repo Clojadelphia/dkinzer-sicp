@@ -1,6 +1,8 @@
-; Problem 1.1.Exercise 1.1.  Below is a sequence of expressions. 
+; Exercise 1.1 :
+; Below is a sequence of expressions. 
 ; What is the result printed by the interpreter in response to each expression?
 ; Assume that the sequence is to be evaluated in the order in which it is presented.
+
 (define assert
   (lambda (a m)
     (if a 
@@ -50,3 +52,13 @@
          ((< a b) b)
          (else -1)) 4))
         "A cond form can be used as an operand.") 
+
+
+; Exercise 1.2:
+; Translate the following expression into prefix form.
+; 5 + 1/2 + (2 - (3 - (6 + 1/3) )) / 3 * (2 - 6) (2 - 7)
+(assert (= (/ 13 72)
+           (/ (+ 5 (/ 1 2) (- 2 (- 3 (+ 6 (/ 1 3)))))
+   (* 3 (- 2 6) (- 2 7))))
+        "These nested expressions can get pretty Freaky.")
+
