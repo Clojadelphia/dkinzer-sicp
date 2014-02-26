@@ -62,3 +62,20 @@
    (* 3 (- 2 6) (- 2 7))))
         "These nested expressions can get pretty Freaky.")
 
+; Exercise 1.3.
+; Define a procedure that takes three numbers as arguments and returns
+; the sum of the squares of the two larger numbers.
+(define exercise-1.3
+  (lambda (x y z)
+         (cond ((< x y z) (+ (* y y) (* z z)))
+               ((< z y x) (+ (* x x) (* y y)))
+               (else (+ (* x x) (* z z))))))
+
+(assert (= 13 (exercise-1.3 1 2 3))
+        "Exercise-1.3 works when the last 2 operands are greater.")
+
+(assert (= 13 (exercise-1.3 3 2 1))
+        "Exercise-1.3 works when the first 2 operands are greater.")
+
+(assert (= 13 (exercise-1.3 3 1 2))
+        "Exercise-1.3 works when the exterior operands are greater.")
