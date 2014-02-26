@@ -1,4 +1,4 @@
-; Exercise 1.1 :
+; Exercise 1.1
 ; Below is a sequence of expressions. 
 ; What is the result printed by the interpreter in response to each expression?
 ; Assume that the sequence is to be evaluated in the order in which it is presented.
@@ -54,7 +54,7 @@
         "A cond form can be used as an operand.") 
 
 
-; Exercise 1.2:
+; Exercise 1.2
 ; Translate the following expression into prefix form.
 ; 5 + 1/2 + (2 - (3 - (6 + 1/3) )) / 3 * (2 - 6) (2 - 7)
 (assert (= (/ 13 72)
@@ -62,7 +62,7 @@
    (* 3 (- 2 6) (- 2 7))))
         "These nested expressions can get pretty Freaky.")
 
-; Exercise 1.3.
+; Exercise 1.3
 ; Define a procedure that takes three numbers as arguments and returns
 ; the sum of the squares of the two larger numbers.
 (define exercise-1.3
@@ -79,3 +79,15 @@
 
 (assert (= 13 (exercise-1.3 3 1 2))
         "Exercise-1.3 works when the exterior operands are greater.")
+
+; Exercise 1.4
+; Observe that our model of evaluation allows for combinations whose operators are
+; compound expressions. Use this observation to describe the behavior of the following
+; procedure:
+
+(define (a-plus-abs-b a b)
+    ((if (> b 0) + -) a b))
+(assert (= 2 (a-plus-abs-b 1 -1) (a-plus-abs-b 1 1))
+        "S-Expressions that evaluate to operators may take the place of an operator.
+        In this case the operator behaves differently dependent on the value of the
+        second argument.")
