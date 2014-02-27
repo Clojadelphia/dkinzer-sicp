@@ -95,3 +95,21 @@
         "S-Expressions that evaluate to operators may take the place of an operator.
         In this case the operator behaves differently dependent on the value of the
         second argument.")
+
+; Exercise 1.5
+; Ben Bitdiddle has invented a test to determine whether the interpreter he is faced with is
+; using applicative-order evaluation or normal-order evaluation. He defines the following two
+; procedures:
+(define (p) (p))
+
+(define (test x y)
+  (if (= x 0)
+      0
+      y))
+; Then he evaluates the expression
+(assert (= 0 (test 0 p))
+        "The LISP interpreter uses applicative-order to evaluate expressions,
+        otherwise the test above would result in an infinite loop:
+        Note that the original text of the exercise defines the test case as
+        (test 0 (p)), but this would clearly cause both cases to fall into an
+        infinite evaluation loop which would not serve.")
