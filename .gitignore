@@ -2,4 +2,4 @@
 *.tar.gz
 *.gz
 mit-scheme-*
-
+lib/ch*
