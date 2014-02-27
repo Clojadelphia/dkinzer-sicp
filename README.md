@@ -7,7 +7,7 @@
                    |_|    |_|                |___/ 
 ```
 ---
-[![Build Status](https://travis-ci.org/dkinzer/sicp.philly.png?branch=master)](https://travis-ci.org/dkinzer/sicp)
+[![Build Status](https://travis-ci.org/dkinzer/sicp.philly.png?branch=master)](https://travis-ci.org/dkinzer/sicp.philly)
 
 This is a working repository to keep my solutions to SICP problem sets
 as part of my participation in the SICP.philly study group.
