@@ -100,16 +100,40 @@
 ; Ben Bitdiddle has invented a test to determine whether the interpreter he is faced with is
 ; using applicative-order evaluation or normal-order evaluation. He defines the following two
 ; procedures:
-(define (p) (p))
+(define (p)
+  (display
+    "TEST: This message will only display under applicative-order
+    evaluation."))
 
 (define (test x y)
   (if (= x 0)
       0
       y))
 ; Then he evaluates the expression
-(assert (= 0 (test 0 p))
-        "The LISP interpreter uses applicative-order to evaluate expressions,
-        otherwise the test above would result in an infinite loop:
-        Note that the original text of the exercise defines the test case as
-        (test 0 (p)), but this would clearly cause both cases to fall into an
-        infinite evaluation loop which would not serve.")
+;
+; What behavior will Ben observe with an interpreter that uses
+; applicative-order evaluation? What behavior will he observe with an
+; interpreter that uses normal-order evaluation? Explain your answer. (Assume
+; that the evaluation rule for the special form if is the same whether the
+; interpreter is using normal or applicative order: The predicate expression is
+; evaluated first, and the result determines whether to evaluate the consequent
+; or the alternative expression.)
+(assert (= 0 (test 0 (p)))
+        "The rule for normal normal-order evaluation dictates that the operands
+        of an expression are never to be evaluated until all expressions have
+        been fully expanded.  Therefore presented with the test in exercise 1.5
+        one may assume that the normal oder evaluation would fall into an
+        infinite loop when trying to expand the second operand:
+
+        (p (p(p (p (p ..)))))
+
+        However, assuming the (if) expression is evaluated in the same way
+        under either situations, i.e. the full expansion rule is broken for
+        (if), Then the second operand (p) would never get evaluated under
+        normal-order evaluation, but would under applicative-order evaluation
+        because the rule for applicative-order evaluation is that all operands
+        get evaluated first before the operator is applied.
+
+        Note: a less destructive test would be to test for side-effect such
+        a printing an output.  I have changed the test accordingly in order to
+        able to run the test without falling into an infinite loop situation.")
