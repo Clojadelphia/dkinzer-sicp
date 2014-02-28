@@ -3,6 +3,9 @@ set -e
 
 source ./lib/colors.sh
 
+PASS_COUNT=0
+FAIL_COUNT=0
+
 for file in $(ls ./src/*.scm)
 do
   echo -e "$Yel Running Problem Set: $file $RCol"
@@ -17,9 +20,11 @@ do
   do
     if [[ $result == *PASSED* ]]
     then
+      PASS_COUNT=$(($PASS_COUNT + 1))
       color=$Gre
     elif [[ $result == *FAILED* ]]
     then
+      FAIL_COUNT=$(($FAIL_COUNT + 1))
       color=$Red
     elif [[ $result == *TEST* ]]
     then
@@ -29,3 +34,10 @@ do
   done
   IFS=$OIFS
 done
+
+TOTAL_COUNT=$(($PASS_COUNT + $FAIL_COUNT))
+echo    ""
+echo    "  --------------------------------------------------------"
+echo -e "  $TOTAL_COUNT total tests ran: $PASS_COUNT tests passed, and $FAIL_COUNT tests failed."
+echo    ""
+test $FAIL_COUNT -eq 0
