@@ -21,6 +21,9 @@ do
     elif [[ $result == *FAILED* ]]
     then
       color=$Red
+    elif [[ $result == *TEST* ]]
+    then
+      color=$Cya
     fi
     echo -e "$color $result $RCol\n"
   done
