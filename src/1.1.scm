@@ -134,6 +134,6 @@
         because the rule for applicative-order evaluation is that all operands
         get evaluated first before the operator is applied.
 
-        Note: a less destructive test would be to test for side-effect such
-        a printing an output.  I have changed the test accordingly in order to
-        able to run the test without falling into an infinite loop situation.")
+        Note: a less destructive test would be to test for a side-effect such
+        printing an output.  I have changed the test accordingly in order to be
+        able to run it without falling into an infinite loop situation.")
