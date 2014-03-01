@@ -137,3 +137,53 @@
         Note: a less destructive test would be to test for a side-effect such
         printing an output.  I have changed the test accordingly in order to be
         able to run it without falling into an infinite loop situation.")
+
+; Exersise 1.6
+; Alyssa P. Hacker doesn't see why if needs to be provided as a
+; special form. ``Why can't I just define it as an ordinary procedure in terms of
+; cond?'' she asks. Alyssa's friend Eva Lu Ator claims this can indeed be done,
+; and she defines a new version of if:
+
+(define (new-if predicate then-clause else-clause)
+  (cond (predicate then-clause)
+        (else
+          else-clause)))
+
+; Eva demonstrates the program for Alyssa:
+
+(assert (= 5 (new-if (= 2 3) 0 5))
+        "new-if works as expected for #f predicates.")
+
+(assert (= 0 (new-if (= 1 1) 0 5))
+        "new-if works as expected for #t predicates.")
+
+; Delighted, Alyssa uses new-if to rewrite the square-root program:
+
+
+(define (sqrt-iter guess x)
+
+  (define (good-enough? guess x)
+    (< (abs (- (square guess) x)) 0.001))
+
+  (define (improve guess x)
+    (display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
+    (average guess (/ x guess)))
+
+  (new-if (good-enough? guess x)
+          guess
+          (sqrt-iter (improve guess x)
+                     x)))
+
+(define exercise-1.6
+  (lambda ()
+    (display (string "TEST: exercise-1.6 would not have been evaluated by a real (if) expression."))))
+
+; What happens when Alyssa attempts to use this to compute square roots? Explain.
+(assert (= 0 (new-if (= 1 1) 0 (exercise-1.6)))
+        "exercise-1.6 is evaluated inside of (new-if) because (new-if) is not a special-form.
+        Therefore, when Alyssa attempts to compute a square using (new-if), the procedure will
+        fall into an infinite evaluation loop because all operands are evaluated for normal expressions.
+        Since sqrt-iter is recursive, the break operand will never get a chance to be evaluated.")
+
+(assert (= 0 (if (= 1 1) 0 (exercise-1.6)))
+        "exercise-1.6 is not evaluated  in a real (if) expression (i.e. no side effects is possible).")
