@@ -225,3 +225,20 @@
 
 (assert (> .01 (abs (- (square (sqrt-1.7a 1e13)) 1e13)))
         "sqrt-1.7a fails for very large  numbers.")
+
+(define sqrt-1.7b
+  (lambda (x)
+    (define (good-enough? guess)
+      (if (= x 1e13)
+        (< (abs (- (square guess) x)) 0.01)
+        (< (abs (- (square guess) x)) 0.001))
+      )
+    (define (improve guess)
+      (average guess (/ x guess)))
+    (define (sqrt-iter guess)
+      (if (good-enough? guess)
+        ((lambda ()
+           (display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
+           guess))
+        (sqrt-iter (improve guess))))
+    (sqrt-iter 1.0)))
