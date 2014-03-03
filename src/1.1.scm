@@ -187,16 +187,12 @@
 (assert (= 0 (if (= 1 1) 0 (exercise-1.6)))
         "exercise-1.6 is not evaluated  in a real (if) expression (i.e. no side effects is possible).")
 
-; Exercise 1.7
+; Exercise 1.7a
 ; The good-enough? test used in computing square roots will not be very effective
 ; for finding the square roots of very small numbers. Also, in real computers,
 ; arithmetic operations are almost always performed with limited precision. This
 ; makes our test inadequate for very large numbers. Explain these statements,
-; with examples showing how the test fails for small and large numbers. An
-; alternative strategy for implementing good-enough? is to watch how guess
-; changes from one iteration to the next and to stop when the change is a very
-; small fraction of the guess. Design a square-root procedure that uses this kind
-; of end test. Does this work better for small and large numbers?
+; with examples showing how the test fails for small and large numbers.
 
 (define sqrt-1.7a
   (lambda (x)
@@ -226,19 +222,32 @@
 (assert (> .01 (abs (- (square (sqrt-1.7a 1e13)) 1e13)))
         "sqrt-1.7a fails for very large  numbers.")
 
+; Exercise 1.7b
+; An alternative strategy for implementing good-enough? is to watch how guess
+; changes from one iteration to the next and to stop when the change is a very
+; small fraction of the guess. Design a square-root procedure that uses this
+; kind of end test. Does this work better for small and large numbers?
+
 (define sqrt-1.7b
   (lambda (x)
-    (define (good-enough? guess)
-      (if (= x 1e13)
-        (< (abs (- (square guess) x)) 0.01)
-        (< (abs (- (square guess) x)) 0.001))
-      )
+    (define (good-enough? guess new-guess)
+      (> 1.0e-100 (abs (- guess new-guess))))
     (define (improve guess)
       (average guess (/ x guess)))
     (define (sqrt-iter guess)
-      (if (good-enough? guess)
+      (define new-guess (improve guess))
+
+      (if (good-enough? guess new-guess)
         ((lambda ()
            (display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
            guess))
-        (sqrt-iter (improve guess))))
+        (sqrt-iter new-guess)))
     (sqrt-iter 1.0)))
+
+(assert (and 
+          (> 1e-50 (abs (- (square (sqrt-1.7b 1.0e-51)) 1.0e-51)))
+          (not (= (sqrt-1.7b 1e-100) (sqrt-1.7b 1e-101)))) 
+        "sqrt-1.7b works on extremely small integers. ")
+
+(assert (> 1e-50 (abs (- (square (sqrt-1.7b 1e25)) 1e25)))
+        "sqrt-1.7b works on very large integers.")
