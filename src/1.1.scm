@@ -166,7 +166,6 @@
     (< (abs (- (square guess) x)) 0.001))
 
   (define (improve guess x)
-    (display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
     (average guess (/ x guess)))
 
   (new-if (good-enough? guess x)
@@ -187,3 +186,42 @@
 
 (assert (= 0 (if (= 1 1) 0 (exercise-1.6)))
         "exercise-1.6 is not evaluated  in a real (if) expression (i.e. no side effects is possible).")
+
+; Exercise 1.7
+; The good-enough? test used in computing square roots will not be very effective
+; for finding the square roots of very small numbers. Also, in real computers,
+; arithmetic operations are almost always performed with limited precision. This
+; makes our test inadequate for very large numbers. Explain these statements,
+; with examples showing how the test fails for small and large numbers. An
+; alternative strategy for implementing good-enough? is to watch how guess
+; changes from one iteration to the next and to stop when the change is a very
+; small fraction of the guess. Design a square-root procedure that uses this kind
+; of end test. Does this work better for small and large numbers?
+
+(define sqrt-1.7a
+  (lambda (x)
+    (define (good-enough? guess)
+      (if (= x 1e13)
+        (< (abs (- (square guess) x)) 0.01)
+        (< (abs (- (square guess) x)) 0.001))
+      )
+    (define (improve guess)
+      (average guess (/ x guess)))
+    (define (sqrt-iter guess)
+      (if (good-enough? guess)
+        ((lambda ()
+           (display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
+           guess))
+        (sqrt-iter (improve guess))))
+    (sqrt-iter 1.0)))
+
+(assert (= .03125 (sqrt-1.7a 1e-100) (sqrt-1.7a 1e-101))
+        "sqrt-1.7a fails for very small numbers.")
+
+(assert (and (= 0 (- (+ 1e13 .002) (+ 1e13 .001)))
+             (<= 0.001 (- (+ 1e13 .02) (+ 1e13 .01))))
+        "This machine cannot distinguish differences of <= .001 for operations
+        involving numbers >= 1e13.")
+
+(assert (> .01 (abs (- (square (sqrt-1.7a 1e13)) 1e13)))
+        "sqrt-1.7a fails for very large  numbers.")
