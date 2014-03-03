@@ -9,9 +9,9 @@
 ---
 [![Build Status](https://travis-ci.org/dkinzer/sicp.philly.png?branch=master)](https://travis-ci.org/dkinzer/sicp.philly)
 
-This is a working repository to keep my solutions to SICP problem sets
+This is a repository of my solutions to the SICP problem sets
 as part of my participation in the SICP.philly study group.
-It's set up to run the problems as assertions (I like that style of thinking).
+It runs the problems as assertions (I like that style of thinking).
 
 ##Requirements
 * MIT-Scheme
