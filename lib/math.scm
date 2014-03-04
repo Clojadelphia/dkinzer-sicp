@@ -5,6 +5,8 @@
 
 (define (square x) (* x x))
 
+(define (cube x) (* x x x))
+
 ;;;SECTION 1.1.7
 (define (average x y)
     (/ (+ x y) 2))

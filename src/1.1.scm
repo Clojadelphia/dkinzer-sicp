@@ -217,7 +217,7 @@
 (assert (and (= 0 (- (+ 1e13 .002) (+ 1e13 .001)))
              (<= 0.001 (- (+ 1e13 .02) (+ 1e13 .01))))
         "This machine cannot distinguish differences of <= .001 for operations
-        involving numbers >= 1e13.")
+        involving numbers <= 1e13.")
 
 (assert (> .01 (abs (- (square (sqrt-1.7a 1e13)) 1e13)))
         "sqrt-1.7a fails for very large  numbers.")
@@ -251,3 +251,38 @@
 
 (assert (> 1e-50 (abs (- (square (sqrt-1.7b 1e25)) 1e25)))
         "sqrt-1.7b works on very large integers.")
+
+; Exercise 1.8 Newton's method for cube roots is based on the fact that if y is
+; an approximation to the cube root of x, then a better approximation is given
+; by the value
+;
+; (x/y^2 + 2y)/3
+;
+; Use this formula to implement a cube-root procedure analogous to the
+; square-root procedure. (In section 1.3.4 we will see how to implement
+; Newton's method in general as an abstraction of these square-root and
+; cube-root procedures.)
+
+(define cbrt-1.8
+  (lambda (x)
+    (define (good-enough? guess new-guess)
+      (> 1.0e-100 (abs (- guess new-guess))))
+    (define (improve guess)
+      (/ (+ (/ x (square guess)) (* 2 guess)) 3))
+    (define (cbrt-iter guess)
+      (define new-guess (improve guess))
+      (if (good-enough? guess new-guess)
+        guess
+        (cbrt-iter new-guess)))
+    (cbrt-iter 1.0)))
+
+(assert (= 3 (cbrt-1.8 27))
+        "cbrt-1.8 works for a known case.")
+
+(assert (and
+          (> 1e-50 (abs (- (cube (cbrt-1.8 1.0e-51)) 1.0e-51)))
+          (not (= (cbrt-1.8 1e-100) (cbrt-1.8 1e-101))))
+        "cbrt-1.8 works on extremely small integers. ")
+
+(assert (> 1e-50 (abs (- (cube (cbrt-1.8 1e25)) 1e25)))
+        "cbrt-1.8 works on very large integers.")
