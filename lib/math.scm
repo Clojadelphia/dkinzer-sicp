@@ -10,3 +10,10 @@
 ;;;SECTION 1.1.7
 (define (average x y)
     (/ (+ x y) 2))
+
+;;;SECTION 1.2.1
+(define inc (lambda (x)
+              (+ x 1)))
+
+(define dec (lambda (x)
+              (- x 1)))
