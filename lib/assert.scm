@@ -9,8 +9,8 @@
       (display (string "\n" "FAILED: " m "\n")))))
 
 ; Use (time f) to analyse how long procedures take.
-; f is an unevaluated expression.
-; runt-time gc-time real-time are written to output.
+; f is an unevaluated expression. run-time gc-time
+; & real-time are written to output and returned as a list.
 (define time
   (lambda (f)
     (with-timings
@@ -22,4 +22,5 @@
       (write gc-time)
       (write-char #\space)
       (write real-time)
-      (newline)))))
+      (newline)
+      (list run-time gc-time real-time)))))
