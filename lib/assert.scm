@@ -10,8 +10,16 @@
 
 ; Use (time f) to analyse how long procedures take.
 ; f is an unevaluated expression.
+; runt-time gc-time real-time are written to output.
 (define time
   (lambda (f)
-    (define t (process-time-clock))
-    (f)
-    (- (process-time-clock) t)))
+    (with-timings
+      f
+      (lambda (run-time gc-time real-time)
+      (newline)
+      (write run-time)
+      (write-char #\space)
+      (write gc-time)
+      (write-char #\space)
+      (write real-time)
+      (newline)))))
