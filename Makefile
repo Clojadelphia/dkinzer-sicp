@@ -5,7 +5,7 @@ default: test
 test: selftest
 
 selftest:
-	bash bin/sicp
+	bash bin/run.sh
 
 compile-scheme:
 	bash bin/get-scheme.sh
