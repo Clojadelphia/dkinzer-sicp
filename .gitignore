@@ -3,3 +3,10 @@
 *.gz
 mit-scheme-*
 lib/ch*
+
+# Ignore compilation files.
+*.so
+*.bin
+*.c
+*.o
+*.bci

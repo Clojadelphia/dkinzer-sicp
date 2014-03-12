@@ -6,13 +6,21 @@ source ./lib/colors.sh
 PASS_COUNT=0
 FAIL_COUNT=0
 
-for file in $(ls ./src/*.scm)
+# Run scheme files or compiled objects.
+if [[ $@ =~ '--so' ]] || [[ $@ =~ '-so' ]]
+then
+  FILE_TYPE=so
+else
+  FILE_TYPE=scm
+fi
+
+for file in $(ls ./src/*.$FILE_TYPE)
 do
   echo -e "$Yel Running Problem Set: $file $RCol"
   echo ""
 
   declare -a RESULTS
-  RESULTS=$(cat $file | scheme --quiet --eval)
+  RESULTS=$(echo '' | scheme --quiet --load $file)
 
   OIFS=$IFS
   IFS=$'\n'

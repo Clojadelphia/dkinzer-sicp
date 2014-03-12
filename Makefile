@@ -1,4 +1,4 @@
-.PHONY: default test selftest compile-scheme
+.PHONY: default test selftest compile-scheme build
 
 default: test
 
@@ -9,3 +9,6 @@ selftest:
 
 compile-scheme:
 	bash bin/get-scheme.sh
+
+build:
+	bash bin/build.sh
