@@ -1,3 +1,4 @@
+(declare (usual-integrations))
 (load '("lib/assert" "lib/math"))
 
 ; Exercise 1.1

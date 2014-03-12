@@ -1,3 +1,5 @@
+(declare (usual-integrations))
+
 ; @file
 ; assert.scm
 ; Testing and analysis type functions go here.
