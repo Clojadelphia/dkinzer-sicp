@@ -1,4 +1,4 @@
-.PHONY: default test selftest compile-scheme build
+.PHONY: default test selftest compile-scheme build run
 
 default: test
 
@@ -12,3 +12,7 @@ compile-scheme:
 
 build:
 	bash bin/build.sh
+
+# Same as self-test but runs compiled code.
+run:
+	bash bin/run.sh --so

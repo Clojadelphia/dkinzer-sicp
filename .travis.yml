@@ -1,11 +1,11 @@
-# There are no required fields for the .travis.yml
-# If this file were empty it would still be valid.
-#
-
-# Prepare to build a test site by installing Drush.
+# Prepare to build a test site by installing MIT-Scheme
 install:
   make compile-scheme
 
+# Build the tests.
+before_script:
+  make build
+
 # Run
 script:
-  make
+  make run
