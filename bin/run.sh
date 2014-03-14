@@ -20,7 +20,7 @@ do
   echo ""
 
   declare -a RESULTS
-  RESULTS=$(echo '' | scheme --quiet --load $file)
+  RESULTS=$(echo '' | scheme --band runtime.com --quiet --load $file)
 
   OIFS=$IFS
   IFS=$'\n'
