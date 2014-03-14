@@ -1,4 +1,4 @@
-.PHONY: default test selftest compile-scheme build run
+.PHONY: default test selftest compile-scheme build run clean
 
 default: test
 
@@ -10,9 +10,12 @@ selftest:
 compile-scheme:
 	bash bin/get-scheme.sh
 
-build:
+build: clean
 	bash bin/build.sh
 
 # Same as self-test but runs compiled code.
 run:
 	bash bin/run.sh --so
+
+clean:
+	bash bin/clean.sh
