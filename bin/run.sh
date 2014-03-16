@@ -14,7 +14,7 @@ else
   FILE_TYPE=scm
 fi
 
-for file in $(find src -type f -name "*.$FILE_TYPE")
+for file in $(find ./src -type f -name "*.$FILE_TYPE")
 do
   echo -e "$Yel Running Problem Set: $file $RCol"
   echo ""
