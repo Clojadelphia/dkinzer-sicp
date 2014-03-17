@@ -2,9 +2,9 @@
 
 set -e
 
-source ./lib/colors.sh
+source lib/colors.sh
 
-for file in $(find ./lib ./src -type f -name "*.scm")
+for file in $(find lib src -type f -name "*.scm")
 do
   echo -e "$Yel Compiling $file $RCol"
   echo ""

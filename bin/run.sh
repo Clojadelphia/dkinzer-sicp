@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-source ./lib/colors.sh
+source lib/colors.sh
 
 PASS_COUNT=0
 FAIL_COUNT=0
@@ -9,12 +9,17 @@ FAIL_COUNT=0
 # Run scheme files or compiled objects.
 if [[ $@ =~ '--so' ]] || [[ $@ =~ '-so' ]]
 then
-  FILE_TYPE=so
+  if [ -f lib/assert.com ]
+  then
+    FILE_TYPE=com
+  else
+    FILE_TYPE=so
+  fi
 else
   FILE_TYPE=scm
 fi
 
-for file in $(find ./src -type f -name "*.$FILE_TYPE")
+for file in $(find src -type f -name "*.$FILE_TYPE")
 do
   echo -e "$Yel Running Problem Set: $file $RCol"
   echo ""
