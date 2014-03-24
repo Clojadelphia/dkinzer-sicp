@@ -15,7 +15,7 @@
   ; by invoking a restart.
   (bind-condition-handler '() ; All conditions
    (lambda (condition)
-     (invoke-restart (find-restart 'restart) (condition/report-string condition)))
+     (invoke-restart (find-restart 'assert-restart) (condition/report-string condition)))
    thunk))
 
 (define (assert-error expected-error thunk)
@@ -27,20 +27,21 @@
         (lambda (kappa)
           (with-restart
             ; Name
-            'assert-error
+            'assert-restart
             ;  Reporter
-            "This restart is named assert-error."
+            "This restart is named assert-restart"
             ; Effector
             (lambda (message)
               (assert (string=? message expected-error)
-                      (string-append
-                        "The expected error message was thrown:\n"
-                        "Expected: " expected-error "\n"
-                        "Actual: " message))
+                      (string-append "\"" expected-error "\" error was thrown."))
               (kappa #f))
             ; No Interactor.
             #f
-            thunk))))))
+            ; A reconfigured thunk.
+            (lambda ()
+              (thunk)
+              (error "NO ERROR"))))))))
+
 
 (define time
   ; Use (time f) to analyse how long procedures take.
