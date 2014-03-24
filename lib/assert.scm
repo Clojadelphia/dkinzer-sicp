@@ -18,7 +18,7 @@
      (invoke-restart (find-restart 'assert-restart) (condition/report-string condition)))
    thunk))
 
-(define (assert-error expected-error thunk)
+(define (assert-error expected-error thunk #!optional a-message)
   ; This code provides a way of handling errors: the ASSERT-ERROR restart.
   ; Invokes the assert message by checking expected against actual error message.
   (restart-if-error
@@ -33,7 +33,7 @@
             ; Effector
             (lambda (message)
               (assert (string=? message expected-error)
-                      (string-append "\"" expected-error "\" error was thrown."))
+                      (string-append "\"" expected-error "\" error was thrown." a-message))
               (kappa #f))
             ; No Interactor.
             #f
