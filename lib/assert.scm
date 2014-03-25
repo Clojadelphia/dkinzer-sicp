@@ -13,10 +13,11 @@
 (define (restart-if-error thunk)
   ; This code handles conditions that arise while executing thunk
   ; by invoking a restart.
-  (bind-condition-handler '() ; All conditions
-   (lambda (condition)
-     (invoke-restart (find-restart 'assert-restart) (condition/report-string condition)))
-   thunk))
+  (bind-condition-handler
+    '() ; All conditions
+    (lambda (condition)
+      (invoke-restart (find-restart 'assert-restart) (condition/report-string condition)))
+    thunk))
 
 (define (assert-error expected-error thunk #!optional a-message)
   ; This code provides a way of handling errors: the ASSERT-ERROR restart.
@@ -33,7 +34,8 @@
             ; Effector
             (lambda (message)
               (assert (string=? message expected-error)
-                      (string-append "\"" expected-error "\" error was thrown." a-message))
+                      (string-append "\"" expected-error "\" error was thrown."
+                                     a-message))
               (kappa #f))
             ; No Interactor.
             #f
@@ -41,7 +43,6 @@
             (lambda ()
               (thunk)
               (error "NO ERROR"))))))))
-
 
 (define time
   ; Use (time f) to analyse how long procedures take.
