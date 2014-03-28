@@ -33,8 +33,9 @@
             "This restart is named assert-restart"
             ; Effector
             (lambda (message)
-              (assert (string=? message expected-error)
-                      (string-append "\"" expected-error "\" error was thrown."
+              (assert (substring? expected-error message)
+                      (string-append "\"" expected-error "\" error was thrown.\n"
+                                     "Actual error was: " message "\n"
                                      a-message))
               (kappa #f))
             ; No Interactor.
