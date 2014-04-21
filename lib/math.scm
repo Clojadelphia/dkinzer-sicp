@@ -27,3 +27,21 @@
     0
     (+ (term a)
        (sum term (next a) next b))))
+
+(define (product term a next b)
+  (define (iter a result)
+    (if (> a b)
+      result
+      (iter (next a) (* result (term a)))))
+  (iter a 1))
+
+(define (pi-div-4 x)
+  (define (term y)
+    (let ((even-term (* 2 y))
+          (odd-term (+ 1 (* 2 y))))
+      (let ((first-factor (/ even-term odd-term))
+            (second-factor (/ (+ 2 even-term) odd-term)))
+       (*  first-factor second-factor))))
+  (product term 1.0 inc x))
+
+(define PI (* 4 (pi-div-4 100)))

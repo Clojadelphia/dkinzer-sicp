@@ -6,8 +6,7 @@
 ; method illustrated above.  Using Simpson's Rule, the integral of
 ; a function $f$ between $a$ and $b$ is approximated as
 
-; $$\frac{h}{3}(y_0 + 4y_1 + 2y_2 + 4y+3 + 2y_4 + \cdots + 2y_{n-2} + 4y_{n-1}
-; + y_n)$$
+; h/3 [ y_0 + 4y_1 + 2y_2 + 4y_3 + 2y_4 + ... + 2y_{n-2} + 4y_{n-1} + y_n ]
 
 ; where $h = (b - a)/n$, for some even integer $n$, and $y_k = f(a + kh)$.
 ; (Increasing $n$ increases the accuracy of the approximation.)  Define
@@ -41,3 +40,67 @@
 
 (assert (= (sum-130 cube 1 inc 10) (sum cube 1 inc 10))
         "The iterative procedure sum-130 is equivalent recursive procedure sum.")
+
+; Exercise 1.31:
+; a.  The sum procedure is only the simplest of a vast number of
+; similar abstractions that can be captured as higher-order procedures.51 Write
+; an analogous procedure called product that returns the product of the values of
+; a function at points over a given range. Show how to define factorial in terms
+; of product. Also use product to compute approximations to  using the formula:
+;
+; pi/4 = (2/3 * 4/3) * (4/5 * 6/5) * (6/7 * 8/7) * ... (2n/(2n+1) * (2n+2)/(2n+1))
+(define (product term a next b)
+  (define (iter a result)
+    (if (> a b)
+      result
+      (iter (next a) (* result (term a)))))
+  (iter a 1))
+
+(define (factorial x)
+  (product * 1 inc x))
+
+(assert (= 1 (factorial 0)) "0 factorial is 1")
+(assert (= 1 (factorial 1)) "1 factorial is 1")
+(assert (= 2 (factorial 2)) "2 factorial is 2")
+(assert (= 6 (factorial 3)) "3 factorial is 6")
+
+(define (pi-div-4 x)
+  (define (term y)
+    (let ((even-term (* 2 y))
+          (odd-term (+ 1 (* 2 y))))
+      (let ((first-factor (/ even-term odd-term))
+            (second-factor (/ (+ 2 even-term) odd-term)))
+       (*  first-factor second-factor))))
+  (product term 1.0 inc x))
+
+(define PI (* 4 (pi-div-4 100)))
+
+(assert (< 0.00000000000001 (abs (- 3.1415 PI)))
+        "Using pi-div-4 we can closely approximate pi.")
+
+; One of the things that really caught me with the above statement is that in
+; an mit-scheme let form, the previously bound variable cannot be directly
+; reused in defining the next bound variable.
+;
+; For example, the following form throws an error.
+;
+; (let ((a 1)
+;       (b (+ a 1)))
+;   a)
+;
+
+; b.  If your product procedure generates a recursive process, write one that
+; generates an iterative process. If it generates an iterative process, write one
+; that generates a recursive process.
+;
+(define (product-recur term a next b)
+  ;; A recursive version of the product procedure.
+  (if (> a b)
+    1
+    (* (term a) (product-recur term (next a) inc b))))
+
+(define (factorial-recur x)
+  (product-recur * 1 inc x))
+
+(assert (= (factorial-recur 10) (factorial 10))
+        "The product and product-recur procedures are equivalent.")
