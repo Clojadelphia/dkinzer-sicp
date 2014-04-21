@@ -42,7 +42,7 @@
         "The iterative procedure sum-130 is equivalent recursive procedure sum.")
 
 ; Exercise 1.31:
-; a.  The sum procedure is only the simplest of a vast number of
+; a. The sum procedure is only the simplest of a vast number of
 ; similar abstractions that can be captured as higher-order procedures.51 Write
 ; an analogous procedure called product that returns the product of the values of
 ; a function at points over a given range. Show how to define factorial in terms
@@ -57,7 +57,7 @@
   (iter a 1))
 
 (define (factorial x)
-  (product * 1 inc x))
+  (product (lambda (x) x) 1 inc x))
 
 (assert (= 1 (factorial 0)) "0 factorial is 1")
 (assert (= 1 (factorial 1)) "1 factorial is 1")
@@ -88,8 +88,7 @@
 ;       (b (+ a 1)))
 ;   a)
 ;
-
-; b.  If your product procedure generates a recursive process, write one that
+; b. If your product procedure generates a recursive process, write one that
 ; generates an iterative process. If it generates an iterative process, write one
 ; that generates a recursive process.
 ;
@@ -100,7 +99,68 @@
     (* (term a) (product-recur term (next a) inc b))))
 
 (define (factorial-recur x)
-  (product-recur * 1 inc x))
+  (product-recur (lambda (x) x) 1 inc x))
 
 (assert (= (factorial-recur 10) (factorial 10))
         "The product and product-recur procedures are equivalent.")
+
+; Exercise 1.32:
+; a. Show that sum and product (exercise 1.31) are both
+; special cases of a still more general notion called accumulate that
+; combines a collection of terms, using some general accumulation function:
+
+; (accumulate combiner null-value term a next b)
+
+; Accumulate takes as arguments the same term and range specifications as sum
+; and product, together with a combiner procedure  (of two arguments) that
+; specifies how the current term is to be combined with the accumulation of the
+; preceding terms and a null-value that specifies what base value to use
+; when the terms run out. Write accumulate and show how sum and product can
+; both be defined as simple calls to accumulate.
+(define (accumulate combiner null-value term a next b)
+  (if (> a b)
+    null-value
+    (combiner (term a) (accumulate combiner null-value term (next a) next b))))
+
+(define (sum-132a term a next b)
+  (accumulate + 0 term a next b))
+
+(define (sum-130-integers a b)
+  (sum-130 (lambda (x) x) a inc b))
+
+(define (sum-132a-integers a b)
+  (sum-132a (lambda (x) x) a inc b))
+
+(assert (= (sum-130-integers 0 100) (sum-132a-integers 0 100))
+        "sum procedures can be re-factored to use the more general accumlate procedure.")
+
+(define (product-132a term a next b)
+  (accumulate * 1 term a next b))
+
+(define (product-recur-integers a b)
+  (product-recur (lambda (x) x) a inc b))
+
+(define (product-132a-integers a b)
+  (product-132a (lambda (x) x) a inc b))
+
+(assert (= (product-recur-integers 0 100) (product-132a-integers 0 100))
+        "product procedures can be re-factored to use the more general accumlate procedure.")
+
+; b. If your accumulate procedure generates a recursive process, write one
+; that generates an iterative process. If it generates an iterative
+; process, write one that generates a recursive process.
+(define (accumulate-iter combiner null-value term a next b)
+  (define (iter result x)
+    (if (> x b)
+      result
+      (iter (combiner result (term x)) (next x))))
+  (iter null-value a))
+
+(define (product-132b term a next b)
+  (accumulate-iter * 1 term a next b))
+
+(define (product-132b-integers a b)
+  (product-132b (lambda (x) x) a inc b))
+
+(assert (= (product-132a-integers 1 4) (product-132b-integers 1 4))
+        "The iterative and recursive forms of the accumulater procedures are equivalent.")
