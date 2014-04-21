@@ -57,7 +57,11 @@
   (iter a 1))
 
 (define (factorial x)
-  (product (lambda (x) x) 1 inc x))
+  (let ((term (lambda (x) x))
+        (next inc)
+        (a 1)
+        (b x))
+    (product term a next b)))
 
 (assert (= 1 (factorial 0)) "0 factorial is 1")
 (assert (= 1 (factorial 1)) "1 factorial is 1")
@@ -164,3 +168,17 @@
 
 (assert (= (product-132a-integers 1 4) (product-132b-integers 1 4))
         "The iterative and recursive forms of the accumulater procedures are equivalent.")
+
+; Exercise 1.33:
+; You can obtain an even more general version of accumulate (exercise 1.32) by
+; introducing the notion of a filter on the terms to be combined. That is,
+; combine only those terms derived from values in the range that satisfy
+; a specified condition. The resulting filtered-accumulate abstraction takes the
+; same arguments as accumulate, together with an additional predicate of one
+; argument that specifies the filter. Write filtered-accumulate as a procedure.
+; Show how to express the following using filtered-accumulate:
+;
+; a. the sum of the squares of the prime numbers in the interval a to b
+
+; b. the product of all the positive integers less than n that are relatively
+; prime to n (i.e., all positive integers i < n such that GCD(i,n) = 1).
