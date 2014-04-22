@@ -35,15 +35,27 @@ do
     then
       PASS_COUNT=$(($PASS_COUNT + 1))
       color=$Gre
+      if [ $VERBOSE ];
+      then
+        $result = ''
+      fi
     elif [[ $result == *FAILED* ]]
     then
       FAIL_COUNT=$(($FAIL_COUNT + 1))
       color=$Red
+      if [ $HIDE == 'true' ];
+      then
+        echo -e "$color $result $RCol\n"
+      fi
     elif [[ $result == *TEST* ]]
     then
       color=$Cya
     fi
-    echo -e "$color $result $RCol\n"
+
+    if [ $HIDE == 'false' ];
+    then
+      echo -e "$color $result $RCol\n"
+    fi
   done
   IFS=$OIFS
 done
