@@ -178,7 +178,31 @@
 ; argument that specifies the filter. Write filtered-accumulate as a procedure.
 ; Show how to express the following using filtered-accumulate:
 ;
+(define (prime? x)
+  (define (iter a)
+   (if (or (= 0 a) (= 1 a) (= x a))
+    #t
+    (if (= 0 (modulo x a))
+      #f
+      (iter (inc a)))))
+  ; We want to start with two in order to quickly evaluate even integers as non primes.
+  (iter 2))
+
+(assert (equal? '(3 5 7) (filter prime? '(3 4 5 6 7 8 9)))
+        "prime? works as expected.")
 ; a. the sum of the squares of the prime numbers in the interval a to b
+(define (filtered-accumulate combiner null-value term mask a next b)
+  (define (filtered-term y)
+    (if (mask y)
+      null-value
+      (term y)))
+
+  (if (> a b)
+    null-value
+    (combiner (filtered-term a) (filtered-accumulate combiner null-value mask term (next a) next b))))
+
+(define (sum-squares-primes a b)
+  (filtered-accumulate * 1 square prime? a inc b))
 
 ; b. the product of all the positive integers less than n that are relatively
 ; prime to n (i.e., all positive integers i < n such that GCD(i,n) = 1).
