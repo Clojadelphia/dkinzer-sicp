@@ -5,6 +5,12 @@ source lib/colors.sh
 
 PASS_COUNT=0
 FAIL_COUNT=0
+if [[ -z "$SICP_MODE" ]];
+then
+  MODE='verbose';
+else 
+  MODE="$SICP_MODE"
+fi
 
 # Run scheme files or compiled objects.
 if [[ $@ =~ '--so' ]] || [[ $@ =~ '-so' ]]
@@ -35,26 +41,23 @@ do
     then
       PASS_COUNT=$(($PASS_COUNT + 1))
       color=$Gre
-      if [ $VERBOSE ];
-      then
-        $result = ''
-      fi
     elif [[ $result == *FAILED* ]]
     then
       FAIL_COUNT=$(($FAIL_COUNT + 1))
       color=$Red
-      if [ $HIDE == 'true' ];
-      then
-        echo -e "$color $result $RCol\n"
-      fi
     elif [[ $result == *TEST* ]]
     then
       color=$Cya
     fi
 
-    if [ $HIDE == 'false' ];
+    if [ "$MODE" == 'verbose' ];
     then
       echo -e "$color $result $RCol\n"
+    else
+      if [ $color == $Red ];
+      then
+        echo -e "$color $result $RCol\n"
+      fi
     fi
   done
   IFS=$OIFS
