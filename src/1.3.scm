@@ -190,17 +190,17 @@
     #f
     (iter 2)))
 
-(assert (equal? '(3 5 7) (filter prime? '( 0 1 3 4 5 6 7 8 9 10)))
+(assert (equal? '(3 5 7) (filter prime? '( -3 -2 -1 0 1 3 4 5 6 7 8 9 10)))
         "prime? works as expected.")
 ; a. the sum of the squares of the prime numbers in the interval a to b
 (define (filtered-accumulate combiner null-value term mask a next b)
   (define (filtered-term y)
-    (if (mask y)
-      null-value
-      (term y)))
+    (term (if (mask y)
+             y
+             null-value)))
   (if (> a b)
     null-value
-    (combiner (filtered-term a) (filtered-accumulate combiner null-value mask term (next a) next b))))
+    (combiner (filtered-term a) (filtered-accumulate combiner null-value term mask (next a) next b))))
 
 (define (sum-squares-primes a b)
   (filtered-accumulate + 0 square prime? a inc b))
@@ -215,7 +215,13 @@
         "sum-squares-primes works when 1 1 is passed.")
 
 (assert (= 0 (sum-squares-primes -1 1))
-        "sum-squares-primes works when -1 0 is passed.")
+        "sum-squares-primes works when -1 -1 is passed.")
+
+(assert (= (+ 9 25) (sum-squares-primes -1 5))
+        "sum-squares-primes works when -1 5 is passed.")
+
+(assert (= (+ 9 25 49) (sum-squares-primes -1 7))
+        "sum-squares-primes works when -1 5 is passed.")
 
 ; b. the product of all the positive integers less than n that are relatively
 ; prime to n (i.e., all positive integers i < n such that GCD(i,n) = 1).
