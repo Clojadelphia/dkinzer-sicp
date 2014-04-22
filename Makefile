@@ -1,4 +1,4 @@
-.PHONY: default test selftest compile-scheme build run clean
+.PHONY: default test selftest compile-scheme build run clean kill
 
 default: test
 
@@ -19,3 +19,6 @@ run:
 
 clean:
 	bash bin/clean.sh
+
+kill:
+	bash bin/kill.sh
