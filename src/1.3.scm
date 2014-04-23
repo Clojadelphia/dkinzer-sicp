@@ -225,15 +225,71 @@
 
 ; b. the product of all the positive integers less than n that are relatively
 ; prime to n (i.e., all positive integers i < n such that GCD(i,n) = 1).
+(define (range x)
+  (define (iter a result)
+    (if (<= a 0)
+      result
+      (iter (dec a) (cons a result))))
+  (iter x '()))
+
+(assert (equal? '() (range -1))
+        "range works as expected when passed -1")
+(assert (equal? '() (range 0))
+        "range works as expected when passed 0")
+(assert (equal? '(1) (range 1))
+        "range works as expected when passed 1")
+(assert (equal? '(1 2 3 4 5 6) (range 6))
+        "range works as expected when passed 6")
 
 (define (factors x)
-  (define (iter a)
-   (if (= a x)
-    #t
+  (define (factor? a)
     (if (= 0 (modulo x a))
-      #f
-      (iter (inc a)))))
-  ; We want to start with two in order to quickly evaluate even integers as non primes.
-  (if (<= x 2)
-    #f
-    (iter 2)))
+      #t
+      #f))
+  (let ((primes (filter prime? (range x))))
+    (let ((f (filter factor? primes)))
+      (if (and (> x 1) (not (prime? x)))
+        (append f (list x))
+        f))))
+
+(assert (equal? '() (factors -1))
+        "factor works as expected for x less than 0.")
+(assert (equal? '() (factors 0))
+        "factor works as expected for x equal 0.")
+(assert (equal? '() (factors 1))
+        "factor works as expected for x equal 1.")
+(assert (equal? '(2) (factors 2))
+        "factor works as expected for x equal 2.")
+(assert (equal? '(2 3 6) (factors 6))
+        "factor works as expected for x equal 6.")
+
+;; Check that x is relative prime to y
+(define (relative-prime? x y)
+  (define (iter a result)
+    (if (= 0 (length a))
+      result
+      (iter (cdr a) (if (= 0 (modulo (car a) y))
+                      result
+                      (cons result a)))))
+  (iter (factors x) '()))
+
+(assert (= 0 (length '()))
+        "The length of '() is 0.")
+
+(assert (equal? '(1) (cons 1 '()))
+        "cons works as expected")
+
+(assert (= (modulo 2 3) (modulo (car '(2)) 3))
+        "Working")
+
+(assert (relative-prime? 9 10)
+        "relative-prime? works as expected when 2, 3 is passed.")
+
+(assert (relative-prime? 10 9)
+        "relative-prime? does not care about order.")
+
+(assert (relative-prime? 5 3)
+        "relative-prime? works when two primes are passed.")
+
+(assert (not (relative-prime? 4 6))
+        "relative-prime? works when non-relative primes are passed.")
