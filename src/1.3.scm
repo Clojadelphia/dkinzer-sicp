@@ -193,6 +193,8 @@
 (assert (equal? '(2 3 5 7) (filter prime? '( -3 -2 -1 0 1 2 3 4 5 6 7 8 9 10)))
         "prime? works as expected.")
 ; a. the sum of the squares of the prime numbers in the interval a to b
+
+;; General form of the accumulate procedure.
 (define (filtered-accumulate combiner null-value term mask a next b)
   (define (filtered-term y)
     (term (if (mask y)
@@ -207,30 +209,27 @@
 
 (assert (= 0 (sum-squares-primes 0 0))
         "sum-squares-primes works when 0 0 is passed.")
-
 (assert (= 0 (sum-squares-primes 0 1))
         "sum-squares-primes works when 0 1 is passed.")
-
 (assert (= 0 (sum-squares-primes 1 1))
         "sum-squares-primes works when 1 1 is passed.")
-
 (assert (= 0 (sum-squares-primes -1 1))
         "sum-squares-primes works when -1 -1 is passed.")
-
 (assert (= (+ 4 9 25) (sum-squares-primes -1 5))
         "sum-squares-primes works when -1 5 is passed.")
-
 (assert (= (+ 4 9 25 49) (sum-squares-primes -1 7))
         "sum-squares-primes works when -1 7 is passed.")
 
 ; b. the product of all the positive integers less than n that are relatively
 ; prime to n (i.e., all positive integers i < n such that GCD(i,n) = 1).
-(define (range x)
+
+;; Returns a list of integers from 1 to n.
+(define (range n)
   (define (iter a result)
     (if (<= a 0)
       result
       (iter (dec a) (cons a result))))
-  (iter x '()))
+  (iter n '()))
 
 (assert (equal? '() (range -1))
         "range works as expected when passed -1")
@@ -241,12 +240,13 @@
 (assert (equal? '(1 2 3 4 5 6) (range 6))
         "range works as expected when passed 6")
 
-(define (factors x)
-  (define (factor? a)
-    (if (= 0 (modulo x a))
+;; Return the list of actors for a given integer "a".
+(define (factors a)
+  (define (factor? b)
+    (if (= 0 (modulo a b))
       #t
       #f))
-  (let ((primes (filter prime? (range x))))
+  (let ((primes (filter prime? (range a))))
     (let ((f (filter factor? primes)))
       f)))
 
@@ -261,8 +261,8 @@
 (assert (equal? '(2 3) (factors 6))
         "factor works as expected for x equal 6.")
 
-;; Check that x is relative prime to y
-(define (relative-prime? x y)
+;; Check that integer "a" is a relative prime of integer "b".
+(define (relative-prime? a b)
   (define (abs-modulo a b)
     (if (< a b)
       (modulo b a)
@@ -270,33 +270,27 @@
   (define (iter a result)
     (if (= 0 (length a))
       (= 0 (length result))
-      (if (= 0 (abs-modulo y (car a)))
+      (if (= 0 (abs-modulo b (car a)))
         (iter (cdr a) (cons (car a) result))
         (iter (cdr a) result))))
-  (iter (factors x) (list)))
-
+  (iter (factors a) (list)))
 
 (assert (= 0 (length '()))
         "The length of '() is 0.")
-
 (assert (equal? '(1) (cons 1 '()))
         "cons works as expected")
-
 (assert (= (modulo 2 3) (modulo (car '(2)) 3))
         "modulo works as expected")
-
 (assert (relative-prime? 10 9)
         "relative-prime? works as expected when 9, 10 is passed.")
-
 (assert (relative-prime? 9 10)
         "relative-prime? does not care about order (10, 9).")
-
 (assert (relative-prime? 7 11)
         "relative-prime? works when two primes are passed.")
-
 (assert (not (relative-prime? 2 100))
         "relative-prime? works when non-relative primes are passed.")
-
 (assert (not (relative-prime? 100 2))
         "relative-prime? works when non-relative primes are passed.
         In any order.")
+(assert (relative-prime? 1 11)
+        "relative-prime? does not bonk when a 1 attribute is given.")
