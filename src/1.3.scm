@@ -240,7 +240,7 @@
 (assert (equal? '(1 2 3 4 5 6) (range 6))
         "range works as expected when passed 6")
 
-;; Return the list of actors for a given integer "a".
+;; Return the list of factors for a given integer "a".
 (define (factors a)
   (define (factor? b)
     (if (= 0 (modulo a b))
@@ -294,3 +294,19 @@
         In any order.")
 (assert (relative-prime? 1 11)
         "relative-prime? does not bonk when a 1 attribute is given.")
+
+; b. the product of all the positive integers less than n that are relatively
+; prime to n (i.e., all positive integers i < n such that GCD(i,n) = 1).
+(define (product-of-relative-primes-to n)
+  (let ((term (lambda (a) a))
+        (mask (lambda (a) (relative-prime? a n))))
+    (filtered-accumulate * 1 term mask 1 inc n)))
+
+(assert (= (* 1 2 3 4 5 6) (product-of-relative-primes-to 7))
+        "#product-of-relative-primes-to works as expected for input 7 (a prime)")
+(assert (= (* 1 2 4 5 7 8) (product-of-relative-primes-to 9))
+        "#product-of-relative-primes-to works as expected for input 9 (an odd non prime)")
+(assert (= (* 1 3 7 9) (product-of-relative-primes-to 10))
+        "#product-of-relative-primes-to works as expected for input 10 (an even non prime)")
+(assert (= (* 1 5 7 11) (product-of-relative-primes-to 12))
+        "#product-of-relative-primes-to works as expected for input 12 (an even non prime with both odd and even primes)")
