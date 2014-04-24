@@ -310,3 +310,19 @@
         "#product-of-relative-primes-to works as expected for input 10 (an even non prime)")
 (assert (= (* 1 5 7 11) (product-of-relative-primes-to 12))
         "#product-of-relative-primes-to works as expected for input 12 (an even non prime with both odd and even primes)")
+
+; Exercise 1.34:
+; Suppose we define the procedure
+(define (f g)
+  (g 2))
+; Then we have
+; (f square)
+; 4
+; (f (lambda (z) (* z (+ z 1))))
+; 6
+
+; What happens if we (perversely) ask the interpreter to evaluate the combination (f f)? Explain.
+(assert-error "The object 2 is not applicable"
+              (lambda () (f f))
+              "(f f) -> (f (f 2) -> (f (f (2 2):
+              The form expands until it tries to apply 2 at which point it throws an error.")
