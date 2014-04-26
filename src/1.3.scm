@@ -326,3 +326,29 @@
               (lambda () (f f))
               "(f f) -> (f (f 2) -> (f (f (2 2):
               The form expands until it tries to apply 2 at which point it throws an error.")
+
+; Exercise 1.35:
+; Show that the golden ratio  (section 1.2.2) is a fixed point
+; of the transformation x   1 + 1/x, and use this fact to compute  by means of
+; the fixed-point procedure.
+; 
+; P satisfies          P^2 = P + 1
+; which transforms to  P = 1 + 1/P
+; which implies:       P -> 1 + 1/P
+; or P is the fixpoint of 1 + 1/P
+(define tolerance 0.00001)
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+
+(define phi
+  (fixed-point (lambda (p) (+ 1 (/ 1 p)))
+             1.0))
+(assert (< .00001 (- phi 1.6180))
+        "The fixed point procedure can be used to estimate the Golden Ratio.")
