@@ -380,3 +380,58 @@
                2.0))
 (assert (< .0000000001 (abs (- (ex-1.36b) (ex-1.36a))))
         "Fixed point with or without dampening is equivalent.")
+
+; Exercise 1.37:
+; a. An infinite continued fraction is an expression of the
+; form
+;
+;            N1
+;  f =  ------------
+;       D1   +    N2
+;             ----------
+;             D2  +   N3
+;                     --------
+;                     D3 + ...
+;
+; As an example, one can show that the infinite continued fraction expansion
+; with the Ni and the Di all equal to 1 produces 1/, where  is the golden ratio
+; (described in section 1.2.2). One way to approximate an infinite continued
+; fraction is to truncate the expansion after a given number of terms. Such
+; a truncation -- a so-called k-term finite continued fraction -- has the form
+;
+;            N1
+;  f =  ------------
+;       D1   +    N2
+;             -------------
+;             D2  +  ... Nk
+;                       ----
+;                        Dk
+;
+; Suppose that n and d are procedures of one argument (the term index i) that
+; return the Ni and Di of the terms of the continued fraction. Define
+; a procedure cont-frac such that evaluating (cont-frac n d k) computes the
+; value of the k-term finite continued fraction. Check your procedure by
+; approximating 1/Phi using
+;
+(define (cont-frac n d k)
+  (define (frac i)
+    (if (= i k)
+      (/ (n k) (d k))
+      (/ (n i) (+ (d i) (frac (inc i))))))
+  (frac 1))
+
+(define (inverse-phi k)
+  (cont-frac (lambda (i) 1.0)
+             (lambda (i) 1.0)
+             k))
+; for successive values of k. how large must you make k in order to get an
+; approximation that is accurate to 4 decimal places?
+(assert (> .0001 (abs (- (/ 1.0000 phi) (inverse-phi 10))))
+        "The conc-frac procedure can be used to estimate the 1/phi.
+         k must be set to 10 in order to bring the aproximation
+         accurate to 4 decimal places.")
+
+;
+; b. If your cont-frac procedure generates a recursive process, write one that
+; generates an iterative process.  If it generates an iterative process, write
+; one that generates a recursive process.
