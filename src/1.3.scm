@@ -424,6 +424,7 @@
   (cont-frac (lambda (i) 1.0)
              (lambda (i) 1.0)
              k))
+
 ; for successive values of k. how large must you make k in order to get an
 ; approximation that is accurate to 4 decimal places?
 (assert (> .0001 (abs (- (/ 1.0000 phi) (inverse-phi 10))))
@@ -431,7 +432,23 @@
          k must be set to 10 in order to bring the aproximation
          accurate to 4 decimal places.")
 
-;
 ; b. If your cont-frac procedure generates a recursive process, write one that
 ; generates an iterative process.  If it generates an iterative process, write
 ; one that generates a recursive process.
+(define (cont-frac-i n d k)
+  (define (frac-iter i result)
+    (if (= i 1)
+      result
+      (frac-iter (dec i)
+                 (/ (n i) (+ (d i) result)))))
+  (frac-iter k 0))
+
+(define (inverse-phi-i k)
+  (cont-frac-i (lambda (i) 1.0)
+             (lambda (i) 1.0)
+             k))
+
+(assert (> .0001 (abs (- (inverse-phi-i 11) (inverse-phi 10))))
+        "The recursive and iterative versions of cont-frac are equivalent.
+        The iterative version required more thinking becuase I needed to reverse
+        the order of the calculations.")
