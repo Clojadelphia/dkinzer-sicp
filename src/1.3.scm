@@ -331,14 +331,18 @@
 ; Show that the golden ratio  (section 1.2.2) is a fixed point
 ; of the transformation x   1 + 1/x, and use this fact to compute  by means of
 ; the fixed-point procedure.
-; 
+;
 ; P satisfies          P^2 = P + 1
 ; which transforms to  P = 1 + 1/P
 ; which implies:       P -> 1 + 1/P
 ; or P is the fixpoint of 1 + 1/P
 (define tolerance 0.00001)
 (define (fixed-point f first-guess)
+  (newline)
+  (display (string "TEST: display fixed-point results."))
   (define (close-enough? v1 v2)
+    (newline)
+    (display v1)
     (< (abs (- v1 v2)) tolerance))
   (define (try guess)
     (let ((next (f guess)))
@@ -352,3 +356,27 @@
              1.0))
 (assert (< .00001 (- phi 1.6180))
         "The fixed point procedure can be used to estimate the Golden Ratio.")
+
+; Exercise 1.36:
+; Modify fixed-point so that it prints the sequence of
+; approximations it generates, using the newline and display primitives shown
+; in exercise 1.22. Then find a solution to
+;
+; x^x = 1000
+;
+; by finding a fixed point of
+;
+; x -> log(1000)/log(x).
+;
+; (Use Scheme's primitive log procedure, which
+; computes natural logarithms.) Compare the number of steps this takes with and
+; without average damping. (Note that you cannot start fixed-point with a guess
+; of 1, as this would cause division by log(1) = 0.)
+(define (ex-1.36a)
+  (fixed-point (lambda (x) (/ (log 1000) (log x)))
+               2.0))
+(define (ex-1.36b)
+  (fixed-point (lambda (x) (average x (/ (log 1000) (log x))))
+               2.0))
+(assert (< .0000000001 (abs (- (ex-1.36b) (ex-1.36a))))
+        "Fixed point with or without dampening is equivalent.")
