@@ -436,8 +436,12 @@
 ; generates an iterative process.  If it generates an iterative process, write
 ; one that generates a recursive process.
 (define (cont-frac-i n d k)
+  (display "TEST: cont-frac-i results")
+  (newline)
   (define (frac-iter i result)
-    (if (= i 1)
+    (display (string i ": " result))
+    (newline)
+    (if (= i 0)
       result
       (frac-iter (dec i)
                  (/ (n i) (+ (d i) result)))))
@@ -445,10 +449,10 @@
 
 (define (inverse-phi-i k)
   (cont-frac-i (lambda (i) 1.0)
-             (lambda (i) 1.0)
-             k))
+               (lambda (i) 1.0)
+               k))
 
-(assert (> .0001 (abs (- (inverse-phi-i 11) (inverse-phi 10))))
+(assert (= (inverse-phi 10) (inverse-phi-i 10))
         "The recursive and iterative versions of cont-frac are equivalent.
         The iterative version required more thinking becuase I needed to reverse
         the order of the calculations.")
