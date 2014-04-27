@@ -464,14 +464,50 @@
 ; fraction, the Ni are all 1, and the Di are successively 1, 2, 1, 1, 4, 1, 1,
 ; 6, 1, 1, 8, .... Write a program that uses your cont-frac procedure from
 ; exercise 1.37 to approximate e, based on Euler's expansion
-
 (define (e-minus-2 k)
   (cont-frac (lambda (i) 1.0)
-               (lambda (i)
-                 (cond ((= 1 i) 1.0)
-                       ((= 2 i) 2.0)
-                       ((= 0 (modulo (- i 2) 3)) (* 2.0 (/ (+ i 3.0) 3.0)))
-                       (else 1.0)))
-               k))
+             (lambda (i)
+               (cond ((= 1 i) 1.0)
+                     ((= 2 i) 2.0)
+                     ((= 0 (modulo (- i 2) 3)) (* 2.0 (/ (+ i 3.0) 3.0)))
+                     (else 1.0)))
+             k))
 
-(define e (+ 2 (e-minus-2 25)))
+(define e (+ 2 (e-minus-2 10)))
+
+(assert (> .001 (abs (- 2.71828 e)))
+        "The conc-frac procedure can be used to etimate the natural number e.")
+
+; Exercise 1.39:
+; A continued fraction representation of the tangent function
+; was published in 1770 by the German mathematician J.H. Lambert:
+;
+;             x
+;  tan x = -------
+;          1  -  x^2
+;             ---------
+;             3  -  x^2
+;                   --------
+;                    5 - ...
+;
+; where x is in radians. Define a procedure (tan-cf x k) that computes an
+; approximation to the tangent function based on Lambert's formula. K specifies
+; the number of terms to compute, as in exercise 1.37.
+
+(define (cont-frac-n n d k)
+  (define (frac i)
+    (if (= i k)
+      (/ (n k) (d k))
+      (/ (n i) (- (d i) (frac (inc i))))))
+  (frac 1))
+
+(define (tan-cf x k)
+  (cont-frac-n (lambda (i)
+               (if (= 1 i)
+                 x
+                 (square x)))
+             (lambda (i) (- (* 2.0 i) 1))
+             k))
+
+(assert (= -2.185039863261519 (tan-cf 2 25))
+        "A cont-frac procedure can be used to estimate tan x.")
