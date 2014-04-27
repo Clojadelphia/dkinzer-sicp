@@ -2,7 +2,7 @@
 (load '("lib/assert" "lib/math"))
 
 ; Exercise 1.1
-; Below is a sequence of expressions. 
+; Below is a sequence of expressions.
 ; What is the result printed by the interpreter in response to each expression?
 ; Assume that the sequence is to be evaluated in the order in which it is presented.
 
@@ -16,25 +16,25 @@
         "The - operator subtracts the rest of the operands from the first.")
 
 (assert (= 3 (/ 6 2))
-        "The / operator divides the first operand by rest of the operands.") 
+        "The / operator divides the first operand by rest of the operands.")
 
 (assert (= 8 (+ 2 (* 2 4) (- 4 6)))
-        "S-expressions can contain sub-expressions.") 
+        "S-expressions can contain sub-expressions.")
 
 (define a 3) ; a
 
 (define b (+ a 1)) ; b
 
 (assert (= 19 (+ a b (* a b)))
-        "Defined symbols evaluate to their respective values.") 
+        "Defined symbols evaluate to their respective values.")
 
 (assert (not (= a b))
-        "a is not equal to b.") 
+        "a is not equal to b.")
 
 (assert (= 4 (if (and (> b a) (< b (* a b)))
                b
                a))
-        "The if form chooses.") 
+        "The if form chooses.")
 
 (assert (= 16 (cond ((= a 4) 6)
             ((= b 4) (+ 6 7 a))
@@ -43,12 +43,12 @@
 
 
 (assert (= 6 (+ 2 (if (> b a) b a)))
-        "An if form can be used as an operand.")  
+        "An if form can be used as an operand.")
 
 (assert (= 16 (* (cond ((> a b) a)
          ((< a b) b)
          (else -1)) 4))
-        "A cond form can be used as an operand.") 
+        "A cond form can be used as an operand.")
 
 
 ; Exercise 1.2
@@ -245,9 +245,9 @@
         (sqrt-iter new-guess)))
     (sqrt-iter 1.0)))
 
-(assert (and 
+(assert (and
           (> 1e-50 (abs (- (square (sqrt-1.7b 1.0e-51)) 1.0e-51)))
-          (not (= (sqrt-1.7b 1e-100) (sqrt-1.7b 1e-101)))) 
+          (not (= (sqrt-1.7b 1e-100) (sqrt-1.7b 1e-101))))
         "sqrt-1.7b works on extremely small integers. ")
 
 (assert (> 1e-50 (abs (- (square (sqrt-1.7b 1e25)) 1e25)))
