@@ -52,3 +52,6 @@
       (iter (inc a)))))
   ; We want to start with two in order to quickly evaluate even integers as non primes.
   (iter 2))
+
+(define (average-damp f)
+    (lambda (x)  (average x (f x))))
