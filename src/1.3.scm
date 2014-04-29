@@ -519,7 +519,7 @@
 ;
 ; (newtons-method (cubic a b c) 1)
 ;
-; to approximate zeros of the cubic x3 + ax2 + bx + c.
+; to approximate zeros of the cubic x^2 + ax^2 + bx + c.
 (define (deriv g)
   (define dx 0.00001)
   (lambda (x)
@@ -534,4 +534,21 @@
   (fixed-point (newton-transform g) guess))
 
 (define (cubic a b c)
-  (lambda (x) (+ (cube x) (* a (square x) (* b x) c))))
+  (lambda (x) (+ (cube x) (* a (square x)) (* b x) c)))
+
+(define (is-cubic-root? x g)
+  ; Where g is in the form of (cubic a b c)
+  (=
+    (newtons-method g x)
+    x))
+
+;; We test is-cubit-root? against the following cubic equation
+;; (x + 1) (x + 2) (x + 3) = x^3 + 6x^2 + 11x + 6
+(assert (is-cubic-root? -1 (cubic 6 11 6))
+        "-1 is a root of x^3 + 6x^2 + 11x + 6")
+
+(assert (is-cubic-root? -2 (cubic 6 11 6))
+        "-2 is a root of x^3 + 6x^2 + 11x + 6")
+
+(assert (is-cubic-root? -3 (cubic 6 11 6))
+        "-3 is a root of x^3 + 6x^2 + 11x + 6")
