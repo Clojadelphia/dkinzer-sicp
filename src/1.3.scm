@@ -637,3 +637,87 @@
 
 (assert (= 4 ((smooth-n inc 10) 3))
         "The #smooth-n procedure works as expected.")
+
+; Exercise 1.45:
+; We saw in section 1.3.3 that attempting to compute square roots by
+; naively finding a fixed point of y -> x/y does not converge, and
+; that this can be fixed by average damping. The same method works for
+; finding cube roots as fixed points of the average-damped y -> x/y^2.
+; Unfortunately, the process does not work for fourth roots --
+; a single average damp is not enough to make a fixed-point search for
+; y -> x/y^3 converge. On the other hand, if we average damp twice (i.e.,
+; use the average damp of the average damp of y -> x/y^3) the
+; fixed-point search does converge. Do some experiments to
+; determine how many average damps are required to compute nth
+; roots as a fixed-point search based upon repeated average
+; damping of y -> x/y^n-1. Use this to implement a simple procedure for
+; computing nth roots using fixed-point, average-damp, and the
+; repeated procedure of exercise 1.43. Assume that any arithmetic
+; operations you need are available as primitives.
+(define (multiply-by x)
+  (lambda (y) (* y x)))
+
+(assert (= -2 ((multiply-by 2) -1))
+        "The #multiply-by procedure works as expected: 2 * -1 = -2")
+(assert (= 0 ((multiply-by 2) 0))
+        "The #multiply-by procedure works as expected: 2 * 0 = 0")
+(assert (= 2 ((multiply-by 2) 1))
+        "The #multiply-by procedure works as expected: 2 * 1 = 2")
+(assert (= 4 ((multiply-by 2) 2))
+        "The #multiply-by procedure works as expected: 2 * 2 = 4")
+
+(define (pow y n)
+  ; Where n is an integer <= 0.
+  (cond ((< n 0) (error "#pow cannot evaluate powers less than 0."))
+        ((= n 0) 1)
+        (else
+          ((repeated (multiply-by y) n) 1))))
+
+(assert-error "cannot evaluate powers less than 0"
+              (lambda () (pow 2 -1))
+              "The #pow procedure works as expected 2^-1 = !error.")
+(assert (= 1 (pow 2 0))
+        "The #pow procedure works as expected: 2^0 = 1")
+(assert (= 2 (pow 2 1))
+        "The #pow procedure works as expected: 2^1 = 2")
+(assert (= 4 (pow 2 2))
+        "The #pow procedure works as expected: 2^2 = 4")
+(assert (= 8 (pow 2 3))
+        "The #pow procedure works as expected: 2^3 = 8")
+(assert (= 16 (pow 2 4))
+        "The #pow procedure works as expected: 2^3 = 16")
+(assert (= 32 (pow 2 5))
+        "The #pow procedure works as expected: 2^3 = 32")
+
+(define (root-n x n)
+  ; Where x is an integer we want to find the nth-root of.
+  ; And, n is an integer >= 1.
+  (cond ((<= n 0) (error "#root-n cannot evaluate roots less or equal to 0."))
+        ((= n 1) x)
+        (else
+          (fixed-point ((repeated average-damp 4)
+                        (lambda (y) (/ x (pow y (dec n)))))
+                       1.0))))
+; Experiment results.
+;
+; Equation        repeated average-damp
+; ===========     =====================
+; (root 10 1)     0
+; (root 10 2)     0
+; (root 10 3)     0
+; (root 10 4)     2
+; (root 10 5)     2
+; (root 10 6)     2
+; (root 10 7)     2
+; (root 10 8)     3
+; (root 10 9)     3
+; (root 10 10)    3
+; (root 10 11)    3
+; (root 10 12)    3
+; (root 10 13)    3
+; (root 10 14)    3
+; (root 10 15)    3
+; (root 10 16)    4
+; (root 10 32)    5
+;
+; By empirical evidence, average-damp should repeat (sqrt n)
