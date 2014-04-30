@@ -55,3 +55,5 @@
 
 (define (average-damp f)
     (lambda (x)  (average x (f x))))
+
+(define dx .00001)
