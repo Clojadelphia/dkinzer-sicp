@@ -566,7 +566,7 @@
 
 (assert (= 21 (((double (double double)) inc) 5))
         ; (2^2)^2 = 2^4 = 16
-        "#double works as expected.")
+        "The #double procedure works as expected.")
 
 ; Exercise 1.42:
 ; Let f and g be two one-argument functions. The composition f after g is
@@ -579,7 +579,7 @@
   (lambda (x) (f (g x))))
 
 (assert (= 49 ((compose square inc) 6))
-        "#compose works as expected.")
+        "The #compose procedure works as expected.")
 
 ; Exercise 1.43:
 ; If f is a numerical function and n is a positive integer, then we can form
