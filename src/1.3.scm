@@ -689,13 +689,39 @@
 (assert (= 32 (pow 2 5))
         "The #pow procedure works as expected: 2^3 = 32")
 
+(define (prev-pow-2 x)
+  (define (iter n)
+    (if (< x (pow 2 n))
+      (dec n)
+      (iter (inc n))))
+  (if (<= x 0)
+    0
+    (iter 0)))
+
+(assert (= 0 (prev-pow-2 -1))
+        "The procedure #prev-pow-2 works as expected for x < 0")
+(assert (= 0 (prev-pow-2 0))
+        "The procedure #prev-pow-2 works as expected for x = 0")
+(assert (= 0 (prev-pow-2 1))
+        "The procedure #prev-pow-2 works as expected for x = 1")
+(assert (= 3 (prev-pow-2 8))
+        "The procedure #prev-pow-2 works as expected for x = 8")
+(assert (= 3 (prev-pow-2 15))
+        "The procedure #prev-pow-2 works as expected for x = 16")
+(assert (= 4 (prev-pow-2 16))
+        "The procedure #prev-pow-2 works as expected for x = 16")
+(assert (= 4 (prev-pow-2 17))
+        "The procedure #prev-pow-2 works as expected for x = 17")
+(assert (= 5 (prev-pow-2 32))
+        "The procedure #prev-2n works as expected for x = 32")
+
 (define (root-n x n)
   ; Where x is an integer we want to find the nth-root of.
   ; And, n is an integer >= 1.
   (cond ((<= n 0) (error "#root-n cannot evaluate roots less or equal to 0."))
         ((= n 1) x)
         (else
-          (fixed-point ((repeated average-damp 4)
+          (fixed-point ((repeated average-damp (prev-pow-2 n))
                         (lambda (y) (/ x (pow y (dec n)))))
                        1.0))))
 ; Experiment results.
@@ -721,3 +747,8 @@
 ; (root 10 32)    5
 ;
 ; By empirical evidence, average-damp should repeat (sqrt n)
+(assert (let ((r32 (root-n 10 32)))
+          (and (< 1.074 r32)
+               (> 1.075 r32)))
+        "The procedure #root-n works as expected.
+        The 32ndth root of 10 lies between 1.074 and 1.075.")
