@@ -127,3 +127,27 @@
 (h 3)
 (assert (= 65536 (h 4))
         "(h n) computes to 2^2^2^(n - 2)")
+
+; Exercise 1.11:
+; A function f is defined by the rules that
+;
+;  1. f(n) = n if (n < 3)
+;  2. f(n) = f(n - 1) + 2f(n - 2) + 3f(n - 3) if (n >= 3)
+;
+; Write a procedure that computes f by means
+; of a recursive process.
+
+(define (f n)
+  (if (> 3 n)
+    n
+    (+ (f (- n 1))
+       (* 2 (f (- n 2)))
+       (* 3 (f (- n 3))))))
+
+(assert (= -1 (f -1))
+        "The procedure #f works as expected for a value less than 3.")
+(assert (= (+ 2 (* 2 1) (* 3 0)) (f 3))
+        "The procedure #f works as expected for values not less than 3.")
+
+; Write a procedure that computes f by means of an
+; iterative process.
