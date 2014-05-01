@@ -689,7 +689,7 @@
 (assert (= 32 (pow 2 5))
         "The #pow procedure works as expected: 2^3 = 32")
 
-(define (prev-pow-2 x)
+(define (prev-log2 x)
   (define (iter n)
     (if (< x (pow 2 n))
       (dec n)
@@ -698,21 +698,21 @@
     0
     (iter 0)))
 
-(assert (= 0 (prev-pow-2 -1))
-        "The procedure #prev-pow-2 works as expected for x < 0")
-(assert (= 0 (prev-pow-2 0))
-        "The procedure #prev-pow-2 works as expected for x = 0")
-(assert (= 0 (prev-pow-2 1))
-        "The procedure #prev-pow-2 works as expected for x = 1")
-(assert (= 3 (prev-pow-2 8))
-        "The procedure #prev-pow-2 works as expected for x = 8")
-(assert (= 3 (prev-pow-2 15))
-        "The procedure #prev-pow-2 works as expected for x = 16")
-(assert (= 4 (prev-pow-2 16))
-        "The procedure #prev-pow-2 works as expected for x = 16")
-(assert (= 4 (prev-pow-2 17))
-        "The procedure #prev-pow-2 works as expected for x = 17")
-(assert (= 5 (prev-pow-2 32))
+(assert (= 0 (prev-log2 -1))
+        "The procedure #prev-log2 works as expected for x < 0")
+(assert (= 0 (prev-log2 0))
+        "The procedure #prev-log2 works as expected for x = 0")
+(assert (= 0 (prev-log2 1))
+        "The procedure #prev-log2 works as expected for x = 1")
+(assert (= 3 (prev-log2 8))
+        "The procedure #prev-log2 works as expected for x = 8")
+(assert (= 3 (prev-log2 15))
+        "The procedure #prev-log2 works as expected for x = 16")
+(assert (= 4 (prev-log2 16))
+        "The procedure #prev-log2 works as expected for x = 16")
+(assert (= 4 (prev-log2 17))
+        "The procedure #prev-log2 works as expected for x = 17")
+(assert (= 5 (prev-log2 32))
         "The procedure #prev-2n works as expected for x = 32")
 
 (define (root-n x n)
@@ -721,7 +721,7 @@
   (cond ((<= n 0) (error "#root-n cannot evaluate roots less or equal to 0."))
         ((= n 1) x)
         (else
-          (fixed-point ((repeated average-damp (prev-pow-2 n))
+          (fixed-point ((repeated average-damp (prev-log2 n))
                         (lambda (y) (/ x (pow y (dec n)))))
                        1.0))))
 ; Experiment results.
@@ -746,7 +746,8 @@
 ; (root 10 16)    4
 ; (root 10 32)    5
 ;
-; By empirical evidence, average-damp should repeat (sqrt n)
+
+; By empirical evidence, average-damp should repeat  to last log2(n)
 (assert (let ((r32 (root-n 10 32)))
           (and (< 1.074 r32)
                (> 1.075 r32)))
