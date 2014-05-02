@@ -66,8 +66,8 @@
   (+ (square x) (square y)))
 
 ; {{{1 Exercise 1.3:
-; Define a procedure that takes three numbers as arguments and returns
-; the sum of the squares of the two larger numbers.
+; Define a procedure that takes three numbers as arguments and returns the sum
+; of the squares of the two larger numbers.
 (define exercise-1.3
   (lambda (x y z)
     (define sum-of-squares
@@ -86,9 +86,9 @@
         "Exercise-1.3 works when the exterior operands are greater.")
 
 ; {{{1 Exercise 1.4:
-; Observe that our model of evaluation allows for combinations whose operators are
-; compound expressions. Use this observation to describe the behavior of the following
-; procedure:
+; Observe that our model of evaluation allows for combinations whose operators
+; are compound expressions. Use this observation to describe the behavior of
+; the following procedure:
 (define (a-plus-abs-b a b)
     ((if (> b 0) + -) a b))
 (assert (= 2 (a-plus-abs-b 1 -1) (a-plus-abs-b 1 1))
@@ -97,9 +97,9 @@
         second argument.")
 
 ; {{{1 Exercise 1.5:
-; Ben Bitdiddle has invented a test to determine whether the interpreter he is faced with is
-; using applicative-order evaluation or normal-order evaluation. He defines the following two
-; procedures:
+; Ben Bitdiddle has invented a test to determine whether the interpreter he is
+; faced with is using applicative-order evaluation or normal-order evaluation.
+; He defines the following two procedures:
 (define (p)
   (display
     "TEST: This message will only display under applicative-order
@@ -139,10 +139,10 @@
         able to run it without falling into an infinite loop situation.")
 
 ; {{{1 Exersise 1.6:
-; Alyssa P. Hacker doesn't see why if needs to be provided as a
-; special form. ``Why can't I just define it as an ordinary procedure in terms of
-; cond?'' she asks. Alyssa's friend Eva Lu Ator claims this can indeed be done,
-; and she defines a new version of if:
+; Alyssa P. Hacker doesn't see why if needs to be provided as a special form.
+; ``Why can't I just define it as an ordinary procedure in terms of cond?'' she
+; asks. Alyssa's friend Eva Lu Ator claims this can indeed be done, and she
+; defines a new version of if:
 (define (new-if predicate then-clause else-clause)
   (cond (predicate then-clause)
         (else
@@ -187,11 +187,12 @@
         "exercise-1.6 is not evaluated  in a real (if) expression (i.e. no side effects is possible).")
 
 ; {{{1 Exercise 1.7a:
-; The good-enough? test used in computing square roots will not be very effective
-; for finding the square roots of very small numbers. Also, in real computers,
-; arithmetic operations are almost always performed with limited precision. This
-; makes our test inadequate for very large numbers. Explain these statements,
-; with examples showing how the test fails for small and large numbers.
+; The good-enough? test used in computing square roots will not be very
+; effective for finding the square roots of very small numbers. Also, in real
+; computers, arithmetic operations are almost always performed with limited
+; precision. This makes our test inadequate for very large numbers. Explain
+; these statements, with examples showing how the test fails for small and
+; large numbers.
 (define sqrt-1.7a
   (lambda (x)
     (define (good-enough? guess)
@@ -225,7 +226,6 @@
 ; changes from one iteration to the next and to stop when the change is a very
 ; small fraction of the guess. Design a square-root procedure that uses this
 ; kind of end test. Does this work better for small and large numbers?
-
 (define sqrt-1.7b
   (lambda (x)
     (define (good-enough? guess new-guess)
@@ -251,9 +251,9 @@
         "sqrt-1.7b works on very large integers.")
 
 ; {{{1 Exercise 1.8:
-; Newton's method for cube roots is based on the fact that if y is
-; an approximation to the cube root of x, then a better approximation is given
-; by the value
+; Newton's method for cube roots is based on the fact that if y is an
+; approximation to the cube root of x, then a better approximation is given by
+; the value
 ;
 ; (x/y^2 + 2y)/3
 ;

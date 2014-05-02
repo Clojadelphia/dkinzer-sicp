@@ -51,7 +51,8 @@
         "There are no time differences between procedure +1.9a and +1.9b.")
 
 ; Exercise 1.10:
-; The following procedure computes a mathematical function called Ackermann's function.
+; The following procedure computes a mathematical function called Ackermann's
+; function.
 (define (A x y)
   (cond ((= y 0) 0)
         ((= x 0)  (* 2 y))
@@ -134,9 +135,7 @@
 ;  1. f(n) = n if (n < 3)
 ;  2. f(n) = f(n - 1) + 2f(n - 2) + 3f(n - 3) if (n >= 3)
 ;
-; Write a procedure that computes f by means
-; of a recursive process.
-
+; Write a procedure that computes f by means of a recursive process.
 (define (f n)
   (if (> 3 n)
     n
@@ -149,8 +148,7 @@
 (assert (= (+ 2 (* 2 1) (* 3 0)) (f 3))
         "The procedure #f works as expected for values not less than 3.")
 
-; Write a procedure that computes f by means of an
-; iterative process.
+; Write a procedure that computes f by means of an iterative process.
 (define (fi n)
   (define (iter i n1 n2 n3)
     (let ((n0 (+ n1 (* 2 n2) (* 3 n3))))
@@ -167,7 +165,6 @@
         "The procedure #fi works as expected for values not less than 3.")
 (assert (= (f 5) (fi 5))
         "The recursive and iterative procedures #f and #fi are equivalent.")
-
 
 ; {{{1 Exercise 1.12:
 ; The following pattern of numbers is called Pascal's triangle.

@@ -12,8 +12,8 @@
 ; (Increasing $n$ increases the accuracy of the approximation.)  Define
 ; a procedure that takes as arguments $f$, $a$, $b$, and $n$ and returns the
 ; value of the integral, computed using Simpson's Rule.  Use your procedure to
-; integrate =cube= between 0 and 1 (with $n = 100$ and $n = 1000$), and
-; compare the results to those of the =integral= procedure shown above.
+; integrate =cube= between 0 and 1 (with $n = 100$ and $n = 1000$), and compare
+; the results to those of the =integral= procedure shown above.
 
 (define (sympson-integral f a b n)
   (let ((h (/ (- b a) n)))
@@ -321,15 +321,16 @@
 ; (f (lambda (z) (* z (+ z 1))))
 ; 6
 
-; What happens if we (perversely) ask the interpreter to evaluate the combination (f f)? Explain.
+; What happens if we (perversely) ask the interpreter to evaluate the
+; combination (f f)? Explain.
 (assert-error "The object 2 is not applicable"
               (lambda () (f f))
               "(f f) -> (f (f 2) -> (f (f (2 2):
               The form expands until it tries to apply 2 at which point it throws an error.")
 
 ; {{{1 Exercise 1.35:
-; Show that the golden ratio  (section 1.2.2) is a fixed point
-; of the transformation x   1 + 1/x, and use this fact to compute  by means of
+; Show that the golden ratio  (section 1.2.2) is a fixed point of the
+; transformation x   1 + 1/x, and use this fact to compute  by means of
 ; the fixed-point procedure.
 ;
 ; P satisfies          P^2 = P + 1
@@ -358,9 +359,9 @@
         "The fixed point procedure can be used to estimate the Golden Ratio.")
 
 ; {{{1 Exercise 1.36:
-; Modify fixed-point so that it prints the sequence of
-; approximations it generates, using the newline and display primitives shown
-; in exercise 1.22. Then find a solution to
+; Modify fixed-point so that it prints the sequence of approximations it
+; generates, using the newline and display primitives shown in exercise 1.22.
+; Then find a solution to
 ;
 ; x^x = 1000
 ;
@@ -368,10 +369,10 @@
 ;
 ; x -> log(1000)/log(x).
 ;
-; (Use Scheme's primitive log procedure, which
-; computes natural logarithms.) Compare the number of steps this takes with and
-; without average damping. (Note that you cannot start fixed-point with a guess
-; of 1, as this would cause division by log(1) = 0.)
+; (Use Scheme's primitive log procedure, which computes natural logarithms.)
+; Compare the number of steps this takes with and without average damping.
+; (Note that you cannot start fixed-point with a guess of 1, as this would
+; cause division by log(1) = 0.)
 (define (ex-1.36a)
   (fixed-point (lambda (x) (/ (log 1000) (log x)))
                2.0))
@@ -458,12 +459,12 @@
         the order of the calculations.")
 
 ; {{{1 Exercise 1.38:
-; In 1737, the Swiss mathematician Leonhard Euler published
-; a memoir De Fractionibus Continuis, which included a continued fraction
-; expansion for e - 2, where e is the base of the natural logarithms. In this
-; fraction, the Ni are all 1, and the Di are successively 1, 2, 1, 1, 4, 1, 1,
-; 6, 1, 1, 8, .... Write a program that uses your cont-frac procedure from
-; exercise 1.37 to approximate e, based on Euler's expansion
+; In 1737, the Swiss mathematician Leonhard Euler published a memoir De
+; Fractionibus Continuis, which included a continued fraction expansion for
+; e - 2, where e is the base of the natural logarithms. In this fraction, the
+; Ni are all 1, and the Di are successively 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8,
+; .... Write a program that uses your cont-frac procedure from exercise 1.37 to
+; approximate e, based on Euler's expansion
 (define (e-minus-2 k)
   (cont-frac (lambda (i) 1.0)
              (lambda (i)
@@ -479,8 +480,8 @@
         "The conc-frac procedure can be used to etimate the natural number e.")
 
 ; {{{1 Exercise 1.39:
-; A continued fraction representation of the tangent function
-; was published in 1770 by the German mathematician J.H. Lambert:
+; A continued fraction representation of the tangent function was published in
+; 1770 by the German mathematician J.H. Lambert:
 ;
 ;             x
 ;  tan x = -------
@@ -553,11 +554,10 @@
         "-3 is a root of x^3 + 6x^2 + 11x + 6")
 
 ; {{{1 Exercise 1.41:
-; Define a procedure double that takes a procedure of one
-; argument as argument and returns a procedure that applies the original
-; procedure twice. For example, if inc is a procedure that adds 1 to its
-; argument, then (double inc) should be a procedure that adds 2. What value is
-; returned by
+; Define a procedure double that takes a procedure of one argument as argument
+; and returns a procedure that applies the original procedure twice. For
+; example, if inc is a procedure that adds 1 to its argument, then (double inc)
+; should be a procedure that adds 2. What value is returned by
 ;
 ; (((double (double double)) inc) 5)
 (define (double f)
