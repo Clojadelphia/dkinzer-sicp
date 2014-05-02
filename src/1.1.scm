@@ -1,7 +1,7 @@
 (declare (usual-integrations))
 (load '("lib/assert" "lib/math"))
 
-; Exercise 1.1:
+; {{{1 Exercise 1.1:
 ; Below is a sequence of expressions.  What is the result printed by the
 ; interpreter in response to each expression?  Assume that the sequence is to
 ; be evaluated in the order in which it is presented.
@@ -51,7 +51,7 @@
         "A cond form can be used as an operand.")
 
 
-; Exercise 1.2:
+; {{{1 Exercise 1.2:
 ; Translate the following expression into prefix form.
 ; 5 + 1/2 + (2 - (3 - (6 + 1/3) )) / 3 * (2 - 6) (2 - 7)
 (assert (= (/ 13 72)
@@ -65,7 +65,7 @@
 (define (sum-of-squares x y)
   (+ (square x) (square y)))
 
-; Exercise 1.3:
+; {{{1 Exercise 1.3:
 ; Define a procedure that takes three numbers as arguments and returns
 ; the sum of the squares of the two larger numbers.
 (define exercise-1.3
@@ -85,7 +85,7 @@
 (assert (= 13 (exercise-1.3 3 1 2))
         "Exercise-1.3 works when the exterior operands are greater.")
 
-; Exercise 1.4:
+; {{{1 Exercise 1.4:
 ; Observe that our model of evaluation allows for combinations whose operators are
 ; compound expressions. Use this observation to describe the behavior of the following
 ; procedure:
@@ -96,7 +96,7 @@
         In this case the operator behaves differently dependent on the value of the
         second argument.")
 
-; Exercise 1.5:
+; {{{1 Exercise 1.5:
 ; Ben Bitdiddle has invented a test to determine whether the interpreter he is faced with is
 ; using applicative-order evaluation or normal-order evaluation. He defines the following two
 ; procedures:
@@ -138,7 +138,7 @@
         printing an output.  I have changed the test accordingly in order to be
         able to run it without falling into an infinite loop situation.")
 
-; Exersise 1.6:
+; {{{1 Exersise 1.6:
 ; Alyssa P. Hacker doesn't see why if needs to be provided as a
 ; special form. ``Why can't I just define it as an ordinary procedure in terms of
 ; cond?'' she asks. Alyssa's friend Eva Lu Ator claims this can indeed be done,
@@ -186,7 +186,7 @@
 (assert (= 0 (if (= 1 1) 0 (exercise-1.6)))
         "exercise-1.6 is not evaluated  in a real (if) expression (i.e. no side effects is possible).")
 
-; Exercise 1.7a:
+; {{{1 Exercise 1.7a:
 ; The good-enough? test used in computing square roots will not be very effective
 ; for finding the square roots of very small numbers. Also, in real computers,
 ; arithmetic operations are almost always performed with limited precision. This
@@ -220,7 +220,7 @@
 (assert (> .01 (abs (- (square (sqrt-1.7a 1e13)) 1e13)))
         "sqrt-1.7a fails for very large  numbers.")
 
-; Exercise 1.7b:
+; {{{1 Exercise 1.7b:
 ; An alternative strategy for implementing good-enough? is to watch how guess
 ; changes from one iteration to the next and to stop when the change is a very
 ; small fraction of the guess. Design a square-root procedure that uses this
@@ -250,7 +250,7 @@
 (assert (> 1e-50 (abs (- (square (sqrt-1.7b 1e25)) 1e25)))
         "sqrt-1.7b works on very large integers.")
 
-; Exercise 1.8:
+; {{{1 Exercise 1.8:
 ; Newton's method for cube roots is based on the fact that if y is
 ; an approximation to the cube root of x, then a better approximation is given
 ; by the value

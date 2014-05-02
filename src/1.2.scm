@@ -1,7 +1,7 @@
 (declare (usual-integrations))
 (load '("lib/assert" "lib/math"))
 
-; Exercise 1.9:
+; {{{1 Exercise 1.9:
 ; Each of the following two procedures defines a method for adding two positive
 ; integers in terms of the procedures inc, which increments its argument by 1,
 ; and dec, which decrements its argument by 1.
@@ -128,7 +128,7 @@
 (assert (= 65536 (h 4))
         "(h n) computes to 2^2^2^(n - 2)")
 
-; Exercise 1.11:
+; {{{1 Exercise 1.11:
 ; A function f is defined by the rules that
 ;
 ;  1. f(n) = n if (n < 3)
@@ -168,7 +168,8 @@
 (assert (= (f 5) (fi 5))
         "The recursive and iterative procedures #f and #fi are equivalent.")
 
-; Exercise 1.12:
+
+; {{{1 Exercise 1.12:
 ; The following pattern of numbers is called Pascal's triangle.
 ;
 ;          1

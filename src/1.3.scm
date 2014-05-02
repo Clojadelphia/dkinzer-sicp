@@ -1,7 +1,7 @@
 (declare (usual-integrations))
 (load '("lib/assert" "lib/math"))
 
-; Exercise 1.29:
+; {{{1 Exercise 1.29:
 ; Simpson's Rule is a more accurate method of numerical integration than the
 ; method illustrated above.  Using Simpson's Rule, the integral of
 ; a function $f$ between $a$ and $b$ is approximated as
@@ -27,7 +27,7 @@
 (assert (= (sympson-integral cube 0 1 100) .24999999999999992)
         "sympson-integral of cube works as expected.")
 
-; Exercise 1.30:
+; {{{1 Exercise 1.30:
 ; The =sum= procedure above generates a linear recursion.  The procedure can be
 ; rewritten so that the sum is performed iteratively.  Show how to do this by
 ; filling in the missing expressions in the following definition:
@@ -41,7 +41,7 @@
 (assert (= (sum-130 cube 1 inc 10) (sum cube 1 inc 10))
         "The iterative procedure sum-130 is equivalent recursive procedure sum.")
 
-; Exercise 1.31:
+; {{{1 Exercise 1.31:
 ; a. The sum procedure is only the simplest of a vast number of
 ; similar abstractions that can be captured as higher-order procedures.51 Write
 ; an analogous procedure called product that returns the product of the values of
@@ -108,7 +108,7 @@
 (assert (= (factorial-recur 10) (factorial 10))
         "The product and product-recur procedures are equivalent.")
 
-; Exercise 1.32:
+; {{{1 Exercise 1.32:
 ; a. Show that sum and product (exercise 1.31) are both
 ; special cases of a still more general notion called accumulate that
 ; combines a collection of terms, using some general accumulation function:
@@ -169,7 +169,7 @@
 (assert (= (product-132a-integers 1 4) (product-132b-integers 1 4))
         "The iterative and recursive forms of the accumulater procedures are equivalent.")
 
-; Exercise 1.33:
+; {{{1 Exercise 1.33:
 ; You can obtain an even more general version of accumulate (exercise 1.32) by
 ; introducing the notion of a filter on the terms to be combined. That is,
 ; combine only those terms derived from values in the range that satisfy
@@ -311,7 +311,7 @@
 (assert (= (* 1 5 7 11) (product-of-relative-primes-to 12))
         "#product-of-relative-primes-to works as expected for input 12 (an even non prime with both odd and even primes)")
 
-; Exercise 1.34:
+; {{{1 Exercise 1.34:
 ; Suppose we define the procedure
 (define (f g)
   (g 2))
@@ -327,7 +327,7 @@
               "(f f) -> (f (f 2) -> (f (f (2 2):
               The form expands until it tries to apply 2 at which point it throws an error.")
 
-; Exercise 1.35:
+; {{{1 Exercise 1.35:
 ; Show that the golden ratio  (section 1.2.2) is a fixed point
 ; of the transformation x   1 + 1/x, and use this fact to compute  by means of
 ; the fixed-point procedure.
@@ -357,7 +357,7 @@
 (assert (< .00001 (- phi 1.6180))
         "The fixed point procedure can be used to estimate the Golden Ratio.")
 
-; Exercise 1.36:
+; {{{1 Exercise 1.36:
 ; Modify fixed-point so that it prints the sequence of
 ; approximations it generates, using the newline and display primitives shown
 ; in exercise 1.22. Then find a solution to
@@ -381,7 +381,7 @@
 (assert (< .0000000001 (abs (- (ex-1.36b) (ex-1.36a))))
         "Fixed point with or without dampening is equivalent.")
 
-; Exercise 1.37:
+; {{{1 Exercise 1.37:
 ; a. An infinite continued fraction is an expression of the
 ; form
 ;
@@ -457,7 +457,7 @@
         The iterative version required more thinking becuase I needed to reverse
         the order of the calculations.")
 
-; Exercise 1.38:
+; {{{1 Exercise 1.38:
 ; In 1737, the Swiss mathematician Leonhard Euler published
 ; a memoir De Fractionibus Continuis, which included a continued fraction
 ; expansion for e - 2, where e is the base of the natural logarithms. In this
@@ -478,7 +478,7 @@
 (assert (> .001 (abs (- 2.71828 e)))
         "The conc-frac procedure can be used to etimate the natural number e.")
 
-; Exercise 1.39:
+; {{{1 Exercise 1.39:
 ; A continued fraction representation of the tangent function
 ; was published in 1770 by the German mathematician J.H. Lambert:
 ;
@@ -513,7 +513,7 @@
 (assert (= -2.185039863261519 (tan-cf 2 25))
         "A cont-frac procedure can be used to estimate tan x.")
 
-; Exercise 1.40:
+; {{{1 Exercise 1.40:
 ; Define a procedure cubic that can be used together with the newtons-method
 ; procedure in expressions of the form
 ;
@@ -552,7 +552,7 @@
 (assert (is-cubic-root? -3 (cubic 6 11 6))
         "-3 is a root of x^3 + 6x^2 + 11x + 6")
 
-; Exercise 1.41:
+; {{{1 Exercise 1.41:
 ; Define a procedure double that takes a procedure of one
 ; argument as argument and returns a procedure that applies the original
 ; procedure twice. For example, if inc is a procedure that adds 1 to its
@@ -567,7 +567,7 @@
         ; (2^2)^2 = 2^4 = 16
         "The #double procedure works as expected.")
 
-; Exercise 1.42:
+; {{{1 Exercise 1.42:
 ; Let f and g be two one-argument functions. The composition f after g is
 ; defined to be the function x  f(g(x)). Define a procedure compose that
 ; implements composition. For example, if inc is a procedure that adds 1 to its
@@ -580,7 +580,7 @@
 (assert (= 49 ((compose square inc) 6))
         "The #compose procedure works as expected.")
 
-; Exercise 1.43:
+; {{{1 Exercise 1.43:
 ; If f is a numerical function and n is a positive integer, then we can form
 ; the nth repeated application of f, which is defined to be the function whose
 ; value at x is f(f(...(f(x))...)). For example, if f is the function
@@ -610,7 +610,7 @@
 (assert (= 256 ((repeated square 3) 2))
         "The #repeated procedure works as expected: (2^2)^2)^2 = 256 ")
 
-; Exercise 1.44:
+; {{{1 Exercise 1.44:
 ; The idea of smoothing a function is an important concept in signal
 ; processing. If f is a function and dx is some small number, then the smoothed
 ; version of f is the function whose value at a point x is the average of
@@ -638,7 +638,7 @@
 (assert (= 4 ((smooth-n inc 10) 3))
         "The #smooth-n procedure works as expected.")
 
-; Exercise 1.45:
+; {{{1 Exercise 1.45:
 ; We saw in section 1.3.3 that attempting to compute square roots by
 ; naively finding a fixed point of y -> x/y does not converge, and
 ; that this can be fixed by average damping. The same method works for
@@ -754,7 +754,7 @@
         "The procedure #root-n works as expected.
         The 32ndth root of 10 lies between 1.074 and 1.075.")
 
-; Exercise 1.46:
+; {{{1 Exercise 1.46:
 ; Several of the numerical methods described in this chapter are instances of
 ; an extremely general computational strategy known as iterative improvement.
 ; Iterative improvement says that, to compute something, we start with an
