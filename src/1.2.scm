@@ -169,12 +169,37 @@
 ; {{{1 Exercise 1.12:
 ; The following pattern of numbers is called Pascal's triangle.
 ;
-;          1
-;        1   1
-;      1   2   1
-;    1   3   3   1
-;  1   4   6   4   1
+; n   T(n)
+; -   ----
+; 1     1             1
+; 2     3           1   1
+; 3     6         1   2   1
+; 4     10      1   3   3   1
+; 5     15    1   4   6   4   1
+;
+; Where n denotes the levels of the Triangle.  And T(n) denotes the
+; total number of terms of an n level Triangle.
 ;
 ; The numbers at the edge of the triangle are all 1, and each number inside the
 ; triangle is the sum of the two numbers above it.  Write a procedure that
 ; computes elements of Pascal's triangle by means of a recursive process.
+;
+; Note that at each level n there are n terms. Therefore we can see that
+;
+; T(n) = T(n - 1) + n.
+;
+(define (T n)
+  (cond ((< n 1) (error "The parameter n is out of bounds."))
+        ((= n 1) 1)
+        (else (+ n (T (- n 1))))))
+
+(assert (= 15 (T 5))
+        "The procedure #T works as expected.")
+(assert-error "out of bounds" (lambda () (T -1))
+        "The procedure #T throws errors for n less than 1.")
+; We can also see that if k denotes  the kth term of the triangle at
+; level n, then:
+;
+; P(k, n) = P(k - n) + P(k - n - 1) unless
+; P(k, n) = 1, when P(k -n) = P(k - n - 1) = 1 or
+; P(k, n) = 1 when n = k = 1.
