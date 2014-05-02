@@ -151,3 +151,19 @@
 
 ; Write a procedure that computes f by means of an
 ; iterative process.
+(define (fi n)
+  (define (iter i n1 n2 n3)
+    (let ((n0 (+ n1 (* 2 n2) (* 3 n3))))
+      (if (= i n)
+        n0
+        (iter (inc i) n0 n1 n2))))
+  (if (> 3 n)
+    n
+    (iter 3 2 1 0 )))
+
+(assert (= -1 (fi -1))
+        "The procedure #fi works as expected for a value less than 3.")
+(assert (= (+ 2 (* 2 1) (* 3 0)) (fi 3))
+        "The procedure #fi works as expected for values not less than 3.")
+(assert (= (f 5) (fi 5))
+        "The recursive and iterative procedures #f and #fi are equivalent.")
