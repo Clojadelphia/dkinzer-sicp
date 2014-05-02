@@ -203,3 +203,9 @@
 ; P(k, n) = P(k - n) + P(k - n - 1) unless
 ; P(k, n) = 1, when P(k -n) = P(k - n - 1) = 1 or
 ; P(k, n) = 1 when n = k = 1.
+(define (P k n)
+  (cond ((or (< n 1) (k < 1))
+         error "The parameter n is out of bounds.")
+        ((= (P ())))
+        ((and (= n 1) (= k 1)) 1)
+        (else (+ ))))
