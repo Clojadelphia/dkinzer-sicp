@@ -169,43 +169,45 @@
 ; {{{1 Exercise 1.12:
 ; The following pattern of numbers is called Pascal's triangle.
 ;
-; n   T(n)
-; -   ----
-; 1     1             1
-; 2     3           1   1
-; 3     6         1   2   1
-; 4     10      1   3   3   1
-; 5     15    1   4   6   4   1
+; n 
+; -
+; 1             1
+; 2           1   1
+; 3         1   2   1
+; 4       1   3   3   1
+; 5     1   4   6   4   1
 ;
-; Where n denotes the levels of the Triangle.  And T(n) denotes the
-; total number of terms of an n level Triangle.
+; Where n denotes the levels of the Triangle.
 ;
 ; The numbers at the edge of the triangle are all 1, and each number inside the
 ; triangle is the sum of the two numbers above it.  Write a procedure that
 ; computes elements of Pascal's triangle by means of a recursive process.
 ;
-; Note that at each level n there are n terms. Therefore we can see that
+; {{{2 Answer
+; We can see that if k denotes  the kth term of the triangle at
+; level n, and there are n terms at level n, then by definition:
 ;
-; T(n) = T(n - 1) + n.
-;
-(define (T n)
+; P(1, 1) = 1
+; P(n, 1) = 1
+; P(n, n) = 1
+; P(n, k) = P(n-1, k-1) + P(n-1, k)
+(define (P n k)
   (cond ((< n 1) (error "The parameter n is out of bounds."))
-        ((= n 1) 1)
-        (else (+ n (T (- n 1))))))
+        ((< k 1) (error "The parameter k is out of bounds."))
+        ; The outer terms are always one.
+        ((or (= n 1) (= k 1) (= n k))  1)
+        (else (+ (P (- n 1) (- k 1))
+                 (P (- n 1) k)))))
 
-(assert (= 15 (T 5))
-        "The procedure #T works as expected.")
-(assert-error "out of bounds" (lambda () (T -1))
-        "The procedure #T throws errors for n less than 1.")
-; We can also see that if k denotes  the kth term of the triangle at
-; level n, then:
-;
-; P(k, n) = P(k - n) + P(k - n - 1) unless
-; P(k, n) = 1, when P(k -n) = P(k - n - 1) = 1 or
-; P(k, n) = 1 when n = k = 1.
-(define (P k n)
-  (cond ((or (< n 1) (k < 1))
-         error "The parameter n is out of bounds.")
-        ((= (P ())))
-        ((and (= n 1) (= k 1)) 1)
-        (else (+ ))))
+(assert-error "out of bounds" (lambda () (P 0 1))
+        "The procedure #P throws errors for n less than 1.")
+(assert-error "out of bounds" (lambda () (P 1 0))
+        "The procedure #P throws errors for k less than 1.")
+(assert (= 1 (P 1 1))
+        "The procedure #P works as expected for the first term of the first level.")
+(assert (= 1 (P 5 1))
+        "The procedure #P works as expected for the first term of any level.")
+(assert (= 1 (P 5 5))
+        "The procedure #P works as expected for the last term of any level.")
+(assert (= 4 (P 5 2))
+        "The procedure #P works as expected for inner terms.")
