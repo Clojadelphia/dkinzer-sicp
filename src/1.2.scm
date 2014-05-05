@@ -289,3 +289,18 @@
 ;            = (√5Fib(n + 1))/√5
 ;            = Fib(n + 1)
 ;            QED
+;
+;
+; If Fib(n) is  the closest integer to ф^n/√5 then in order for
+;
+; Fib(n) = (ϕ^n - ѱ^n)/√5 to be true (which is proved)
+;
+; the limit of Fib(n) as n goes to infinity would have to be equal to ф^n/√5.
+;
+; The limit of ψ^n as n goes to infinity is 0, therefore Fib(n) is the closest integer to ф^n/√5.
+;
+; QED
+
+;
+;
+;
