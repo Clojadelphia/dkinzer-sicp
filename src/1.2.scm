@@ -252,7 +252,7 @@
 ;
 ; Thus we can infer from the above experiment that
 ;
-; ф^n = Fib(n)ф + Fib(n - 1), and
+; ф^n = Fib(n)ф + Fib(n - 1), and 
 ; ψ^n = Fib(n)ψ + Fib(n - 1)
 ;
 ; Which we can prove by induction.
@@ -284,7 +284,7 @@
 ;            = (Fib(n + 1)ф + Fib(n) - Fib(n + 1)ψ - Fib(n))/√5
 ;            = (Fib(n + 1)ф - Fib(n + 1)ψ)/√5
 ;            = (Fib(n + 1)((1 + √5)/2) - Fib(n + 1)((1 - √5)/2))/√5
-;            = (Fib(n + 1)/2 + √5Fib(n + 1)/2 - Fib(n + 1)/2  - √5Fib(n + 1)/2)/√5
+;            = (Fib(n + 1)/2 + √5Fib(n + 1)/2 - Fib(n + 1)/2  + √5Fib(n + 1)/2)/√5
 ;            = (√5Fib(n + 1)/2 + √5Fib(n + 1)/2)/√5
 ;            = (√5Fib(n + 1))/√5
 ;            = Fib(n + 1)
