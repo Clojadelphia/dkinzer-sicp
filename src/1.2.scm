@@ -169,7 +169,7 @@
 ; {{{1 Exercise 1.12:
 ; The following pattern of numbers is called Pascal's triangle.
 ;
-; n 
+; n
 ; -
 ; 1             1
 ; 2           1   1
@@ -211,3 +211,81 @@
         "The procedure #P works as expected for the last term of any level.")
 (assert (= 4 (P 5 2))
         "The procedure #P works as expected for inner terms.")
+
+; {{{1 Exercise 1.13:
+; Prove that Fib(n) is the closest integer to ϕ^n/√5, where ϕ = (1 + √5)/2. Hint:
+; Let  ѱ = (1 - √5)/2. Use induction and the definition of the Fibonacci numbers
+; (see section 1.2.2) to prove that Fib(n) = (ϕ^n - ѱ^n)/√5.
+;
+; By definition ф^2 = ф + 1
+;
+; which is satisfied by the values ф, ψ = (1 + √5)/2, (1 - √5)/2
+;
+; ф^2 = ((1 + √5)/2)^2 = (1 + 2√5 + 5)/4
+;     = (6 + 2√5)/4 = (3 + √5)/2
+;     = (2 + 1 + √5)/2
+;     = (1 + ф)
+;
+; ψ^2 = (1 - √5)/4 = (1 - 2√5 + 5)/4
+;     = (6 - 2√5)/4 = (3 - √5)/2
+;     = (2 + 1 - √5)/2
+;     = (1 + ψ)
+;
+; Then,
+; ф^3 = ф (ф + 1) = ф^2 + ф = (ф + 1) + ф = 2ф + 1
+; ф^4 = ф (2ф + 1) = 2ф^2 + ф = 2(ф + 1) + ф = 2ф + 2 + ф = 3ф + 2
+; ф^5 = ф (3ф + 2) = 3ф^2 + 2ф = 3(ф + 1) + 2ф = 3ф + 3 + 2ф = 5ф + 3
+; ф^6 = ф (5ф + 3) = 5ф^2 + 3ф = 5(ф + 1) + 3ф = 5ф + 5 + 3ф = 8ф + 5
+; ф^7 = ф (8ф + 5) = 8ф^2 + 5ф = 8(ф + 1) + 5ф = 8ф + 8 + 5ф = 13ф + 8
+;
+; Fib(0) = 0
+; Fib(1) = 1
+; Fib(2) = 1
+; Fib(3) = 2
+; Fib(4) = 3
+; Fib(5) = 5
+; Fib(6) = 8
+; Fib(7) = 13
+; Fib(8) = 21
+; ..
+; Fib(n) = Fib(n - 1) + Fib(n - 2) by definition.
+;
+; Thus we can infer from the above experiment that
+;
+; ф^n = Fib(n)ф + Fib(n - 1), and
+; ψ^n = Fib(n)ψ + Fib(n - 1)
+;
+; Which we can prove by induction.
+;
+; First we show that the base case works.
+; ф^1 = Fib(1)ф + Fib(0) or
+;   ф = ф + 0
+;
+; Next we solve the n + 1 case:
+;
+; ф^(n + 1) = ф * ф^2 = ф * (Fib(n)ф + Fib(n - 1))
+;   = Fib(n)ф^2 + Fib(n - 1)ф
+;   = Fib(n)(ф + 1) + Fib(n - 1)ф
+;   = Fib(n)ф + Fib(n) + Fib(n - 1)ф
+;   = (Fib(n) + Fib(n - 1))ф + Fib(n)
+;   = Fib(n + 1)ф + Fib(n)
+;   QED
+;
+; Next let's prove Fib(n) = (ϕ^n - ѱ^n)/√5 by induction:
+;
+; The base case is:
+; Fib(0) = (ϕ^0 - ѱ^0)/√5
+;      0 = (1 - 1)/√5
+;      0 = (1 - 1)
+;      0 = 0
+;
+; And, the n + 1 case:
+; Fib(n + 1) = (ϕ^n+1 - ѱ^n+1)/√5 by induction:
+;            = (Fib(n + 1)ф + Fib(n) - Fib(n + 1)ψ - Fib(n))/√5
+;            = (Fib(n + 1)ф - Fib(n + 1)ψ)/√5
+;            = (Fib(n + 1)((1 + √5)/2) - Fib(n + 1)((1 - √5)/2))/√5
+;            = (Fib(n + 1)/2 + √5Fib(n + 1)/2 - Fib(n + 1)/2  - √5Fib(n + 1)/2)/√5
+;            = (√5Fib(n + 1)/2 + √5Fib(n + 1)/2)/√5
+;            = (√5Fib(n + 1))/√5
+;            = Fib(n + 1)
+;            QED
