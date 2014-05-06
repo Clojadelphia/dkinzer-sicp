@@ -340,10 +340,10 @@
 (define (fixed-point f first-guess)
   (define tolerance 0.00001)
   (newline)
-  (display (string "TEST: display fixed-point results."))
+  (term-display (string "TEST: display fixed-point results."))
   (define (close-enough? v1 v2)
     (newline)
-    (display v1)
+    (term-display v1)
     (< (abs (- v1 v2)) tolerance))
   (define (try guess)
     (let ((next (f guess)))
@@ -437,10 +437,10 @@
 ; generates an iterative process.  If it generates an iterative process, write
 ; one that generates a recursive process.
 (define (cont-frac-i n d k)
-  (display "TEST: cont-frac-i results")
+  (term-display "TEST: cont-frac-i results")
   (newline)
   (define (frac-iter i result)
-    (display (string i ": " result))
+    (term-display (string i ": " result))
     (newline)
     (if (= i 0)
       result

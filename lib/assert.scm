@@ -4,11 +4,24 @@
 ;;; assert.scm
 ;;; Testing and analysis type functions go here.
 
+(define (running-in-term?)
+  (if (environment-bound?
+        (nearest-repl/environment)
+        'running-in-term)
+    running-in-term
+    #f))
+
+(define (term-display a)
+  ; I need a way stop display when not running via term.
+  (if (running-in-term?)
+    (display a)
+    ()))
+
 (define assert
   (lambda (a m)
-    (if a 
-      (display (string "\n" "PASSED: " m "\n"))
-      (display (string "\n" "FAILED: " m "\n")))))
+    (if a
+      (term-display (string "\n" "PASSED: " m "\n"))
+      (term-mdisplay (string "\n" "FAILED: " m "\n")))))
 
 (define (restart-if-error thunk)
   ; This code handles conditions that arise while executing thunk
@@ -54,10 +67,10 @@
       f
       (lambda (run-time gc-time real-time)
       (newline)
-      (write run-time)
-      (write-char #\space)
-      (write gc-time)
-      (write-char #\space)
-      (write real-time)
+      (term-display run-time)
+      (term-display #\space)
+      (term-display gc-time)
+      (term-display #\space)
+      (term-display real-time)
       (newline)
       (list run-time gc-time real-time)))))

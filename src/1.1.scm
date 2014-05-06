@@ -101,7 +101,7 @@
 ; faced with is using applicative-order evaluation or normal-order evaluation.
 ; He defines the following two procedures:
 (define (p)
-  (display
+  (term-display
     "TEST: This message will only display under applicative-order
     evaluation."))
 
@@ -174,7 +174,7 @@
 
 (define exercise-1.6
   (lambda ()
-    (display (string "TEST: exercise-1.6 would not have been evaluated by a real (if) expression."))))
+    (term-display (string "TEST: exercise-1.6 would not have been evaluated by a real (if) expression."))))
 
 ; What happens when Alyssa attempts to use this to compute square roots? Explain.
 (assert (= 0 (new-if (= 1 1) 0 (exercise-1.6)))
@@ -205,7 +205,7 @@
     (define (sqrt-iter guess)
       (if (good-enough? guess)
         ((lambda ()
-           (display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
+           (term-display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
            guess))
         (sqrt-iter (improve guess))))
     (sqrt-iter 1.0)))
@@ -237,7 +237,7 @@
 
       (if (good-enough? guess new-guess)
         ((lambda ()
-           (display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
+           (term-display (string "TEST: guess -> " guess ", " "x -> " x "\n"))
            guess))
         (sqrt-iter new-guess)))
     (sqrt-iter 1.0)))

@@ -39,11 +39,11 @@
 ; The firt process is recursive while the second is iterative.
 (set-gc-notification! #t)
 
-(display (string "TEST time for : (+1.9a 1e4 1e4)"))
+(term-display (string "TEST time for : (+1.9a 1e4 1e4)"))
 (define +1.9a-times
   (time (lambda () (+1.9a 1e4 1e4))))
 
-(display (string "TEST time for : (+1.9b 1e4 1e4)"))
+(term-display (string "TEST time for : (+1.9b 1e4 1e4)"))
 (define +1.9b-times
   (time (lambda () (+1.9b 1e4 1e4))))
 
@@ -86,11 +86,11 @@
 ; Give concise mathematical definitions for the functions computed by the
 ; procedures f, g, and h for positive integer values of n.
 (define (f n)
-  (display (string "n: " n ", result: " (A 0 n)))
+  (term-display (string "n: " n ", result: " (A 0 n)))
   (newline)
   (A 0 n))
 
-(display (string "TEST: (A 0 n)"))
+(term-display (string "TEST: (A 0 n)"))
 (newline)
 (f 0)
 (f 1)
@@ -101,11 +101,11 @@
         "(f n) computes to 2 * n")
 
 (define (g n)
-  (display (string "n: " n ", result: " (A 1 n)))
+  (term-display (string "n: " n ", result: " (A 1 n)))
   (newline)
   (A 1 n))
 
-(display (string "TEST: (A 1 n)"))
+(term-display (string "TEST: (A 1 n)"))
 (newline)
 (g 0)
 (g 1)
@@ -116,11 +116,11 @@
         "(g n) computes to 2^n")
 
 (define (h n)
-  (display (string "n: " n ", result: " (A 2 n)))
+  (term-display (string "n: " n ", result: " (A 2 n)))
   (newline)
   (A 2 n))
 
-(display (string "TEST: (A 2 n)"))
+(term-display (string "TEST: (A 2 n)"))
 (newline)
 (h 0)
 (h 1)
