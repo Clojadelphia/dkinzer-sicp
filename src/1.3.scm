@@ -339,10 +339,8 @@
 ; or P is the fixpoint of 1 + 1/P
 (define (fixed-point f first-guess)
   (define tolerance 0.00001)
-  (newline)
   (term-display (string "TEST: display fixed-point results."))
   (define (close-enough? v1 v2)
-    (newline)
     (term-display v1)
     (< (abs (- v1 v2)) tolerance))
   (define (try guess)
@@ -438,10 +436,8 @@
 ; one that generates a recursive process.
 (define (cont-frac-i n d k)
   (term-display "TEST: cont-frac-i results")
-  (newline)
   (define (frac-iter i result)
     (term-display (string i ": " result))
-    (newline)
     (if (= i 0)
       result
       (frac-iter (dec i)

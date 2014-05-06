@@ -14,7 +14,9 @@
 (define (term-display a)
   ; I need a way stop display when not running via term.
   (if (running-in-term?)
-    (display a)
+    ((lambda ()
+       (newline)
+       (display a)))
     ()))
 
 (define assert
