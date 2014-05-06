@@ -766,3 +766,35 @@
 ; a procedure that takes a guess as argument and keeps improving the guess
 ; until it is good enough. Rewrite the sqrt procedure of section 1.1.7 and the
 ; fixed-point procedure of section 1.3.3 in terms of iterative-improve.
+(define (iterative-improve good-enough? improve)
+  (define (try guess)
+    (if (good-enough? guess)
+      guess
+      (try (improve guess))))
+  (lambda (guess)
+    (try guess)))
+
+(define sqrt
+  (lambda (x)
+    (define (improve guess)
+      (average guess (/ x guess)))
+    (define (good-enough? guess)
+      (let ((new-guess (improve guess)))
+        (> 1.0e-10 (abs (- guess new-guess)))))
+   ((iterative-improve good-enough? improve) 1.0)))
+
+(assert (> 1.0e-10 (abs (- 4 (sqrt 16))))
+        "The #sqrt works as expected.")
+
+(define (fixed-point f first-guess)
+  (define tolerance 0.00001)
+  (define (good-enough? v1)
+    (let ((v2 (f v1)))
+      (< (abs (- v1 v2)) tolerance)))
+  ((iterative-improve good-enough? f) first-guess))
+
+(define phi
+  (fixed-point (lambda (p) (+ 1 (/ 1 p)))
+             1.0))
+(assert (< .00001 (- phi 1.6180))
+        "The improved #fixed-point procedure can also be used to estimate the Golden Ratio.")

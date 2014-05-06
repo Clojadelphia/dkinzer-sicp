@@ -50,7 +50,7 @@
 (assert (= +1.9a-times +1.9b-times)
         "There are no time differences between procedure +1.9a and +1.9b.")
 
-; Exercise 1.10:
+; {{{1 Exercise 1.10:
 ; The following procedure computes a mathematical function called Ackermann's
 ; function.
 (define (A x y)
@@ -300,7 +300,3 @@
 ; The limit of ψ^n as n goes to infinity is 0, therefore Fib(n) is the closest integer to ф^n/√5.
 ;
 ; QED
-
-;
-;
-;
