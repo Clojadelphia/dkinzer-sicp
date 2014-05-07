@@ -1,7 +1,9 @@
 (declare (usual-integrations))
 (load '("lib/assert" "lib/math"))
 
-; {{{1 Exercise 1.9:
+; {{{1 1.2.1  Linear Recursion and Iteration (1.9 - 1.10)
+
+; {{{2 Exercise 1.9:
 ; Each of the following two procedures defines a method for adding two positive
 ; integers in terms of the procedures inc, which increments its argument by 1,
 ; and dec, which decrements its argument by 1.
@@ -50,7 +52,7 @@
 (assert (= +1.9a-times +1.9b-times)
         "There are no time differences between procedure +1.9a and +1.9b.")
 
-; {{{1 Exercise 1.10:
+; {{{2 Exercise 1.10:
 ; The following procedure computes a mathematical function called Ackermann's
 ; function.
 (define (A x y)
@@ -129,7 +131,9 @@
 (assert (= 65536 (h 4))
         "(h n) computes to 2^2^2^(n - 2)")
 
-; {{{1 Exercise 1.11:
+; {{{1 1.2.1  Linear Recursion and Iteration (1.11 - 1.13)
+
+; {{{2 Exercise 1.11:
 ; A function f is defined by the rules that
 ;
 ;  1. f(n) = n if (n < 3)
@@ -166,7 +170,7 @@
 (assert (= (f 5) (fi 5))
         "The recursive and iterative procedures #f and #fi are equivalent.")
 
-; {{{1 Exercise 1.12:
+; {{{2 Exercise 1.12:
 ; The following pattern of numbers is called Pascal's triangle.
 ;
 ; n
@@ -183,7 +187,7 @@
 ; triangle is the sum of the two numbers above it.  Write a procedure that
 ; computes elements of Pascal's triangle by means of a recursive process.
 ;
-; {{{2 Answer
+; {{{3 Answer
 ; We can see that if k denotes  the kth term of the triangle at
 ; level n, and there are n terms at level n, then by definition:
 ;
@@ -212,7 +216,7 @@
 (assert (= 4 (P 5 2))
         "The procedure #P works as expected for inner terms.")
 
-; {{{1 Exercise 1.13:
+; {{{2 Exercise 1.13:
 ; Prove that Fib(n) is the closest integer to ϕ^n/√5, where ϕ = (1 + √5)/2. Hint:
 ; Let  ѱ = (1 - √5)/2. Use induction and the definition of the Fibonacci numbers
 ; (see section 1.2.2) to prove that Fib(n) = (ϕ^n - ѱ^n)/√5.
@@ -252,7 +256,7 @@
 ;
 ; Thus we can infer from the above experiment that
 ;
-; ф^n = Fib(n)ф + Fib(n - 1), and 
+; ф^n = Fib(n)ф + Fib(n - 1), and
 ; ψ^n = Fib(n)ψ + Fib(n - 1)
 ;
 ; Which we can prove by induction.
