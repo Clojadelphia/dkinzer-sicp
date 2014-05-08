@@ -64,3 +64,44 @@
 
 (define dx .00001)
 
+;;; {{{2.1 SECTION 1.3
+(define (numer x) (car x))
+(define (denom x) (cdr x))
+
+(define (print-rat x)
+  (newline)
+  (display (numer x))
+  (display "/")
+  (display (denom x)))
+
+(define (add-rat x y)
+  (make-rat (+ (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+(define (sub-rat x y)
+  (make-rat (- (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+(define (mul-rat x y)
+  (make-rat (* (numer x) (numer y))
+            (* (denom x) (denom y))))
+(define (div-rat x y)
+  (make-rat (* (numer x) (denom y))
+            (* (denom x) (numer y))))
+(define (equal-rat? x y)
+  (= (* (numer x) (denom y))
+     (* (numer y) (denom x))))
+
+(define (make-rat n d)
+  (let ((g (abs (gcd n d)))
+        (nn (if (or
+                  (and (< n 0) (< d 0))
+                  (and (> n 0) (< d 0)))
+              (* n -1)
+              n))
+        (nd (if (or
+                  (and (< n 0) (< d 0))
+                  (and (> n 0) (< d 0)))
+              (* d -1)
+              d)))
+    (cons (/ nn g) (/ nd g))))
