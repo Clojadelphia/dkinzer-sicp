@@ -3,7 +3,7 @@
 ;;;;CODE FROM STRUCTURE AND INTERPRETATION OF COMPUTER PROGRAMS
 ;;;;Any useful expression from SICP will go here.
 
-;;;SECTION 1.1
+;;; {{{1 SECTION 1.1
 (define (square x) (* x x))
 
 (define (cube x) (* x x x))
@@ -11,14 +11,20 @@
 (define (average x y)
     (/ (+ x y) 2))
 
-;;;SECTION 1.2
+;;; {{{1 SECTION 1.2
 (define inc (lambda (x)
               (+ x 1)))
 
 (define dec (lambda (x)
               (- x 1)))
 
-;;; SECTION 1.3
+(define (gcd a b)
+  ; Greatest Common Divisor.
+  (if (= b 0)
+    a
+    (gcd b (remainder a b))))
+
+;;; {{{1 SECTION 1.3
 (define (sum term a next b)
   (if (> a b)
     0
@@ -57,3 +63,4 @@
     (lambda (x)  (average x (f x))))
 
 (define dx .00001)
+
