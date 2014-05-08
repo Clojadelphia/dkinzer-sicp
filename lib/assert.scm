@@ -23,7 +23,7 @@
   (lambda (a m)
     (if a
       (term-display (string "\n" "PASSED: " m "\n"))
-      (term-mdisplay (string "\n" "FAILED: " m "\n")))))
+      (term-display (string "\n" "FAILED: " m "\n")))))
 
 (define (restart-if-error thunk)
   ; This code handles conditions that arise while executing thunk
