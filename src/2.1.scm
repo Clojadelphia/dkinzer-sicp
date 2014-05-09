@@ -125,3 +125,58 @@
 ;      representation?
 ;
 ; {{{3 Solution
+;      At it's most basic a rectangle may be represented by either two points
+;      that represent vertices at opposite diagonal corners, or by any vertex
+;      and two integers, one representing the height and the other the length.
+;
+;      In order to be able to use the same area and perimeter procedure for
+;      either of these representations, we would have to define them in terms
+;      of the height and length of the rectangle and provide selectors that
+;      return height or length given a rectangle.
+;
+(define (area-rec rectangle)
+  (* (height-rec rectangle)
+     (width-rec rectangle)))
+
+(define (perimeter-rec rectangle)
+  (+ (* 2 (height-rec rectangle))
+     (* 2 (width-rec rectangle))))
+
+(define (make-rec vertex height width)
+  (let ((hw-point (cons height width)))
+    (cons vertex hw-point)))
+
+(define (height-rec rectangle)
+  (car (cdr rectangle)))
+
+(define (width-rec rectangle)
+  (cdr (cdr rectangle)))
+
+(assert (= 20 (area-rec (make-rec (make-point 0 0) 5 4)))
+        "Procedure #area-rec works as expected.")
+
+(assert (= 5 (height-rec (make-rec (make-point 0 0) 5 4)))
+        "Procedure #height-rec works as expected.")
+
+(assert (= 4 (width-rec (make-rec (make-point 0 0) 5 4)))
+        "Procedure #width-rec works as expected.")
+
+(define (make-rec vertex1 vertex2)
+  (cons vertex1 vertex2))
+
+(define (height-rec rectangle)
+  (abs (- (x-point (car rectangle))
+          (x-point (cdr rectangle)))))
+
+(define (height-width rectangle)
+  (abs (- (y-point (car rectangle))
+          (y-point (cdr rectangle)))))
+
+(assert (= 20 (area-rec (make-rec (make-point 0 0) (make-point 5 4))))
+        "Procedure #area-rec works as expected.")
+
+(assert (= 5 (height-rec (make-rec (make-point 0 0) (make-point 5 4))))
+        "Procedure #height-rec works as expected.")
+
+(assert (= 4 (width-rec (make-rec (make-point 0 0) (make-point 5 4))))
+        "Procedure #width-rec works as expected.")
