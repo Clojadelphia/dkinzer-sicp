@@ -143,6 +143,15 @@
      (* 2 (width-rec rectangle))))
 
 (define (make-rec vertex height width)
+  ; This is iteresting because not only can a rectangle be represented in
+  ; different ways but also the data can be arranged differenlty depending on
+  ; the need. For example, In this case I have several choices, among them are
+  ; where and how to arrange the vertex, height and width.  I could either
+  ; arrange them so that the height and the width come first and thus optimize
+  ; for use cases where I would need to get the height and width.  On the other
+  ; hand, I could make the vertex point come first, thus optimize for use
+  ; cases where needing to know the position of the rectangles on a grid is
+  ; important.
   (let ((hw-point (cons height width)))
     (cons vertex hw-point)))
 
