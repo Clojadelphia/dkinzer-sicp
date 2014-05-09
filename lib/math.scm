@@ -64,7 +64,7 @@
 
 (define dx .00001)
 
-;;; {{{2.1 SECTION 1.3
+;;; {{{1  SECTION 2.1
 (define (numer x) (car x))
 (define (denom x) (cdr x))
 
