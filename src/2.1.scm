@@ -236,10 +236,16 @@
 ; {{{3 Problem
 ;      Show that we can represent pairs of non-negative integers using
 ;      only numbers and arithmetic operations if we represent the pair
-;      $a$ and $b$ as the integer that is the product $2^a 3^b$.  Give
-;      the corresponding definitions of the procedures =cons=, =car=,
-;      and =cdr=.
+;      `a` and `b` as the integer that is the product `2^a 3^b`.  Give
+;      the corresponding definitions of the procedures #cons, #car,
+;      and #cdr.
+;
 ; {{{3 Solution
+;
+;      Notice that we can divide any number of type `2^a3^b` recursively by
+;      2 until the point where the  division will no longer result in an
+;      integer.  Thus, this provides a way of retrieving `a` from the number
+;      and a complementary  procedure can be applied to retrieve `b`
 ;
 ;
 ; {{{2 Exercise 2.6:
