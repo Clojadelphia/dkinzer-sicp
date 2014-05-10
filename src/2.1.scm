@@ -1,7 +1,7 @@
 (declare (usual-integrations))
 (load '("lib/assert" "lib/math"))
 
-; {{{1 2.1.1 Example: Arithmetic Operations for Rational Numbers
+; {{{1 2.1.1 Example: Arithmetic Operations for Rational Numbers (2.1)
 ; {{{2 Exercise 2.1:
 ; {{{3 Problem
 ;      Define a better version of make-rat that handles both positive and
@@ -53,7 +53,7 @@
                (= 1 (denom rat))))
         "The procedure #make-rat works as expected when passed (4 -2)")
 
-; {{{1 2.1.2 Abstraction Barriers
+; {{{1 2.1.2 Abstraction Barriers (2.2 - 2.3)
 ; {{{2 Exercise 2.2:
 ; {{{3 Problem
 ;      Consider the problem of representing line segments
@@ -189,3 +189,60 @@
 
 (assert (= 4 (width-rec (make-rec (make-point 0 0) (make-point 5 4))))
         "Procedure #width-rec works as expected.")
+
+; {{{1 2.1.3 What Is Meant by Data? (2.4 - 2.6)
+; {{{2 Exercise 2.4:
+; {{{3 Problem
+;      Here is an alternative procedural representation
+;      of pairs.  For this representation, verify that =(car (cons x y))=
+;      yields =x= for any objects =x= and =y=.
+
+
+          (define (cons x y)
+            (lambda (m) (m x y)))
+
+          (define (car z)
+            (z (lambda (p q) p)))
+
+;      What is the corresponding definition of =cdr=? (Hint: To verify
+;      that this works, make use of the substitution model of section
+;      1.1.5.)
+;
+; {{{3 Solution
+;
+; {{{2 Exercise 2.5:
+;
+; {{{3 Problem
+;      Show that we can represent pairs of non-negative integers using
+;      only numbers and arithmetic operations if we represent the pair
+;      $a$ and $b$ as the integer that is the product $2^a 3^b$.  Give
+;      the corresponding definitions of the procedures =cons=, =car=,
+;      and =cdr=.
+; {{{3 Solution
+;
+;
+; {{{2 Exercise 2.6:
+;
+; {{{3 Problem
+;
+;      In case representing pairs as procedures wasn't mind-boggling
+;      enough, consider that, in a language that can manipulate
+;      procedures, we can get by without numbers (at least insofar as
+;      non-negative integers are concerned) by implementing 0 and the
+;      operation of adding 1 as
+
+          (define zero (lambda (f) (lambda (x) x)))
+
+          (define (add-1 n)
+            (lambda (f) (lambda (x) (f ((n f) x)))))
+
+;      This representation is known as "Church numerals", after its
+;      inventor, Alonzo Church, the logician who invented the λ
+;      calculus.
+;
+;      Define =one= and =two= directly (not in terms of =zero= and
+;      =add-1=).  (Hint: Use substitution to evaluate =(add-1 zero)=).
+;      Give a direct definition of the addition procedure `+' (not in
+;      terms of repeated application of `add-1').
+;
+; {{{3 Solution
