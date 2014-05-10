@@ -64,6 +64,25 @@
 
 (define dx .00001)
 
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
+(define (repeated f n)
+  (define (repeat g n)
+    (if (<= n 1)
+      g
+      (repeat (compose g f) (dec n))))
+  (repeat f n))
+
+(define (multiply-by x)
+  (lambda (y) (* y x)))
+
+(define (pow y n)
+  ; Where n is an integer <= 0.
+  (cond ((< n 0) (error "#pow cannot evaluate powers less than 0."))
+        ((= n 0) 1)
+        (else
+          ((repeated (multiply-by y) n) 1))))
 ;;; {{{1  SECTION 2.1
 (define (numer x) (car x))
 (define (denom x) (cdr x))
