@@ -242,12 +242,30 @@
 ;
 ; {{{3 Solution
 ;
-;      Notice that we can divide any number of type `2^a3^b` recursively by
+;      Notice that we can divide any number of type `2^a 3^b` recursively by
 ;      2 until the point where the  division will no longer result in an
 ;      integer.  Thus, this provides a way of retrieving `a` from the number
 ;      and a complementary  procedure can be applied to retrieve `b`
-;
-;
+(define (cons a b)
+  (* (pow 2 a)
+     (pow 3 b)))
+
+(define (car x )
+  (if (not (= 0 (modulo x 2)))
+    0
+    (+ 1 (car (/ x 2)))))
+
+(define (cdr x )
+  (if (not (= 0 (modulo x 3)))
+    0
+    (+ 1 (cdr (/ x 3)))))
+
+(assert (= 7 (car (cons 7  12)))
+        "Verity that arithmetic #car and #cons  work as expected.")
+
+(assert (= 12 (cdr (cons 7  12)))
+        "Verity that arithmetic #cdr works as expected.")
+
 ; {{{2 Exercise 2.6:
 ;
 ; {{{3 Problem
@@ -273,3 +291,4 @@
 ;      terms of repeated application of `add-1').
 ;
 ; {{{3 Solution
+;
