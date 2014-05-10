@@ -193,23 +193,44 @@
 ; {{{1 2.1.3 What Is Meant by Data? (2.4 - 2.6)
 ; {{{2 Exercise 2.4:
 ; {{{3 Problem
-;      Here is an alternative procedural representation
-;      of pairs.  For this representation, verify that =(car (cons x y))=
-;      yields =x= for any objects =x= and =y=.
-
+;      Here is an alternative procedural representation of pairs.  For this
+;      representation, verify that =(car (cons x y))= yields =x= for any
+;      objects =x= and =y=.
 
           (define (cons x y)
+            ; Returns a λ function that takes one argument and applies it to x and y.
             (lambda (m) (m x y)))
 
           (define (car z)
             (z (lambda (p q) p)))
 
-;      What is the corresponding definition of =cdr=? (Hint: To verify
-;      that this works, make use of the substitution model of section
-;      1.1.5.)
+;      What is the corresponding definition of =cdr=? (Hint: To verify that
+;      this works, make use of the substitution model of section 1.1.5.)
 ;
 ; {{{3 Solution
 ;
+; First we  verify that the above #cons and  #car procedure work as expected.
+; (cons 1 2)
+; (λ (m) 1 2)
+; (car (λ (m) 1 2))
+; ((λ (m) (m 1 2) (λ (p q) p))
+; (λ (1 2) p)
+; 1
+(assert (= 1 (car (cons 1 2)))
+        "Verity that procedural #cons and #car work as expected.")
+
+          (define (cdr z)
+            ; The corresponding cdr implementation would simply return q.
+            (z (lambda (p q) q)))
+
+; (λ (m) 1 2)
+; (car (λ (m) 1 2))
+; ((λ (m) (m 1 2) (λ (p q) p))
+; (λ (1 2) q)
+; 2
+(assert (= 2 (cdr (cons 1 2)))
+        "Verity that procedural #cdr works as expected.")
+
 ; {{{2 Exercise 2.5:
 ;
 ; {{{3 Problem
