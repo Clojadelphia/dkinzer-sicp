@@ -276,19 +276,111 @@
 ;      non-negative integers are concerned) by implementing 0 and the
 ;      operation of adding 1 as
 
-          (define zero (lambda (f) (lambda (x) x)))
+          (define zero
+            ; Define zero as a λ function that when passed a function `f`
+            ; returns another λ function that takes any attribute and returns
+            ; the same attribute back.  In effect, we are nullifying `f`.  (We
+            ; can see why this may be an apt definition for zero in this
+            ; system).
+            (lambda (f) (lambda (x) x)))
 
           (define (add-1 n)
+            ; Although a bit more difficult to visualize, #add-1 will create
+            ; a function that essentially composes `f` unto the return value of
+            ; the inner λ function returned by any number in this system.  For
+            ; example applying #add-1 to `zero` results in:
+            ;
+            ; (λ (f) (λ (x) (f x)))
+            ;
+            ; Note that where `zero` returned `x`, `one-p` returns `(f x)`
+            ; (The above result is verified in the solution section).
             (lambda (f) (lambda (x) (f ((n f) x)))))
 
 ;      This representation is known as "Church numerals", after its
 ;      inventor, Alonzo Church, the logician who invented the λ
 ;      calculus.
 ;
-;      Define =one= and =two= directly (not in terms of =zero= and
-;      =add-1=).  (Hint: Use substitution to evaluate =(add-1 zero)=).
+;      Define `one` and `two` directly (not in terms of `zero` and
+;      #add-1).  (Hint: Use substitution to evaluate `(add-1 zero)`).
 ;      Give a direct definition of the addition procedure `+' (not in
 ;      terms of repeated application of `add-1').
 ;
 ; {{{3 Solution
 ;
+; Using the substitution method, we can evaluate `(add-1 zero)`:
+;
+; (add-1 zero)
+; ((λ (f) (λ (x) (f ((n f) x)))) (λ (f) (λ (x) x)))
+; ((λ (f) (λ (x) (f (((λ (f) (λ (x) x)) f) x)))))
+; ((λ (f) (λ (x) (f ((λ (x) x) x)))))
+; (λ (f) (λ (x) (f x)))
+;
+; Thus,
+(define one
+  ; Comparing `one` to `zero` we see that the effect of `f` on the final
+  ; function is to be applied once instead of zero times.
+  (lambda (f) (lambda (x) (f x))))
+;
+; Next we derive `two` in this system by applying the substitution method to
+; `(add-1 one)`:
+;
+; (add-1 one)
+; ((λ (f) (λ (x) (f ((n f) x)))) (λ (f) (λ (x) (f x))))
+; (λ (f) (λ (x) (f (((λ (f) (λ (x) (f x))) f) x))))
+; (λ (f) (λ (x) (f ((λ (x) (f x)) x))))
+; (λ (f) (λ (x) (f (f x))))
+;
+; Thus,
+(define two
+  ; Comparing `two` to `zero` we see that the effect of `f` on the final
+  ; function is to be applied twice instead of zero times.  Or, comparing `two`
+  ; to `one` we see the effect of `f` is to be applied one more time than in
+  ; `one`.
+  (lambda (f) (lambda (x) (f (f x)))))
+
+; Let's assert that our derived definition for `one` and `two` are correct.
+;
+; To make these assertions, we need to compare the substitution method derived
+; `one` and `two` to the corresponding procedurally derived `one-p` and
+; `two-p`. Also because we cannot directly compare these procedures, at this
+; point, we will compare the results of applying `one`, `one-p`, `two` and
+; `two-p` to a function `f`,  where `f` is a λ function that adds 1 to a passed
+; in parameter `x`:
+
+(define (add-one)
+  (lambda (x) (+ 1 x)))
+
+(define f add-one)
+
+(define one-p (add-1 zero))
+
+(define two-p (add-1 one-p))
+
+(assert (= 1 ((one (f)) 0) ((one-p (f)) 0))
+        "The substitution method derived `one` is equivalent to the procedurally derived `one-p`.")
+(assert (= 2 ((two (f)) 0) ((two-p (f)) 0))
+        "The substitution method derived `two` is equivalent to the procedurally derived `two-p`.")
+(assert (= 0 ((zero (f)) 0))
+        "`zero` nullifies the effect of #f.")
+
+; The effect of #add-1 on `one-p` was the composition of `f` onto `one-p`.
+;
+; one : (λ (f) (λ (x) (f x)))
+; two : (λ (f) (λ (x) (f (f x))))
+;
+; Thus one may surmise from this that the procedure that adds the numbers in
+; this system are  somehow composed together from the specific numbers.
+
+(define (adder a b)
+  (lambda (f) (compose (a f) (b f))))
+
+(define three (adder one two))
+(define three-r (adder two one))
+(assert (= 3 ((three (f)) 0) ((three-r (f)) 0))
+        "The #adder procedure can add numbers in our system..")
+
+(define four (adder one three))
+(define four-r (adder three one))
+(define four-2 (adder two two))
+(assert (= 4 ((four (f)) 0) ((four-r (f)) 0) ((four-2 (f)) 0))
+        "The #adder procedure can add numbers in our system..")
