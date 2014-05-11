@@ -387,3 +387,20 @@
 (define four-2 (adder two two))
 (assert (= 4 ((four (f)) 0) ((four-r (f)) 0) ((four-2 (f)) 0))
         "The #adder procedure can add numbers in our system..")
+
+; There are four properties of addition in the regular numerical system:
+; communicative, associative, additive identity and distributive.  The
+; following assertions will test the first three of these properties. Since the
+; distributive property requires a multiplication operator, we will
+; skip testing that property.
+
+(assert (= (((adder two one) (f)) 0)  (((adder one two) (f)) 0))
+        "#adder has communicative property because the order of `a` and `b`
+        does not matter.")
+(assert (= (((adder (adder three two) one) (f)) 0)  (((adder one (adder two three)) (f)) 0))
+        "#adder has associative property because
+        `(adder (adder one two) three)` is the same as
+        `(adder one (adder two three)`.")
+(assert (= ((four (f)) 0) (((adder zero four) (f)) 0) )
+        "#adder has additive identity property because `(adder zero number)` is
+        `number`.")
