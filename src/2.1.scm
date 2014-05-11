@@ -372,6 +372,9 @@
 ; this system are  somehow composed together from the specific numbers.
 
 (define (adder a b)
+  ; My naive attempt at #adder was the direct composition of `a` and `b`, but
+  ; that clearly was wrong. Some trial and error led me to the correct
+  ; solution.
   (lambda (f) (compose (a f) (b f))))
 
 (define three (adder one two))
