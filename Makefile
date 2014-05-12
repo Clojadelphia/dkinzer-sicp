@@ -22,3 +22,6 @@ clean:
 
 kill:
 	bash bin/kill.sh
+
+%:
+	bash bin/run.sh $*
