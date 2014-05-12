@@ -350,17 +350,17 @@
 (define (add-one)
   (lambda (x) (+ 1 x)))
 
-(define f add-one)
+(define f (add-one))
 
 (define one-p (add-1 zero))
 
 (define two-p (add-1 one-p))
 
-(assert (= 1 ((one (f)) 0) ((one-p (f)) 0))
+(assert (= 1 ((one f) 0) ((one-p f) 0))
         "The substitution method derived `one` is equivalent to the procedurally derived `one-p`.")
-(assert (= 2 ((two (f)) 0) ((two-p (f)) 0))
+(assert (= 2 ((two f) 0) ((two-p f) 0))
         "The substitution method derived `two` is equivalent to the procedurally derived `two-p`.")
-(assert (= 0 ((zero (f)) 0))
+(assert (= 0 ((zero f) 0))
         "`zero` nullifies the effect of #f.")
 
 ; The effect of #add-1 on `one-p` was the composition of `f` onto `one-p`.
@@ -379,13 +379,13 @@
 
 (define three (adder one two))
 (define three-r (adder two one))
-(assert (= 3 ((three (f)) 0) ((three-r (f)) 0))
+(assert (= 3 ((three f) 0) ((three-r f) 0))
         "The #adder procedure can add numbers in our system..")
 
 (define four (adder one three))
 (define four-r (adder three one))
 (define four-2 (adder two two))
-(assert (= 4 ((four (f)) 0) ((four-r (f)) 0) ((four-2 (f)) 0))
+(assert (= 4 ((four f) 0) ((four-r f) 0) ((four-2 f) 0))
         "The #adder procedure can add numbers in our system..")
 
 ; There are four properties of addition in the regular numerical system:
@@ -394,14 +394,14 @@
 ; distributive property requires a multiplication operator, we will
 ; skip testing that property.
 
-(assert (= (((adder two one) (f)) 0)  (((adder one two) (f)) 0))
+(assert (= (((adder two one) f) 0)  (((adder one two) f) 0))
         "#adder has communicative property because the order of `a` and `b`
         does not matter.")
-(assert (= (((adder (adder three two) one) (f)) 0)  (((adder one (adder two three)) (f)) 0))
+(assert (= (((adder (adder three two) one) f) 0)  (((adder one (adder two three)) f) 0))
         "#adder has associative property because
         `(adder (adder one two) three)` is the same as
         `(adder one (adder two three)`.")
-(assert (= ((four (f)) 0) (((adder zero four) (f)) 0) )
+(assert (= ((four f) 0) (((adder zero four) f) 0) )
         "#adder has additive identity property because `(adder zero number)` is
         `number`.")
 
