@@ -375,7 +375,10 @@
   ; My naive attempt at #adder was the direct composition of `a` and `b`, but
   ; that clearly was wrong. Some trial and error led me to the correct
   ; solution.
-  (lambda (f) (compose (a f) (b f))))
+  (lambda (f)
+    (let ((nf (a f))
+          (mf (b f)))
+      (compose nf mf))))
 
 (define three (adder one two))
 (define three-r (adder two one))
