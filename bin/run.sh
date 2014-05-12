@@ -25,7 +25,14 @@ else
   FILE_TYPE=scm
 fi
 
-for file in $(find src -type f -name "*.$FILE_TYPE" | sort)
+# Run all src files or just one.
+FILE='*'
+if [[ $@ =~ [1-9]+\.[0-9]+ ]];
+then
+  FILE=$@
+fi
+
+for file in $(find src -type f -name "$FILE.$FILE_TYPE" | sort)
 do
   echo -e "$Yel Running Problem Set: $file $RCol"
   echo ""
