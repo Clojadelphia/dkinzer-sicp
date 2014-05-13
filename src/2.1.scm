@@ -422,7 +422,7 @@
 
 ; {{{1 2.1.4 Extended Exercise: Interval Arithmetic (2.7 - 2.16)
 
-; Add procedures from section.
+; {{{4 Section procedures:
 (define (add-interval x y)
   (make-interval (+ (lower-bound x) (lower-bound y))
                  (+ (upper-bound x) (upper-bound y))))
@@ -462,7 +462,7 @@
 (assert (= 0 (lower-bound (make-interval 0 1)))
         "Procedure #lower-bound works as expected.")
 
-; {{{2 TODO Exercise 2.8:
+; {{{2 Exercise 2.8:
 ; {{{3 Problem
 ;      Using reasoning analogous to Alyssa's, describe how the difference of
 ;      two intervals may be computed.  Define a corresponding subtraction
