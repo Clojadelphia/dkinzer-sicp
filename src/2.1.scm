@@ -598,6 +598,19 @@
 ;
 ; {{{3 Solution
 ;
+(define (mul-interval x y)
+  (let ((xu (upper-bound x))
+        (xl (lower-bound x))
+        (yu (upper-bound y))
+        (yl (lower-bound y)))
+    (cond ((< xu xl yu yl))))
+  (let ((p1 (* (lower-bound x) (lower-bound y)))
+        (p2 (* (lower-bound x) (upper-bound y)))
+        (p3 (* (upper-bound x) (lower-bound y)))
+        (p4 (* (upper-bound x) (upper-bound y))))
+    (make-interval (min p1 p2 p3 p4)
+                   (max p1 p2 p3 p4))))
+
 ; {{{2 TODO Exercise 2.12:
 ; {{{3 Problem
 ;      Define a constructor #make-center-percent that takes a center and
