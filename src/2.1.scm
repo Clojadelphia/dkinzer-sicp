@@ -469,6 +469,19 @@
 ;      procedure, called #sub-interval.
 ; {{{3 Solution
 ;
+; The upper bound of subtracting interval `b` from interval `a` should equal
+; the value of subtracting the upper bound of interval `b` from the upper bound
+; of interval `a`.  Similarly, the lower bound of the subtraction of interval
+; `b` from interval `a` should be the subtraction of the lower bound of
+; interval `b` from that of the lower bound of interval `a`.
+;
+(define (sub-interval a b)
+  (make-interval (- (lower-bound a) (lower-bound b))
+                 (- (upper-bound a) (upper-bound b))))
+
+(assert (equal? (cons 0 0) (sub-interval (make-interval 1 2) (make-interval 1 2)))
+        "Procedure #sub-interval works as expected.")
+
 ; {{{2 TODO Exercise 2.9:
 ; {{{3 Problem
 ;      The "width" of an interval is half of the difference between its upper
