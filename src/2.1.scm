@@ -192,8 +192,8 @@
 
 ; {{{1 2.1.3 What Is Meant by Data? (2.4 - 2.6)
 ;
-; Since we will be redefining cons,  cdr, and car. I need a way to bring them
-; back to normal.
+; Since we will be redefining #cons,  #cdr, and #car. I need a way to bring
+; them back to normal.
 (define cache-cons cons)
 (define cache-car car)
 (define cache-cdr cdr)
@@ -201,8 +201,8 @@
 ; {{{2 Exercise 2.4:
 ; {{{3 Problem
 ;      Here is an alternative procedural representation of pairs.  For this
-;      representation, verify that =(car (cons x y))= yields =x= for any
-;      objects =x= and =y=.
+;      representation, verify that `(car (cons x y))` yields `x` for any
+;      objects `x` and `y`.
 
           (define (cons x y)
             ; Returns a λ function that takes one argument and applies it to x and y.
@@ -211,7 +211,7 @@
           (define (car z)
             (z (lambda (p q) p)))
 
-;      What is the corresponding definition of =cdr=? (Hint: To verify that
+;      What is the corresponding definition of #cdr? (Hint: To verify that
 ;      this works, make use of the substitution model of section 1.1.5.)
 ;
 ; {{{3 Solution
@@ -482,7 +482,7 @@
 (assert (equal? (cons 0 0) (sub-interval (make-interval 1 2) (make-interval 1 2)))
         "Procedure #sub-interval works as expected.")
 
-; {{{2 TODO Exercise 2.9:
+; {{{2 Exercise 2.9:
 ; {{{3 Problem
 ;      The "width" of an interval is half of the difference between its upper
 ;      and lower bounds.  The width is a measure of the uncertainty of the
@@ -494,8 +494,73 @@
 ;      a function only of the widths of the intervals being added (or
 ;      subtracted).  Give examples to show that this is not true for
 ;      multiplication or division.
-; {{{3 Solution
 ;
+; {{{3 Solution
+(define (width x)
+  (let ((lower (lower-bound x))
+        (upper (upper-bound x)))
+    (/ (- upper lower) 2)))
+
+(assert (= .5 (width (make-interval 0 1)))
+        "Procedure #width works as expected; for interval (0, 1).")
+
+(assert (= 0 (width (make-interval 1 1)))
+        "Procedure #width works as expected for interval (1, 1).")
+
+; Let's first show that the width of the sum of two intervals is a function of
+; the individual interval widths.
+;
+; By definition width = (upper - lower)/2
+; let upper(x,y) = upper(x) + upper(y)
+; let lower(x,y) = lower(x) + lower(y)
+;
+; Then,
+; width(x, y) = (upper(x) + upper(y) - lower(x) + lower(y))/2
+;             = (upper(x) - lower(x) + upper(y) - lower(y))/2
+;             = (upper(x) - lower(x))/2 + (upper(y) - lower(y))/2
+;             = with(x) + width(y)
+; Likewise,
+;
+(assert (= (width (add-interval (make-interval 0 1)
+                                (make-interval 2 3)))
+           (+ (width (make-interval 0 1))
+              (width (make-interval 2 3))))
+        "The #width of the sum of two intervals is the sum of the component
+        interval widths.")
+
+; let upper(x,y) = upper(x) - upper(y)
+; let lower(x,y) = upper(x) - upper(y)
+;
+; Then,
+; width(x,y) = (upper(x) - upper(y) - lower(x) + lower(y))/2
+;            = (upper(x) - upper(x) - lower(y) + lower(y))/2
+;            = (upper(x) - upper(x))/2 - (lower(y) - lower(y))/2
+;            = with(x) - width(y)
+;
+(assert (= (width (sub-interval (make-interval 0 1)
+                                (make-interval 2 3)))
+           (- (width (make-interval 0 1))
+              (width (make-interval 2 3))))
+        "The #width of the subtraction of two intervals is the subtraction of
+        the component interval widths.")
+
+; By example we can show that for multiplication the width is not a similar
+; function of the widths the individual components.
+(assert (not (= (width (mul-interval (make-interval 0 1)
+                                (make-interval 2 3)))
+           (* (width (make-interval 0 1))
+              (width (make-interval 2 3)))))
+        "The #width of the multiplication of two intervals is not the
+        multiplication of the component interval widths.")
+
+; Likewise,
+(assert (not (= (width (div-interval (make-interval 0 1)
+                                (make-interval 2 3)))
+           (/ (width (make-interval 0 1))
+              (width (make-interval 2 3)))))
+        "The #width of the division of two intervals is not the
+        division of the component interval widths.")
+
 ; {{{2 TODO Exercise 2.10:
 ; {{{3 Problem
 ;      Ben Bitdiddle, an expert systems programmer, looks over Alyssa's
