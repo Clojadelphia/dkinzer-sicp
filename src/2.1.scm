@@ -191,6 +191,13 @@
         "Procedure #width-rec works as expected.")
 
 ; {{{1 2.1.3 What Is Meant by Data? (2.4 - 2.6)
+;
+; Since we will be redefining cons,  cdr, and car. I need a way to bring them
+; back to normal.
+(define cache-cons cons)
+(define cache-car car)
+(define cache-cdr cdr)
+
 ; {{{2 Exercise 2.4:
 ; {{{3 Problem
 ;      Here is an alternative procedural representation of pairs.  For this
@@ -304,7 +311,12 @@
 ;      #add-1).  (Hint: Use substitution to evaluate `(add-1 zero)`).
 ;      Give a direct definition of the addition procedure `+' (not in
 ;      terms of repeated application of `add-1').
-;
+
+; {{{3 Cleanup:
+(define cons cache-cons)
+(define car cache-car)
+(define cdr cache-cdr)
+
 ; {{{3 Solution
 ;
 ; Using the substitution method, we can evaluate `(add-1 zero)`:
@@ -409,7 +421,26 @@
         `number`.")
 
 ; {{{1 2.1.4 Extended Exercise: Interval Arithmetic (2.7 - 2.16)
-; {{{2 TODO Exercise 2.7:
+
+; Add procedures from section.
+(define (add-interval x y)
+  (make-interval (+ (lower-bound x) (lower-bound y))
+                 (+ (upper-bound x) (upper-bound y))))
+
+(define (mul-interval x y)
+  (let ((p1 (* (lower-bound x) (lower-bound y)))
+        (p2 (* (lower-bound x) (upper-bound y)))
+        (p3 (* (upper-bound x) (lower-bound y)))
+        (p4 (* (upper-bound x) (upper-bound y))))
+    (make-interval (min p1 p2 p3 p4)
+                   (max p1 p2 p3 p4))))
+
+(define (div-interval x y)
+  (mul-interval x
+                (make-interval (/ 1.0 (upper-bound y))
+                               (/ 1.0 (lower-bound y)))))
+
+; {{{2 Exercise 2.7:
 ; {{{3 Problem
 ;      Alyssa's program is incomplete because she has not
 ;      specified the implementation of the interval abstraction.  Here is
