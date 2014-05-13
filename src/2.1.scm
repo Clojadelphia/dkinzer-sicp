@@ -545,7 +545,7 @@
         the component interval widths.")
 
 ; By example we can show that for multiplication the width is not a similar
-; function of the widths the individual components.
+; function of the widths for the individual interval components.
 (assert (not (= (width (mul-interval (make-interval 0 1)
                                 (make-interval 2 3)))
            (* (width (make-interval 0 1))
@@ -561,14 +561,31 @@
         "The #width of the division of two intervals is not the
         division of the component interval widths.")
 
-; {{{2 TODO Exercise 2.10:
+; {{{2 Exercise 2.10:
 ; {{{3 Problem
 ;      Ben Bitdiddle, an expert systems programmer, looks over Alyssa's
 ;      shoulder and comments that it is not clear what it means to divide by an
 ;      interval that spans zero.  Modify Alyssa's code to check for this
 ;      condition and to signal an error if it occurs.
+;
 ; {{{3 Solution
 ;
+(define (div-interval x y)
+  (let ((yu (upper-bound y))
+        (yl (lower-bound y)))
+    (if (or (= yu 0)
+            (= yl 0))
+      (error "Division by interval that spans zero is not possible.")
+      (mul-interval x
+                    (make-interval (/ 1.0 yu)
+                                   (/ 1.0 yl))))))
+
+(assert-error "Division by interval that spans zero is not possible."
+              (lambda ()
+                (div-interval (make-interval 1 2)
+                              (make-interval 0 1)))
+              "Error is thrown when division by zero is attempted.")
+
 ; {{{2 TODO Exercise 2.11:
 ; {{{3 Problem
 ;      In passing, Ben also cryptically comments: "By testing the signs of the
