@@ -450,9 +450,18 @@
 
 ;      Define selectors #upper-bound and #lower-bound to complete the
 ;      implementation.
-;
+
+
 ; {{{3 Solution
-;
+(define lower-bound car)
+(define upper-bound cdr)
+
+(assert (= 1 (upper-bound (make-interval 0 1)))
+        "Procedure #upper-bound works as expected.")
+
+(assert (= 0 (lower-bound (make-interval 0 1)))
+        "Procedure #lower-bound works as expected.")
+
 ; {{{2 TODO Exercise 2.8:
 ; {{{3 Problem
 ;      Using reasoning analogous to Alyssa's, describe how the difference of
