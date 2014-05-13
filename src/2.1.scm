@@ -375,21 +375,24 @@
 (assert (= 0 ((zero f) 0))
         "`zero` nullifies the effect of #f.")
 
-; The effect of #add-1 on `one-p` was the composition of `f` onto `one-p`.
+; The effect of procedure #add-1 on `one`, and `two` was the composition of `f` 
+; onto `one` and `f` onto `two`.
 ;
-; one : (λ (f) (λ (x) (f x)))
-; two : (λ (f) (λ (x) (f (f x))))
+; one   : (λ (f) (λ (x) (f x)))
+; two   : (λ (f) (λ (x) (f (f x))))
+; three : (λ (f) (λ (x) (f (f (f x)))))
 ;
-; Thus one may surmise from this that the procedure that adds the numbers in
-; this system are  somehow composed together from the specific numbers.
-
-(define (adder a b)
-  ; My naive attempt at #adder was the direct composition of `a` and `b`, but
-  ; that clearly was wrong. Some trial and error led me to the correct
-  ; solution.
+; Thus one may surmise from this that an additive procedure in this system would
+; work by composing one number onto the other.
+;
+; From exercise 1.42 you should already have a procedure called #compose.
+;
+; With a little trial and error (or just plain be able to see it) you get the
+; following solution.
+(define (adder n m)
   (lambda (f)
-    (let ((nf (a f))
-          (mf (b f)))
+    (let ((nf (n f))
+          (mf (m f)))
       (compose nf mf))))
 
 (define three (adder one two))
