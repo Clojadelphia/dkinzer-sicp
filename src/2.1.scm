@@ -627,14 +627,37 @@
         (xl (lower-bound x))
         (yu (upper-bound y))
         (yl (lower-bound y)))
-    (cond ((= 0 xu xl yu yl) (make-interval 0 0))
-          ((and (< 0 x)))))
-  (let ((p1 (* (lower-bound x) (lower-bound y)))
-        (p2 (* (lower-bound x) (upper-bound y)))
-        (p3 (* (upper-bound x) (lower-bound y)))
-        (p4 (* (upper-bound x) (upper-bound y))))
-    (make-interval (min p1 p2 p3 p4)
-                   (max p1 p2 p3 p4))))
+
+    (cond (((and (> xl 0) (> xu 0) (> yl 0) (> yu 0))
+            (make-interval (* xl yl) (* xu yu)))
+
+           ((and (> xl 0) (> xu 0) (<= yl 0) (> yu 0))
+            (make-interval (* xu yl) (* xu yu)))
+
+           ((and (<= xl 0) (> xu 0) (> yl 0) (> yu 0))
+            (make-interval (* xl yu) (* xu yu)))
+
+           ((and (> xl 0) (> xu 0) (<= yl 0) (<= yu 0))
+            (make-interval (* xu yl) (* xl yu)))
+
+           ((and (<= xl 0) (<= xu 0) (> yl 0) (> yu 0))
+            (make-interval (* xl yu) (* xu yl)))
+
+           ((and (<= xl 0) (> xu 0) (<= yl 0) (<= yu 0))
+            (make-interval (* xu yl) (* xl yl)))
+
+           ((and (<= xl 0) (<= xu 0) (<= yl 0) (> yu 0))
+            (make-interval (* xl yu) (* xu yu)))
+
+           ((and (<= xl 0) (<= xu 0) (<= yl 0) (<= yu 0))
+            (make-interval (* xu yu) (* xl yl)))
+
+           (else (let ((p1 (* xl yl))
+                       (p2 (* xl yu))
+                       (p3 (* xu yl))
+                       (p4 (* xu yu)))
+                   (make-interval (min p1 p2 p3 p4)
+                                  (max p1 p2 p3 p4))))))))
 
 ; {{{2 TODO Exercise 2.12:
 ; {{{3 Problem
