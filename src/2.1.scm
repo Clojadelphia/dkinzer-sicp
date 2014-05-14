@@ -604,29 +604,31 @@
   ;
   ;                        upper x
   ;
-  ;            0    +    -       0    +    -
+  ;            0    +    -       -    +   0
   ;         |--------------- | --------------
-  ;       0 |  0    0    0   |   0    0    0
+  ;       0 |  0    0    0   |   0    0   0
   ;         |                |
-  ;       + |  0    +    -   |   0    +    -
-  ;   u     |                |                   l
-  ;   p   - |  0    -    +   |   0    -    +     o
-  ;   p     |                |                   w
-  ;   e     ---------------------------------    e
-  ;   r     |                |                   r
-  ;       0 |  0    0    0   |   0    0    0
-  ;   y     |                |                   x
-  ;       + |  0    +    -   |   0    +    -
+  ;       + |  0    +    -   |   -    +   0
+  ;   u     |                |                l
+  ;   p   - |  0    -    +   |   +    -   0   o
+  ;   p     |                |                w
+  ;   e     -------------------------------   e
+  ;   r     |                |                r
+  ;       - |  0    -    +   |   +    -   0
+  ;   y     |                |                y
+  ;       + |  0    +    -   |   -    +   0
   ;         |                |
-  ;       - |  0    -    +   |   0    -    +
+  ;       0 |  0    0    0   |   0    0   0
   ;
   ;                        lower x
+  ;
   ;
   (let ((xu (upper-bound x))
         (xl (lower-bound x))
         (yu (upper-bound y))
         (yl (lower-bound y)))
-    (cond ((< xu xl yu yl))))
+    (cond ((= 0 xu xl yu yl) (make-interval 0 0))
+          ((and (< 0 x)))))
   (let ((p1 (* (lower-bound x) (lower-bound y)))
         (p2 (* (lower-bound x) (upper-bound y)))
         (p3 (* (upper-bound x) (lower-bound y)))
