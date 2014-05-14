@@ -375,7 +375,7 @@
 (assert (= 0 ((zero f) 0))
         "`zero` nullifies the effect of #f.")
 
-; The effect of procedure #add-1 on `one`, and `two` was the composition of `f` 
+; The effect of procedure #add-1 on `one`, and `two` was the composition of `f`
 ; onto `one` and `f` onto `two`.
 ;
 ; one   : (λ (f) (λ (x) (f x)))
@@ -599,6 +599,29 @@
 ; {{{3 Solution
 ;
 (define (mul-interval x y)
+  ; The end points of an interval can be +, - or 0.  Thus there are 9 possible
+  ; combinations of endpoints per interval.
+  ;
+  ;                        upper x
+  ;
+  ;            0    +    -       0    +    -
+  ;         |--------------- | --------------
+  ;       0 |  0    0    0   |   0    0    0
+  ;         |                |
+  ;       + |  0    +    -   |   0    +    -
+  ;   u     |                |                   l
+  ;   p   - |  0    -    +   |   0    -    +     o
+  ;   p     |                |                   w
+  ;   e     ---------------------------------    e
+  ;   r     |                |                   r
+  ;       0 |  0    0    0   |   0    0    0
+  ;   y     |                |                   x
+  ;       + |  0    +    -   |   0    +    -
+  ;         |                |
+  ;       - |  0    -    +   |   0    -    +
+  ;
+  ;                        lower x
+  ;
   (let ((xu (upper-bound x))
         (xl (lower-bound x))
         (yu (upper-bound y))
