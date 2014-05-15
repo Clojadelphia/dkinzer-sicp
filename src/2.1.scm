@@ -589,7 +589,7 @@
                               (make-interval 0 1)))
               "Error is thrown when division by zero is attempted.")
 
-; {{{2 TODO Exercise 2.11:
+; {{{2 Exercise 2.11:
 ; {{{3 Problem
 ;      In passing, Ben also cryptically comments: "By testing the signs of the
 ;      endpoints of the intervals, it is possible to break #mul-interval into
@@ -605,7 +605,6 @@
         (yl (lower-bound y)))
 
     (cond ((and (>= xl 0) (>= xu 0) (>= yl 0) (>= yu 0))
-           ; zero.
            (make-interval (* xl yl) (* xu yu)))
 
           ((and (>= xl 0) (>= xu 0) (< yl 0) (>= yu 0))
