@@ -599,65 +599,129 @@
 ; {{{3 Solution
 ;
 (define (mul-interval x y)
-  ; The end points of an interval can be +, - or 0.  Thus there are 9 possible
-  ; combinations of endpoints per interval.
-  ;
-  ;                        upper x
-  ;
-  ;            0    +    -       -    +   0
-  ;         |--------------- | --------------
-  ;       0 |  0    0    0   |   0    0   0
-  ;         |                |
-  ;       + |  0    +    -   |   -    +   0
-  ;   u     |                |                l
-  ;   p   - |  0    -    +   |   +    -   0   o
-  ;   p     |                |                w
-  ;   e     -------------------------------   e
-  ;   r     |                |                r
-  ;       - |  0    -    +   |   +    -   0
-  ;   y     |                |                y
-  ;       + |  0    +    -   |   -    +   0
-  ;         |                |
-  ;       0 |  0    0    0   |   0    0   0
-  ;
-  ;                        lower x
-  ;
-  ;
   (let ((xu (upper-bound x))
         (xl (lower-bound x))
         (yu (upper-bound y))
         (yl (lower-bound y)))
 
-    (cond (((and (> xl 0) (> xu 0) (> yl 0) (> yu 0))
-            (make-interval (* xl yl) (* xu yu)))
+    (cond ((and (>= xl 0) (>= xu 0) (>= yl 0) (>= yu 0))
+           ; zero.
+           (make-interval (* xl yl) (* xu yu)))
 
-           ((and (> xl 0) (> xu 0) (<= yl 0) (> yu 0))
-            (make-interval (* xu yl) (* xu yu)))
+          ((and (>= xl 0) (>= xu 0) (< yl 0) (>= yu 0))
+           (make-interval (* xu yl) (* xu yu)))
 
-           ((and (<= xl 0) (> xu 0) (> yl 0) (> yu 0))
-            (make-interval (* xl yu) (* xu yu)))
+          ((and (< xl 0) (>= xu 0) (>= yl 0) (>= yu 0))
+           (make-interval (* xl yu) (* xu yu)))
 
-           ((and (> xl 0) (> xu 0) (<= yl 0) (<= yu 0))
-            (make-interval (* xu yl) (* xl yu)))
+          ((and (>= xl 0) (>= xu 0) (< yl 0) (< yu 0))
+           (make-interval (* xu yl) (* xl yu)))
 
-           ((and (<= xl 0) (<= xu 0) (> yl 0) (> yu 0))
-            (make-interval (* xl yu) (* xu yl)))
+          ((and (< xl 0) (< xu 0) (>= yl 0) (>= yu 0))
+           (make-interval (* xl yu) (* xu yl)))
 
-           ((and (<= xl 0) (> xu 0) (<= yl 0) (<= yu 0))
-            (make-interval (* xu yl) (* xl yl)))
+          ((and (< xl 0) (>= xu 0) (< yl 0) (< yu 0))
+           (make-interval (* xu yl) (* xl yl)))
 
-           ((and (<= xl 0) (<= xu 0) (<= yl 0) (> yu 0))
-            (make-interval (* xl yu) (* xu yu)))
+          ((and (< xl 0) (< xu 0) (< yl 0) (>= yu 0))
+           (make-interval (* xl yu) (* xl yl)))
 
-           ((and (<= xl 0) (<= xu 0) (<= yl 0) (<= yu 0))
-            (make-interval (* xu yu) (* xl yl)))
+          ((and (< xl 0) (< xu 0) (< yl 0) (< yu 0))
+           (make-interval (* xu yu) (* xl yl)))
 
-           (else (let ((p1 (* xl yl))
-                       (p2 (* xl yu))
-                       (p3 (* xu yl))
-                       (p4 (* xu yu)))
-                   (make-interval (min p1 p2 p3 p4)
-                                  (max p1 p2 p3 p4))))))))
+          ((and (< xl 0) (>= xu 0) (< yl 0) (>= yu 0))
+           ; If both `xl` and `yl` are very negative, then multiplying them
+           ; would make the largest value. So that needs to be accounted for.
+           (let ((p1 (* xl yl))
+                 (p2 (* xl yu))
+                 (p3 (* xu yl))
+                 (p4 (* xu yu)))
+             (make-interval (min p1 p2 p3 p4)
+                            (max p1 p2 p3 p4)))))))
+
+(assert (equal? (make-interval 0 0)
+                (mul-interval
+                  (make-interval 0 0)
+                  (make-interval 0 0)))
+        "#make-interval works as expected (0 . 0), (0 . 0)")
+
+(assert (equal? (make-interval 3 8)
+                (mul-interval
+                  (make-interval 1 2)
+                  (make-interval 3 4)))
+        "#make-interval works as expected (1 . 2), (3 . 4)")
+
+(assert (equal? (make-interval -2 4)
+                (mul-interval
+                  (make-interval 1 2)
+                  (make-interval -1 2)))
+        "#make-interval works as expected (1 . 2), (-1 . 2)")
+
+(assert (equal? (make-interval -2 4)
+                (mul-interval
+                  (make-interval -1 2)
+                  (make-interval 1 2)))
+        "#make-interval works as expected (1 . 2), (-1 . 2)")
+
+(assert (equal? (make-interval -2 4)
+                (mul-interval
+                  (make-interval -1 2)
+                  (make-interval 1 2)))
+        "#make-interval works as expected (-1 . 2), (1 . 2)")
+
+(assert (equal? (make-interval -4 -1)
+                (mul-interval
+                  (make-interval -2 -1)
+                  (make-interval 1 2)))
+        "#make-interval works as expected (1 . 2), (-1 . -2)")
+
+(assert (equal? (make-interval -4 -1)
+                (mul-interval
+                  (make-interval 1 2)
+                  (make-interval -2 -1)))
+        "#make-interval works as expected (1 . 2), (-1 . -2)")
+
+(assert (equal? (make-interval -4 2)
+                (mul-interval
+                  (make-interval -1 2)
+                  (make-interval -2 1)))
+        "#make-interval works as expected (-1 . 2), (-2 . 1)")
+
+(assert (equal? (make-interval -10 20)
+                (mul-interval
+                  (make-interval -10 2)
+                  (make-interval -2 1)))
+        "#make-interval works as expected (-10 . 2), (-2 . 1)")
+
+(assert (equal? (make-interval -40 20)
+                (mul-interval
+                  (make-interval -10 20)
+                  (make-interval -2 1)))
+        "#make-interval works as expected (-10 . 20), (-2 . 1)")
+
+(assert (equal? (make-interval -400 200)
+                (mul-interval
+                  (make-interval -10 20)
+                  (make-interval -20 1)))
+        "#make-interval works as expected (-10 . 20), (-20 . 1)")
+
+(assert (equal? (make-interval -40 200)
+                (mul-interval
+                  (make-interval -10 2)
+                  (make-interval -20 -1)))
+        "#make-interval works as expected (-10 . 2), (-20 . -1)")
+
+(assert (equal? (make-interval -10 200)
+                (mul-interval
+                  (make-interval -10 -2)
+                  (make-interval -20 1)))
+        "#make-interval works as expected (-10 . -2), (-20 . 1)")
+
+(assert (equal? (make-interval 2 200)
+                (mul-interval
+                  (make-interval -10 -2)
+                  (make-interval -20 -1)))
+        "#make-interval works as expected (-10 . -2), (-20 . -1)")
 
 ; {{{2 TODO Exercise 2.12:
 ; {{{3 Problem
