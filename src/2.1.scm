@@ -729,15 +729,36 @@
                   (make-interval -20 -1)))
         "#make-interval works as expected (-10 . -2), (-20 . -1)")
 
-; {{{2 TODO Exercise 2.12:
+; {{{2 Exercise 2.12:
 ; {{{3 Problem
 ;      Define a constructor #make-center-percent that takes a center and
 ;      a percentage tolerance and produces the desired interval.  You must also
 ;      define a selector #percent that produces the percentage tolerance for
 ;      a given interval.  The #center selector is the same as the one shown
 ;      above.
-; {{{3 Solution
 ;
+; {{{3 Solution
+
+; The #make-center-percent procedure is close enough in functionality to
+; #make-center-width that it makes sense write #make-center-percent in terms of
+; #make-center-width.
+(define (make-center-percent c p)
+  (let ((w (* (/ p 100.0) c)))
+    (make-center-width c w)))
+
+(define (percent i)
+  (let ((w (width i)))
+    (* 100.0 (/ w (center i)))))
+
+(assert (= 1.5 (center (make-interval 1 2)))
+        "The #center procedure works as expected for (1 . 2).")
+
+(assert (= 33.33333333333333 (percent (make-interval 1 2)))
+        "The #percent procedure works as expected (1 . 2)")
+
+(assert (equal? (make-interval 1. 2.) (make-center-percent 1.5 33.33333333333333))
+        "The #make-center-percent procedure works as expected when passed 1.5, 33.33%.")
+
 ; {{{2 TODO Exercise 2.13:
 ; {{{3 Problem
 ;      Show that under the assumption of small percentage tolerances there is
