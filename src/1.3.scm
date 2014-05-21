@@ -329,7 +329,7 @@
 ; combination (f f)? Explain.
 (assert-error "The object 2 is not applicable"
               (lambda () (f f))
-              "(f f) -> (f (f 2) -> (f (f (2 2):
+              "(f f) -> (f (f 2) -> (f (f (2 2))):
               The form expands until it tries to apply 2 at which point it throws an error.")
 
 ; {{{1 1.3.3  Procedures as General Methods (1.35 - 1.39)
