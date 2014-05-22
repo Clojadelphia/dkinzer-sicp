@@ -759,7 +759,7 @@
 (assert (equal? (make-interval 1. 2.) (make-center-percent 1.5 33.33333333333333))
         "The #make-center-percent procedure works as expected when passed 1.5, 33.33%.")
 
-; {{{2 TODO Exercise 2.13:
+; {{{2 Exercise 2.13:
 ; {{{3 Problem
 ;      Show that under the assumption of small percentage tolerances there is
 ;      a simple formula for the approximate percentage tolerance of the product
@@ -767,6 +767,20 @@
 ;      simplify the problem by assuming that all numbers are positive.
 ;
 ; {{{3 Solution
+;
+; If `x ± a` is a line segment,
+;
+; then
+;
+; (x ± a)^2 = x^2 ± (2a + a^2)
+;
+; Thus for very small a
+;
+; (x ± a)^2 ≈ x^2 ± 2xa
+;
+; Similarly, if there is another line segment, (y ± b)
+;
+; Then (x ± a) * (y ± b) ≈ xy ± (xb + ya)
 ;
 ;
 ; {{{2 TODO Exercise 2.14:
