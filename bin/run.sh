@@ -38,7 +38,7 @@ do
   echo ""
 
   declare -a RESULTS
-  RESULTS=$(echo '' | scheme --band runtime.com --quiet --load './config.scm' $file)
+  RESULTS=$(echo '' | scheme --band runtime.com --quiet --load 'config.scm' $file)
 
   OIFS=$IFS
   IFS=$'\n'
