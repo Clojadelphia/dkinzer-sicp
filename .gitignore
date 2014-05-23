@@ -10,3 +10,4 @@ lib/ch*
 *.c
 *.o
 *.bci
+*.com
