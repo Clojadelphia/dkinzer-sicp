@@ -503,6 +503,7 @@ exact-rational?
 exact?
 except-last-pair
 except-last-pair!
+exit
 exp
 expt
 extend-top-level-environment
