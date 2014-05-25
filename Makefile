@@ -24,7 +24,7 @@ kill:
 	bash bin/kill.sh
 
 repl:
-	rlwrap -b '{}[],=&^\n";|' -r -c -f lib/mit_scheme_bindings.txt scheme
+	rlwrap -b '(){}[],=&^\n";|' -r -c -f lib/mit_scheme_bindings.txt scheme
 
 %:
 	bash bin/run.sh $*
