@@ -1,4 +1,4 @@
-.PHONY: default test selftest compile-scheme build run clean kill
+.PHONY: default test selftest compile-scheme build run clean kill repl
 
 default: test
 
@@ -22,6 +22,9 @@ clean:
 
 kill:
 	bash bin/kill.sh
+
+repl:
+	rlwrap -r -c -f lib/mit_scheme_bindings.txt scheme
 
 %:
 	bash bin/run.sh $*
