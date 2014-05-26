@@ -12,13 +12,10 @@ pushd ./$NAME/src
 if command -v mit-scheme;
 then
   ./Setup.sh
-  ./configure
-  make compile-microcode
-else
-  ./configure
-  make compile-microcode
 fi
 
+./configure
+make compile-microcode
 sudo make install
 
 popd
