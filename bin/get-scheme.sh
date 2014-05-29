@@ -2,6 +2,11 @@
 
 VERSION='9.2'
 ARCH=$(uname -m | tr '_' '-') 
+
+if [ "$ARCH" = "i686" ]; then
+  ARCH="i386"
+fi
+
 NAME="mit-scheme-$VERSION"
 URL="http://ftp.gnu.org/gnu/mit-scheme/stable.pkg/$VERSION/$NAME-$ARCH.tar.gz"
 
