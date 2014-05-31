@@ -780,9 +780,40 @@
 ;
 ; Similarly, if there is another line segment, (y ± b)
 ;
-; Then (x ± a) * (y ± b) ≈ xy ± (xb + ya)
+; Then (x ± a) * (y ± b) ≈ xy ± (ay + bx)
 ;
+; let a, b be defined in terms of percentages of x, y respectively.
+; Or, a = `ax, b = `by
 ;
+; then ay + bx = `axy + `byx
+; and,
+; xy ± (ay + bx) = xy ± (`a + `b)
+;
+(define (mul-interval-2 x y)
+  (let ((c (* (center x) (center y)))
+        (p (+ (percent x) (percent y))))
+    (make-center-percent c p)))
+
+(let* ((a (make-interval 99.9 100.1))
+       (b (make-interval 49.9 50.1))
+       (m1 (mul-interval-2 a b))
+       (m2 (mul-interval a b))
+       (c1 (center m1))
+       (c2 (center m2))
+       (p1 (percent m1))
+       (p2 (percent m2))
+       (good-enough? (lambda (x y)
+                       (< (/ (abs (- x y)) x) .00001))))
+
+  (assert (good-enough? c1 c2)
+          "`mul-interval-2` returns a good-enough center in comparison to
+          mul-interval ")
+
+  (assert (good-enough? p1 p2)
+          "`mul-interval-2` returns a good-enough percent in comparison to
+          mul-interval "))
+
+
 ; {{{2 TODO Exercise 2.14:
 ; {{{3 Problem
 ;      After considerable work, Alyssa P. Hacker delivers her finished system.
