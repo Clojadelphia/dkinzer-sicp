@@ -72,11 +72,11 @@
 
 (define (pi-div-4 x)
   (define (term y)
-    (let ((even-term (* 2 y))
-          (odd-term (+ 1 (* 2 y))))
-      (let ((first-factor (/ even-term odd-term))
-            (second-factor (/ (+ 2 even-term) odd-term)))
-       (*  first-factor second-factor))))
+    (let* ((even-term (* 2 y))
+           (odd-term (+ 1 (* 2 y)))
+           (first-factor (/ even-term odd-term))
+           (second-factor (/ (+ 2 even-term) odd-term)))
+      (*  first-factor second-factor)))
   (product term 1.0 inc x))
 
 (define PI (* 4 (pi-div-4 100)))
@@ -248,9 +248,9 @@
     (if (= 0 (modulo a b))
       #t
       #f))
-  (let ((primes (filter prime? (range a))))
-    (let ((f (filter factor? primes)))
-      f)))
+  (let* ((primes (filter prime? (range a)))
+         (f (filter factor? primes)))
+    f))
 
 (assert (equal? '() (factors -1))
         "factor works as expected for x less than 0.")
