@@ -459,27 +459,25 @@
 (define (p x)
   (- (* 3 x)  (* 4 (cube x))))
 
-(define (sine angle #!optional n)
-  (define display-steps
-    (lambda()
-      (display (string "TEST: Number of times sine was called: " n))
-      (newline)
-      angle))
-  (if (not (> (abs angle) 0.1))
-    ((lambda ()
-       (if (default-object? n)
-         angle
-         (display-steps))))
-    (if (default-object? n)
-      (p (sine (/ angle 3.0)))
-      (p (sine (/ angle 3.0) (inc n))))))
+(define (sine angle)
+
+  (define (display-steps n result)
+      (term-display (string "TEST: Number of times sine was called for " angle ": " n))
+      result)
+
+  (define (sine-recur angle n)
+    (if (not (> (abs angle) 0.1))
+      (display-steps n angle)
+      (p (sine-recur (/ angle 3.0) (inc n)))))
+
+  (sine-recur angle 0))
 
 
 ; {{{3 Part a.
 ; How many times is the procedure `p` applied when `(sine 12.15)` is evaluated?
 
 ; {{{3 Answer a:
-(sine 12.15 0); 5
+(sine 12.15); 5
 
 ; {{{3 Part  b.
 ; What is the order of growth in space and number of steps (as a function of
@@ -487,25 +485,26 @@
 ; evaluated?
 ;
 ; {{{3 Answer b:
-(sine    0 0) ;   0   -> 0
-(sine    1 0) ;  10^0 -> 3
-(sine    2 0) ;  10^0 -> 3
-(sine    3 0) ;  10^0 -> 4
-(sine    4 0) ;  10^0 -> 4
-(sine    5 0) ;  10^0 -> 4
-(sine    6 0) ;  10^0 -> 4
-(sine    7 0) ;  10^0 -> 4
-(sine    8 0) ;  10^0 -> 4
-(sine    9 0) ;  10^0 -> 5
-(sine   10 0) ;  10^1 -> 5
-(sine  100 0) ;  10^2 -> 7
-(sine 1000 0) ;  10^3 -> 9
-(sine (pow 10  5) 0) ; 13
-(sine (pow 10  10) 0) ; 24
-(sine (pow 10  15) 0) ; 34
-(sine (pow 10  20) 0) ; 45
-(sine (pow 10  25) 0) ; 55
-(sine (pow 10  50) 0) ; 107
+(sine 0) ;   0   -> 0
+(sine 1) ;  10^0 -> 3
+(sine 2) ;  10^0 -> 3
+(sine 3) ;  10^0 -> 4
+(sine 4) ;  10^0 -> 4
+(sine 5) ;  10^0 -> 4
+(sine 6) ;  10^0 -> 4
+(sine 7) ;  10^0 -> 4
+(sine 8) ;  10^0 -> 4
+(sine 9) ;  10^0 -> 5
+(sine 10) ;  10^1 -> 5
+(sine 100) ;  10^2 -> 7
+(sine 1000) ;  10^3 -> 9
+(sine (pow 10  5)) ; 13
+(sine (pow 10  10)) ; 24
+(sine (pow 10  15)) ; 34
+(sine (pow 10  20)) ; 45
+(sine (pow 10  25)) ; 55
+(sine (pow 10  50)) ; 107
 
-; Empirically, we see that the number of steps for `sine n` is about
-; `2log(n) + c`.  Thus the order of growth for space and steps is log(n).
+; Empirically, we see that the number of steps for procedure `sine n`, above,
+; is about `2log(n) + c`.  Thus the order of growth for space and steps is
+; log(n).
