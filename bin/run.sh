@@ -27,7 +27,7 @@ fi
 
 # Run all src files or just one.
 FILE='*'
-if [[ $@ =~ [1-9]+\.[0-9]+ ]];
+if [[ $@ =~ [0-9]+\.[0-9]+ ]];
 then
   FILE=$@
 fi

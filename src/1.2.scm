@@ -315,21 +315,28 @@
 ; to be changed increases?
 
 (define (count-change amount)
-  (cc amount 5))
-(define (cc amount kinds-of-coins)
+  (cc amount 5 0 amount))
+
+(define (cc amount kinds-of-coins #!optional n orig-amount)
+  (define n+ (inc n))
+
+  (term-display (string "TEST - Orig-Amount: " orig-amount ", Amount: "  amount ", Calls: " n+))
+
   (cond ((= amount 0) 1)
         ((or (< amount 0)  (= kinds-of-coins 0)) 0)
         (else (+ (cc amount
-                     (- kinds-of-coins 1))
+                     (- kinds-of-coins 1) n+ orig-amount)
                  (cc (- amount
                         (first-denomination kinds-of-coins))
-                     kinds-of-coins)))))
+                     kinds-of-coins n+ orig-amount)))))
+
 (define (first-denomination kinds-of-coins)
   (cond ((= kinds-of-coins 1) 1)
         ((= kinds-of-coins 2) 5)
         ((= kinds-of-coins 3) 10)
         ((= kinds-of-coins 4) 25)
         ((= kinds-of-coins 5) 50)))
+
 
 ; {{{3 Solution
 (assert (= 4 (count-change 11))
@@ -440,6 +447,26 @@
                      11,0 -> 0
         ")
 
+
+;                      Called   Branches
+;                      ======   ======== 
+;(count-change 0) ;    1        1
+;(count-change 1) ;    11       6
+;(count-change 2) ;    13       7
+; (count-change 3) ;    15       8
+;(count-change 4) ;    17       9
+;(count-change 5) ;    19       10
+;(count-change 6) ;    21       11
+;(count-change 7) ;    21       12
+;(count-change 8) ;    21       13
+;(count-change 9) ;    21       14
+;(count-change 10) ;   21       15
+;(count-change 11) ;   21       16
+;(count-change 12) ;   21       17
+
+;
+;
+;(count-change 6) ;  17 ->25       11
 
 ; {{{2 Exercise 1.15:
 
