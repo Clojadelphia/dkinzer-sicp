@@ -33,40 +33,54 @@
 
 ;                    Solution      Called   Branches
 ;                    ========      ======   ========  
-; (count-change 0) ;   1              1       0
+; (count-change 0) ;   1  0            1  10      0   c(0) = 1
 ;
-; (count-change 1) ;   1             11       5
-; (count-change 2) ;   1             13       6
+; (count-change 1) ;   1             11       5  
+; (count-change 2) ;   1             13       6   c(n + 1) = c(n) + 2
 ; (count-change 3) ;   1             15       7
-; (count-change 4) ;   1             17       8
-; (count-change 5) ;   2             19       9
+; (count-change 4) ;   1  1           17       8
+; (count-change 5) ;   2             19,  6     9
 ;
-; (count-change 6) ;   2             25       10  
-; (count-change 7) ;   2             29       11
+; (count-change 6) ;   2             25       10 
+; (count-change 7) ;   2             29       11 c(n + 1) = c(n) + 4
 ; (count-change 8) ;   2             33       12
-; (count-change 9) ;   2             37       13
-; (count-change 10) ;  4             41       14
+; (count-change 9) ;   2  2           37       13
+; (count-change 10) ;  4             41   14    14
 ;
-; (count-change 11) ;  4             55       15
-; (count-change 12) ;  4             63       16
+; (count-change 11) ;  4             55       15 
+; (count-change 12) ;  4             63       16 c(n + 1) = c(n) + 8
 ; (count-change 13) ;  4             71       17
-; (count-change 14) ;  4             79       18
-; (count-change 15) ;  6             87       19
+; (count-change 14) ;  4  2           79       18
+; (count-change 15) ;  6             87    16   19
 ;
 ; (count-change 16) ;  6             103      20
-; (count-change 17) ;  6             115      21
-; (count-change 18) ;  6             127      22
-; (count-change 19) ;  6             139      23
-; (count-change 20) ;  9             151      24
+; (count-change 17) ;  6             115      21 c(n + 1) = c(n) + 12
+; (count-change 18) ;  6             127      22 
+; (count-change 19) ;  6  3           139      23
+; (count-change 20) ;  9             151  26    24
 ;
 ; (count-change 21) ;  9             177      25
+; (count-change 22) ;  9             195      26 c(n + 1) = c(n) + 2s
+; (count-change 23) ;  9             213      27
+; (count-change 24) ;  9  4           231      28
+; (count-change 25) ;  13            249  38    29
 ;
-; (count-change 24) ;  9             231      28
-; (count-change 25) ;  13            249      29
-; (count-change 30) ;  18            391      34
-; 
-; (count-change 35) ;  24            583      39
-; (count-change 40) ;  31            
+; (count-change 26) ;  13            287      30
+; (count-change 27) ;  13            313      31 c(n + 1) = c(n) + 26
+; (count-change 28) ;  13            339      32
+; (count-change 29) ;  13 5           365      33
+; (count-change 30) ;  18            391   48   34
+;
+; (count-change 31) ;  18            439      35
+; (count-change 32) ;  18            475      36 c(n + 1) = c(n) + 36
+; (count-change 33) ;  18            511      37
+; (count-change 34) ;  18 6           548      38
+; (count-change 35) ;  24            583  62    39
+;
+; (count-change 36) ;  24            645      40
+; (count-change 37) ;  24 7           693      41 c(n+ 1) = c(n) + 48
+;
+; (count-change 40) ;  31 8           
 ; (count-change 45) ;  39            
 ; (count-change 50) ;  50            
 ; (count-change 55) ;  62            
@@ -78,4 +92,8 @@
 ; (count-change 85) ;  187           
 ; (count-change 90) ;  218           
 ; (count-change 95) ;  252           
-; (count-change 100);  292          15499     100 
+;
+;
+; (count-change 96);  252           13483     100
+; (count-change 97);  252           13987 (+ 13483 (* 2 252)) 101
+
