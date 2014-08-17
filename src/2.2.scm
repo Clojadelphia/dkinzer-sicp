@@ -17,7 +17,7 @@
   (if (null? (cdr a-list))
     (car a-list)
     (last-pair (cdr a-list))))
-(assert (= 34 (last-pair (list 23 72 149 34))) "Last pair of list is 34.")
+(assert (= 34 (last-pair (list 23 72 149 34))) "Last pair of the list is 34.")
 
 ; {{{2 Exercise 2.18:
 ; {{{3 Problem
@@ -35,7 +35,7 @@
 
 (assert (equal? (reverse (list 1 4 9 16 25))
                 (list 25 16 9 4 1))
-        "The reverse procedure works reverses a list.")
+        "The reverse procedure reverses a list.")
 
 ; {{{2 Exercise 2.19:
 ; {{{3 Problem
