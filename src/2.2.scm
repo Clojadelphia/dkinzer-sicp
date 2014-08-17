@@ -182,6 +182,7 @@
 
 (define (square-list items)
   (if (null? items)
+    nil
     (cons (square (car items)) (square-list (cdr items)))))
 
 (assert (equal? (list 1 4 9 16) (square-list (list 1 2 3 4)))
