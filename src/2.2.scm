@@ -178,6 +178,21 @@
 ;             (map <??> <??>))
 ;
 ; {{{3 Solution
+(define nil '())
+
+(define (square-list items)
+  (if (null? items)
+    (cons (square (car items)) (square-list (cdr items)))))
+
+(assert (equal? (list 1 4 9 16) (square-list (list 1 2 3 4)))
+        "The first #square-list procedure works as expected.")
+
+(define (square-list items)
+  (map square (list 1 2 3 4)))
+
+(assert (equal? (list 1 4 9 16) (square-list (list 1 2 3 4)))
+        "The second #square-list procedure works as expected.")
+
 ; {{{2 Exercise 2.22:
 ; {{{3 Problem
 ;      Louis Reasoner tries to rewrite the first
