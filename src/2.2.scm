@@ -227,6 +227,34 @@
 ;      This doesn't work either.  Explain.
 ;
 ; {{{3 Solution
+;
+(define (square-list items)
+  (define (iter things answer)
+    (if (null? things)
+      answer
+      (iter (cdr things)
+            (cons (square (car things))
+                  answer))))
+  (iter items nil))
+(assert (equal? (reverse (list 1 4 9 16)) (square-list (list 1 2 3 4)))
+       "The iterative square-list returns a reversed ordered answer:
+        The reason for this order is that the first values worked on will be
+        the last values of the empty final list.")
+
+(define (square-list items)
+  (define (iter things answer)
+    (if (null? things)
+      answer
+      (iter (cdr things)
+            (cons answer
+                  (square (car things))))))
+  (iter items nil))
+
+(assert (not (equal? (list 1 4 9 16)
+                     (square-list (list 1 2 3 4)))) 
+       "The second iteratie square-list procedure does not work either becuase it
+        constructs a list of list not a list of numbers.")
+
 ; {{{2 Exercise 2.23:
 ; {{{3 Problem
 ;      The procedure `for-each' is similar to `map'.  It
