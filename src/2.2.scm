@@ -276,7 +276,14 @@
 ;      implementation of `for-each'.
 ;
 ; {{{3 Solution
-;
+(define (for-each f a)
+  (if (null? a)
+    #t)
+  (lambda ()
+    (apply f (car a))
+    (for-each f (cdr a))))
+(assert (for-each (lambda (x) x) (list 1 2 3))
+        "#the-foreach procedure works a expected")
 ; {{{1 2.2.2 Hierarchical Structures
 ;
 ; {{{2 Exercise 2.24:
