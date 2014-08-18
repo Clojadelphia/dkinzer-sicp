@@ -343,6 +343,22 @@
 ;           (1 (2 (3 (4 (5 (6 7))))))
 ;
 ; {{{3 Solution
+
+(define (pick-7 a)
+  (cadr (caddr a)))
+
+(assert (equal? 7 (pick-7 (list 1 3 (list 5 7) 9))) "Lucky seven!")
+
+(define (pick-7 a)
+  (caar a))
+
+(assert (equal? 7 (pick-7 (list (list 7)))) "Lucky seven!")
+
+(define (pick-7 a)
+  (cadadr (cadadr (cadadr a))))
+
+(assert (equal? 7 (pick-7 (list 1 (list 2 (list 3 (list 4 (list 5 (list 6 7)))))))) "Lucky seven!")
+
 ; {{{2 Exercise 2.26:
 ; {{{3 Problem
 ;      Suppose we define `x' and `y' to be two lists:
