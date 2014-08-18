@@ -292,8 +292,45 @@
 ;      2 (list 3 4)))'.  Give the result printed by the interpreter, the
 ;      corresponding box-and-pointer structure, and the interpretation of
 ;      this as a tree (as in *Note Figure 2-6::).
-;
+(list 1 (list 2 (list 3 4)))
+
 ; {{{3 Solution
+;
+; Box and pointer:
+;
+;                               (2 (3 4))
+;                                   |
+;                                   v
+;                   _______      _______
+; (1 (2 (3 4)))--> | * | *-|--> | * | / |
+;                   -|-----      -|-----       (3 4)
+;                    |            |              |
+;                    v            v              v
+;                    1           _______      _______
+;                               | * | *-|--> | * | / |
+;                                -|-----      -|-----
+;                                 |            |
+;                                 v            v
+;                                 2           _______      _______
+;                                            | * | *-|--> | * | / |
+;                                             -|-----      -|-----
+;                                              |            |
+;                                              V            v
+;                                              3            4
+;
+ Tree:
+;
+;                           (1 (2 (3 4)))
+;                                 *
+;                                / \
+;                               /   \
+;                              1     * (2 (3 4))
+;                                   / \
+;                                  /   \
+;                                 2     * (3 4)
+;                                      / \
+;                                     /   \
+;                                    3     4
 ; {{{2 Exercise 2.25:
 ; {{{3 Problem
 ;      Give combinations of `car's and `cdr's that will

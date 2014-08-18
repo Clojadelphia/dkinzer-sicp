@@ -453,7 +453,7 @@
 ;(count-change 0) ;    1        1
 ;(count-change 1) ;    11       6
 ;(count-change 2) ;    13       7
-; (count-change 3) ;    15       8
+;(count-change 3) ;    15       8
 ;(count-change 4) ;    17       9
 ;(count-change 5) ;    19       10
 ;(count-change 6) ;    21       11
