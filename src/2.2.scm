@@ -406,6 +406,18 @@
 ;           ((4 3) (2 1))
 ;
 ; {{{3 Solution
+(define (deep-reverse a-list)
+  (if (null? a-list)
+    a-list
+    (append (deep-reverse (cdr a-list))
+            (if (pair? (car a-list))
+              (list (deep-reverse (car a-list)) )
+              (list (car a-list))))))
+
+(define x (list (list 1 2) (list 3 4)))
+(assert (equal? (list (list 4 3) (list 2 1))
+                (deep-reverse x))
+        "#deep-reverse works as expected.")
 ; {{{2 Exercise 2.28:
 ; {{{3 Problem
 ;      Write a procedure `fringe' that takes as argument
