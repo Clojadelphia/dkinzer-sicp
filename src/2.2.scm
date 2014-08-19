@@ -434,6 +434,22 @@
 ;           (1 2 3 4 1 2 3 4)
 ;
 ; {{{3 Solution
+(define (fringe a-list)
+  (if (null? a-list)
+    a-list
+    (append (if (pair? (car a-list))
+              (fringe (car a-list))
+              (list (car a-list)))
+            (fringe (cdr a-list)))))
+
+(define x (list (list 1 2) (list 3 4 (list 5 6))))
+(assert (equal? (list 1 2 3 4 5 6) (fringe x))
+        "(fringe ((1 2) (3 4 (5 6)) equals (1 2 3 4 5 6)")
+
+(assert (equal? (list 1 2 3 4 5 6 1 2 3 4 5 6)
+                (fringe (list x x)))
+        "(fringe (list x x)) equals (1 2 3 4 5 6 1 2 3 4 5 6)")
+
 ; {{{2 Exercise 2.29:
 ; {{{3 Problem
 ;      A binary mobile consists of two branches, a left
