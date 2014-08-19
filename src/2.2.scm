@@ -251,7 +251,7 @@
   (iter items nil))
 
 (assert (not (equal? (list 1 4 9 16)
-                     (square-list (list 1 2 3 4)))) 
+                     (square-list (list 1 2 3 4))))
        "The second iteratie square-list procedure does not work either becuase it
         constructs a list of list not a list of numbers.")
 
@@ -640,7 +640,7 @@
   (map (lambda (sub-tree)
          (if (pair? sub-tree)
            (square-tree sub-tree)
-           (* sub-tree sub-tree)))
+           (square sub-tree)))
        a-tree))
 
 (define x (list 1 (list 2 (list 3 4) 5) (list 6 7)))
@@ -650,12 +650,27 @@
 ; {{{2 Exercise 2.31:
 ; {{{3 Problem
 ;      Abstract your answer to *Note Exercise 2-30:: to
-;      produce a procedure `tree-map' with the property that
-;      `square-tree' could be defined as
+;      produce a procedure `tree-map` with the property that
+;      `square-tree` could be defined as
 ;
 ;           (define (square-tree tree) (tree-map square tree))
 ;
 ; {{{3 Solution
+(define (tree-map f a-tree)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+           (tree-map f sub-tree)
+           (f sub-tree)))
+       a-tree))
+
+(define (square-tree a-tree)
+  (tree-map square a-tree))
+
+(define x (list 1 (list 2 (list 3 4) 5) (list 6 7)))
+(define y (list 1 (list 4 (list 9 16) 25) (list 36 49)))
+(assert (equal? y (square-tree x))
+        "The refactored #tree-map works as expected.")
+
 ; {{{2 Exercise 2.32:
 ; {{{3 Problem
 ;      We can represent a set as a list of distinct
