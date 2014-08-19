@@ -458,15 +458,15 @@
 ;      We can represent a binary mobile using compound data by
 ;      constructing it from two branches (for example, using `list'):
 ;
-;           (define (make-mobile left right)
-;             (list left right))
+           (define (make-mobile left right)
+             (list left right))
 ;
 ;      A branch is constructed from a `length' (which must be a number)
 ;      together with a `structure', which may be either a number
 ;      (representing a simple weight) or another mobile:
 ;
-;           (define (make-branch length structure)
-;             (list length structure))
+           (define (make-branch length structure)
+             (list length structure))
 ;
 ;        a. Write the corresponding selectors `left-branch' and
 ;           `right-branch', which return the branches of a mobile, and
@@ -497,6 +497,129 @@
 ;           the new representation?
 ;
 ; {{{3 Solution
+(define (left-branch mobile)
+  (car mobile))
+
+(define v (make-branch 2 2))
+(define w (make-branch 1 1))
+(define x (make-branch 1 2))
+
+(define a (make-mobile w x))
+
+(define y (make-branch 1 a))
+(define z (make-branch 1 4))
+
+(define b (make-mobile y z))
+(define c (make-mobile v z))
+
+
+(assert (equal? w (left-branch a))
+        "(left-branch a) equals w")
+
+(define (right-branch mobile)
+  (cadr mobile))
+
+(assert (equal? x (right-branch a))
+        "(right-branch a) equals x")
+
+(define (total-sum a-list)
+  (if (null? a-list)
+    0
+    (+ (car a-list) (total-sum (cdr a-list)))))
+
+(assert (= 10 (total-sum (list 1 2 3 4)))
+        "(total-sum (1 2 3 4)) equals 10.")
+
+(define (weight branch)
+  (if (pair? (cadr branch))
+    (total-weight (cadr branch))
+    (cadr branch)))
+
+(define (total-weight mobile)
+  (+ (weight (left-branch mobile))
+     (weight (right-branch mobile))))
+
+(assert (= 7 (total-weight b))
+        "(total-weight a b) is 7")
+
+(define (torque branch)
+  (define (length branch)
+    (car branch))
+  (* (weight branch) (length branch)))
+
+(assert (= 6 (torque (make-branch 2 3)))
+        "(torque (make-branch 2 3)) is 6")
+(torque (left-branch b))
+
+(define (balanced? mobile)
+  (define (sub-balanced? branch)
+    (if (pair? (cadr branch))
+      (balanced? (cadr branch))
+      #t))
+  (and
+    (= (torque (left-branch mobile))
+       (torque (right-branch mobile)))
+    (sub-balanced? (left-branch mobile))
+    (sub-balanced? (right-branch mobile))))
+
+(assert (not (balanced? a))
+        "mobile a is not balanced")
+
+(assert (balanced? c)
+        "mobile c is not balanced")
+
+(define (make-mobile left right)
+  (cons left right))
+
+(define (make-branch length structure)
+  (cons length structure))
+
+(define v (make-branch 2 2))
+(define w (make-branch 1 1))
+(define x (make-branch 1 2))
+
+(define a (make-mobile w x))
+
+(define y (make-branch 1 a))
+(define z (make-branch 1 4))
+
+(define b (make-mobile y z))
+(define c (make-mobile v z))
+
+(assert (equal? w (left-branch a))
+        "(left-branch a) equals w")
+
+(define (right-branch mobile)
+  (cdr mobile))
+
+(assert (equal? x (right-branch a))
+        "(right-branch a) equals x")
+
+(define (weight branch)
+  (if (pair? (cdr branch))
+    (total-weight (cdr branch))
+    (cdr branch)))
+
+(assert (= 7 (total-weight b))
+        "(total-weight a b) is 7")
+
+(define (balanced? mobile)
+  (define (sub-balanced? branch)
+    (if (pair? (cdr branch))
+      (balanced? (cdr branch))
+      #t))
+  (and
+    (= (torque (left-branch mobile))
+       (torque (right-branch mobile)))
+    (sub-balanced? (left-branch mobile))
+    (sub-balanced? (right-branch mobile))))
+
+(assert (not (balanced? a))
+        "mobile a is not balanced")
+
+(assert (balanced? c)
+        "mobile c is not balanced")
+
 ; {{{2 Exercise 2.30:
 ; {{{3 Problem
 ;      Define a procedure `square-tree' analogous to the
