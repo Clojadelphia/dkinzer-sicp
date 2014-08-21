@@ -689,6 +689,64 @@
 ;
 ; {{{3 Solution
 ;
+(define (subsets s)
+
+  (define (list-filter terms)
+    (lambda (item)
+      (define (in-list? terms)
+        (if (null? terms)
+          #t
+          (if (= (car terms) item)
+            #f
+            (or (in-list? (cdr terms))))))
+      (in-list? terms)))
+
+  (define (filter-subset terms)
+    (filter (list-filter terms) s))
+
+  (if (null? s)
+    (list nil)
+    (let ((rest (subsets (cdr s))))
+      (append rest (map filter-subset rest)))))
+
+; Result without using a filter:
+;
+; (1 2 3)
+; (2 3)
+; (3)
+; ()
+; term - (), subset - (3)
+; term - (), subset - (2 3)
+; term - (3), subset - (2 3)
+; term - (), subset - (1 2 3)
+; term - (3), subset - (1 2 3)
+; term - (2 3), subset - (1 2 3)
+; term - (2 3), subset - (1 2 3)
+;
+; (() (3) (2 3) (2 3) (1 2 3) (1 2 3) (1 2 3) (1 2 3))
+;
+; Result with filter:
+;
+; (1 2 3)
+; (2 3)
+; (3)
+; ()
+;
+; terms - (), subset - (3)
+; terms - (), subset - (2 3)
+; terms - (3), subset - (2 3)
+; terms - (), subset - (1 2 3)
+; terms - (3), subset - (1 2 3)
+; terms - (2 3), subset - (1 2 3)
+; terms - (2), subset - (1 2 3)
+;
+; (() (3) (2 3) (2) (1 2 3) (1 2) (1) (1 3))
+
+(define x (list 1 2 3))
+(define y (list nil  (list 3) (list 2 3) (list 2) (list 1 2 3) (list 1 2) (list 1) (list 1 3)))
+(assert (equal? y (subsets x))
+        "(subsets (1 2 3)) equals (() (3) (2 3) (2) (1 2 3) (1 2) (1) (1 3))")
+
 ; {{{1 2.2.3 Sequences as Conventional Interfaces
 ;
 ; {{{2 Exercise 2.33:
