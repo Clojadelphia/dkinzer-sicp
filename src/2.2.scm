@@ -771,6 +771,37 @@
 ;             (accumulate <??> 0 sequence))
 ;
 ; {{{3 Solution
+(define (accumulate op initial sequence)
+  (if (null? sequence)
+    initial
+    (op (car sequence)
+        (accumulate op initial (cdr sequence)))))
+
+(define (map p sequence)
+  (accumulate (lambda (x y) (cons (p x) y)) nil sequence))
+
+(define x (list 1 2 3 4))
+(define y (list 1 4 9 16))
+(assert (equal? y (map square x))
+        "(map square (1 2 3 4)) equals (1 4 9 16)")
+
+(define (append seq1 seq2)
+  (accumulate cons seq2 seq1))
+
+(define x (list 1 2 3))
+(define y (list 4 5 6))
+(define z (list 1 2 3 4 5 6))
+(assert (equal? z (append x y))
+        "(append (1 2 3) (4 5 6)) equals (1 2 3 4 5 6)")
+
+(define (length sequence)
+  (define (unity thunk) 1)
+  (accumulate +  0 (map unity sequence)))
+
+(define x (list 1 2 3 4 5))
+(assert (= 5 (length x))
+        "(length (1 2 3 4 5)) equals 5")
+
 ; {{{2 Exercise 2.34:
 ; {{{3 Problem
 ;      Evaluating a polynomial in x at a given value of
