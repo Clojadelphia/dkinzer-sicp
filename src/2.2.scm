@@ -689,8 +689,16 @@
 ;
 ; {{{3 Solution
 ;
-(define (subsets s)
 
+(define (subsets s)
+  (define (subset item)
+    (cons (car s) item))
+  (if (null? s)
+    (list nil)
+    (let ((rest (subsets (cdr s))))
+      (append rest (map subset rest)))))
+
+(define (subsets s)
   (define (list-filter terms)
     (lambda (item)
       (define (in-list? terms)
@@ -700,10 +708,8 @@
             #f
             (or (in-list? (cdr terms))))))
       (in-list? terms)))
-
   (define (filter-subset terms)
     (filter (list-filter terms) s))
-
   (if (null? s)
     (list nil)
     (let ((rest (subsets (cdr s))))
