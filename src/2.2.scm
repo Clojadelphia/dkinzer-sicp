@@ -827,6 +827,18 @@
 ;           (horner-eval 2 (list 1 3 0 5 0 1))
 ;
 ; {{{3 Solution
+;
+(define (horner-eval x coefficient-sequence)
+  (accumulate (lambda (this-coeff higher-terms)
+                (+  this-coeff (* x higher-terms)))
+              0
+              coefficient-sequence))
+
+(define x (list 1 3 0 5 0 1))
+(define y (+ (* (+ (* (+ (* (+ (* (+ (* 1 2) 0) 2) 5) 2) 0) 2) 3) 2) 1))
+(assert (= 79 (horner-eval 2 x))
+        "(horner-eval (1 3 0 5 0 1)) equals 79.")
+
 ; {{{2 Exercise 2.35:
 ; {{{3 Problem
 ;      Redefine `count-leaves' from section *Note
