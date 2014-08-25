@@ -864,11 +864,11 @@
 
 (define x (list 1 (list (list (list 2))) 3 (list (list (list 4)))))
 (assert (= 4 (count-leaves x))
-        "(count-leaves (1 2 3 4)) equals 4")
+        "(count-leaves (1 ((2)) 3 (((4)))) equals 4")
 
 (define x (list 1 (list 2 3 (list 4))))
 (assert (= 4  (count-leaves x))
-        "(count-leaves (1 2 3 4)) equals 4")
+        "(count-leaves (1 ((2 3 (((4)))))) equals 4")
 
 ; {{{2 Exercise 2.36:
 ; {{{3 Problem
