@@ -855,14 +855,21 @@
 ;
 ; {{{3 Solution
 ;
-
-(map (lambda (x) 1) (list 1 2 3 4))
 (define (count-leaves t)
-  (accumulate + 0 (map (lambda(x) 1) t)))
+  (accumulate + 0 (map (lambda(x)
+                         (if (pair? x)
+                           (count-leaves x)
+                           1))
+                       t)))
 
 (define x (list 1 (list (list (list 2))) 3 (list (list (list 4)))))
 (assert (= 4 (count-leaves x))
         "(count-leaves (1 2 3 4)) equals 4")
+
+(define x (list 1 (list 2 3 (list 4))))
+(assert (= 4  (count-leaves x))
+        "(count-leaves (1 2 3 4)) equals 4")
+
 ; {{{2 Exercise 2.36:
 ; {{{3 Problem
 ;      The procedure `accumulate-n' is similar to
