@@ -890,6 +890,23 @@
 ;                 (cons (accumulate op init <??>)
 ;                       (accumulate-n op init <??>))))
 ;
+
+; {{{3 Solution
+(define (accumulate-n op init seqs)
+  (if (null? (car seqs))
+    '()
+    (cons (accumulate op init (map (lambda (x)
+                                     (car x))
+                                   seqs))
+          (accumulate-n op init (map (lambda (x)
+                                       (cdr x))
+                                     seqs)))))
+
+(define x (list (list 1 2 3) (list 4 5 6) (list 7 8 9) (list 10 11 12)))
+(define y (list 22 26 30))
+(assert (equal? y (accumulate-n + 0 x))
+        "(accumulate-n + 0 ((1 2 3) (4 5 6) (7 8 9) (10 11 12))) equals (22 26 30)")
+
 ; {{{2 Exercise 2.37
 ;
 ; Suppose we represent vectors v = (v_i) as sequences of numbers, and
