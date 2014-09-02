@@ -777,8 +777,8 @@
     (op (car sequence)
         (accumulate op initial (cdr sequence)))))
 
-(define (map p sequence)
-  (accumulate (lambda (x y) (cons (p x) y)) nil sequence))
+; (define (map p sequence)
+;   (accumulate (lambda (x y) (cons (p x) y)) nil sequence)
 
 (define x (list 1 2 3 4))
 (define y (list 1 4 9 16))
