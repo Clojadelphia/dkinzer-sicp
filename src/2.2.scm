@@ -954,6 +954,30 @@
 ;          (map <??> m)))
 ;
 ; {{{3 Solution
+(define (dot-product v w)
+  (accumulate + 0 (map * v w)))
+
+(define (matrix-*-vector m v)
+  (map (lambda (w) (dot-product w v)) m))
+
+(define m0 (list (list 2 0 0) (list 0 1 0) (list 0 0 1)))
+(define v0 (list 1 2 3))
+(define t0 (list 2 2 3))
+(assert (equal? t0 (matrix-*-vector m0 v0)) "matrix-*-vector")
+
+(define (transpose mat)
+  (accumulate-n cons '() mat))
+
+(define m (list (list 1 2 3) (list 4 5 6) (list 7 8 9)))
+(define t (list (list 1 4 7) (list 2 5 8) (list 3 6 9)))
+(assert (equal? t (transpose m)) "transpose mat")
+
+(define (matrix-*-matrix m n)
+  (let ((cols (transpose n)))
+    (map (lambda (v) (matrix-*-vector cols v)) m)))
+
+(define t1 (list (list 2 4 6) (list 4 5 6) (list 7 8 9)))
+(assert (equal? t1 (matrix-*-matrix m0 m)) "matrix-*-matrix")
 ; {{{2 Exercise 2.38:
 ; {{{3 Problem
 ;      The `accumulate' procedure is also known as
