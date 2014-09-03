@@ -1036,6 +1036,17 @@
 ;             (fold-left (lambda (x y) <??>) nil sequence))
 ;
 ; {{{3 Solution
+
+(define (reverse-r sequence)
+  (fold-right (lambda (x y) (append y (list x))) nil sequence))
+
+(assert (equal? (reverse-r (list 1 2 3)) (list 3 2 1)) "reverse-r")
+
+(define (reverse-l sequence)
+  (fold-left (lambda (x y) (cons y x)) nil sequence))
+
+(assert (equal? (reverse-l (list 1 2 3)) (list 3 2 1)) "reverse-l")
+
 ; {{{2 Exercise 2.40:
 ; {{{3 Problem
 ;      Define a procedure `unique-pairs' that, given an
