@@ -987,14 +987,14 @@
 ;      `fold-right', except that it combines elements working in the
 ;      opposite direction:
 ;
-;           (define (fold-left op initial sequence)
-;             (define (iter result rest)
-;               (if (null? rest)
-;                   result
-;                   (iter (op result (car rest))
-;                         (cdr rest))))
-;             (iter initial sequence))
-;
+           (define (fold-left op initial sequence)
+             (define (iter result rest)
+               (if (null? rest)
+                   result
+                   (iter (op result (car rest))
+                         (cdr rest))))
+             (iter initial sequence))
+
 ;      What are the values of
 ;
 ;           (fold-right / 1 (list 1 2 3))
@@ -1010,6 +1010,19 @@
 ;      sequence.
 ;
 ; {{{3 Solution
+(assert (equal? 3/2 (fold-right / 1 (list 1 2 3))) "fold-right /")
+
+(assert (equal? 1/6 (fold-left / 1 (list 1 2 3))) "fold-left /")
+
+(assert (equal? (list 1 (list 2 (list 3 '()))) (fold-right list '() (list 1 2 3))) "fold-left list")
+
+(assert (equal? (list (list (list '() 1) 2) 3) (fold-left list '() (list 1 2 3))) "fold-left list")
+
+(assert (equal? (fold-left + 0 (list 1 2 3)) (fold-right + 0 (list 1 2 3)))
+        "If op is communicative (equal? (op x y) (op y x)),
+         then fold-left and fold-right would equal with respect to op.")
+
+
 ; {{{2 Exercise 2.39:
 ; {{{3 Problem
 ;      Complete the following definitions of `reverse'
