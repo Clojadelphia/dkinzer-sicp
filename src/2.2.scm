@@ -1055,6 +1055,24 @@
 ;      `prime-sum-pairs' given above.
 ;
 ; {{{3 Solution
+; The nested mapping solution may look like:
+;
+; for i = 1; i <= n; i++
+;   for j = 1; j <= n; j++
+;      if j < i do
+;        if prime? j + i
+;          result.push [ i, j, i + j]
+(define (enumerate-interval low high)
+  (if (> low high)
+    nil
+    (cons low (enumerate-interval (+ low 1) high))))
+
+(define (enumerate-tree tree)
+  (cond ((null? tree) '())
+        ((not (pair? tree)) (list tree))
+        (else (append (enumerate-tree (car tree))
+                      (enumerate-tree (cdr tree))))))
+(enumerate-tree (list 1 2 (list 3 4) (list 5 (list 6 (list 7 8)))))
 ; {{{2 Exercise 2.41:
 ; {{{3 Problem
 ;      Write a procedure to find all ordered triples of
