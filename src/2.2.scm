@@ -1122,6 +1122,18 @@
 ;      distinct positive integers i, j, and k less than or equal to a
 ;      given integer n that sum to a given integer s.
 ;
+;
+; {{{3 Solution
+
+(define (unique-triplets i)
+  (map (lambda (j) 
+         (map (lambda (k) (list i j k))
+              (enumerate-interval 1 (- j 1)) ))
+       (enumerate-interval 1 (- i 1))))
+
+(unique-triplets 7)
+
+; {{{2 Exercise 2.42:
 ;      *Figure 2.8:* A solution to the eight-queens puzzle.
 ;
 ;           +---+---+---+---+---+---+---+---+
@@ -1141,9 +1153,6 @@
 ;           +---+---+---+---+---+---+---+---+
 ;           |   |   |   | Q |   |   |   |   |
 ;           +---+---+---+---+---+---+---+---+
-;
-; {{{3 Solution
-; {{{2 Exercise 2.42:
 ; {{{3 Problem
 ;      The "eight-queens puzzle" asks how to place eight
 ;      queens on a chessboard so that no queen is in check from any other
