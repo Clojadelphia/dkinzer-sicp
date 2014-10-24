@@ -1072,7 +1072,50 @@
         ((not (pair? tree)) (list tree))
         (else (append (enumerate-tree (car tree))
                       (enumerate-tree (cdr tree))))))
+
 (enumerate-tree (list 1 2 (list 3 4) (list 5 (list 6 (list 7 8)))))
+
+(define (flatmap proc seq)
+    (accumulate append nil (map proc seq)))
+
+
+(define (unique-pairs i)
+  ; This one only generates a single column: (10, 1), (10, 2), (10, 3).. (10, 9).
+  (map (lambda (j)  (list i j))
+       (enumerate-interval 1 (- i 1))))
+
+(define (unique-pairs i)
+  ; I solved this by extracting from the text example.
+  ; These nested maps are difficult for me to process.
+  (flatmap
+    (lambda (i)
+      (map (lambda (j)  (list i j))
+           (enumerate-interval 1 (- i 1))))
+    (enumerate-interval 1 i)))
+
+(define a40 (list '(2 1) '(3 1) '(3 2)))
+(assert (equal? (unique-pairs 3) a40) "unique-pairs works as expected")
+
+(define (prime-sum? pair)
+  (prime? (+ (car pair)  (cadr pair))))
+
+(define (make-pair-sum pair)
+  (list (car pair)  (cadr pair)  (+ (car pair)  (cadr pair))))
+
+(define (prime-sum-pairs0 n)
+  (map make-pair-sum
+       (filter prime-sum?
+               (flatmap
+                 (lambda (i)
+                   (map (lambda (j)  (list i j))
+                        (enumerate-interval 1 (- i 1))))
+                 (enumerate-interval 1 n)))))
+
+(define (prime-sum-pairs n)
+  (map make-pair-sum
+       (filter prime-sum? (unique-pairs n))))
+(assert (equal? (prime-sum-pairs0 5) (prime-sum-pairs 5)) "successully refactored prime-sume-pairs")
+
 ; {{{2 Exercise 2.41:
 ; {{{3 Problem
 ;      Write a procedure to find all ordered triples of
