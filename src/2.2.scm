@@ -1131,6 +1131,12 @@
               (enumerate-interval 1 (- j 1)) ))
        (enumerate-interval 1 (- i 1))))
 
+(define (unique-triplets i)
+  (map (lambda (pairs) 
+         (append pairs (list i)))
+       (unique-pairs i)))
+
+(unique-pairs 7)
 (unique-triplets 7)
 
 ; {{{2 Exercise 2.42:
