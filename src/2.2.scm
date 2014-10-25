@@ -1078,7 +1078,6 @@
 (define (flatmap proc seq)
     (accumulate append nil (map proc seq)))
 
-
 (define (unique-pairs i)
   ; This one only generates a single column: (10, 1), (10, 2), (10, 3).. (10, 9).
   (map (lambda (j)  (list i j))
@@ -1124,20 +1123,28 @@
 ;
 ;
 ; {{{3 Solution
-
 (define (unique-triplets i)
-  (map (lambda (j) 
-         (map (lambda (k) (list i j k))
-              (enumerate-interval 1 (- j 1)) ))
-       (enumerate-interval 1 (- i 1))))
+  ; Solved by expanding unique-pairs
+  (flatmap
+    (lambda (i)
+      (flatmap
+        (lambda (j)
+          (map (lambda (k)  (list i j k))
+               (enumerate-interval 1 (- j 1))))
+        (enumerate-interval 1 (- i 1))))
+    (enumerate-interval 1 i)))
 
-(define (unique-triplets i)
-  (map (lambda (pairs) 
-         (append pairs (list i)))
-       (unique-pairs i)))
+(assert (equal? '() (unique-triplets -1)) "#unique-triplets: When passed -1")
+(assert (equal? '() (unique-triplets  2)) "#unique-triplets: When passed less than 3")
+(assert (equal? (list '(3 2 1)) (unique-triplets  3)) "#unique-triplets: When passed 3")
 
-(unique-pairs 7)
-(unique-triplets 7)
+(define (s-sum-triplets n s)
+  (filter (lambda (x) (= s (apply + x)))
+          (unique-triplets n)))
+
+(define a41 (list '(3 2 1)))
+(unique-triplets 5)
+(assert (equal? a41 (s-sum-triplets 5 6)) "s-sum-triplets")
 
 ; {{{2 Exercise 2.42:
 ;      *Figure 2.8:* A solution to the eight-queens puzzle.
