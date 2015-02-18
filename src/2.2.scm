@@ -1251,12 +1251,12 @@
     (define kth-position (car positions))
 
     (define (safe-row? positions)
-      (cond (null? positions) #t
-            (eq? (get-row kth-position) (get-row (car positions)))
+      (cond ((null? positions) #t)
+            ((eq? (get-row kth-position) (get-row (car positions))) #f)
             (else (safe-row? (cdr positions)))))
 
     (define (safe-diagonal? positions)
-      )
+      '())
 
     (and (safe-row? (cdr positions))
          (safe-diagonal? (cdr positions))))
