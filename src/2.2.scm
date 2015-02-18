@@ -1243,25 +1243,36 @@
 
 
   (define (adjoin-position new-row k rest-of-queens)
-    (cons (make-position) rest-of-queens))
+    (cons (make-position new-row k)
+          rest-of-queens))
 
   (define empty-board '())
 
   (define (safe? k positions)
-    (define kth-position (car positions))
+    (define (slope p1 p2)
+      (/ (- (get-col p1) (get-col p2))
+         (- (get-row p1) (get-row p2))))
 
-    (define (safe-row? positions)
-      (cond ((null? positions) #t)
-            ((eq? (get-row kth-position) (get-row (car positions))) #f)
-            (else (safe-row? (cdr positions)))))
+    (define kth-queen (car positions))
+    (define other-queens (cdr positions))
 
-    (define (safe-diagonal? positions)
-      '())
+    (define (not-same-row? other-queens)
+      (cond ((null? other-queens) #t)
+            ((eq? (get-row kth-queen) (get-row (car other-queens))) #f)
+            (else (not-same-row? (cdr other-queens)))))
 
-    (and (safe-row? (cdr positions))
-         (safe-diagonal? (cdr positions))))
+    (define (not-same-diagonal? other-queens)
+      (cond ((null? other-queens) #t)
+            ((eq? 1 (abs (slope kth-queen (car other-queens)))) #f)
+            (else (not-same-diagonal? (cdr other-queens)))))
+
+    (and (not-same-row? other-queens)
+         (not-same-diagonal? other-queens)))
 
   (queen-cols board-size))
+
+(assert (equal? (list '()) (queens 0)) "(queens 0)")
+(assert (equal? (list (list (cons 1 1))) (queens 4)) "(queens 1)")
 
 ; {{{2 Exercise 2.43:
 ; {{{3 Problem
