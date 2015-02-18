@@ -1073,7 +1073,7 @@
         (else (append (enumerate-tree (car tree))
                       (enumerate-tree (cdr tree))))))
 
-(enumerate-tree (list 1 2 (list 3 4) (list 5 (list 6 (list 7 8)))))
+(enumerate-tree (list 1 2  (list 3 4) (list 5 (list 6 (list 7 8)))))
 
 (define (flatmap proc seq)
     (accumulate append nil (map proc seq)))
@@ -1219,6 +1219,50 @@
 ;      each other.)
 ;
 ; {{{3 Solution
+(define (make-position row col)
+  (cons row col))
+
+(define (get-row position)
+  (car position))
+
+(define (get-col position)
+  (cdr position))
+
+(define (queens board-size)
+  (define (queen-cols k)
+    (if (= k 0)
+      (list empty-board)
+      (filter
+        (lambda (positions) (safe? k positions))
+        (flatmap
+          (lambda (rest-of-queens)
+            (map (lambda (new-row)
+                   (adjoin-position new-row k rest-of-queens))
+                 (enumerate-interval 1 board-size)))
+          (queen-cols (- k 1))))))
+
+
+  (define (adjoin-position new-row k rest-of-queens)
+    (cons (make-position) rest-of-queens))
+
+  (define empty-board '())
+
+  (define (safe? k positions)
+    (define kth-position (car positions))
+
+    (define (safe-row? positions)
+      (cond (null? positions) #t
+            (eq? (get-row kth-position) (get-row (car positions)))
+            (else (safe-row? (cdr positions)))))
+
+    (define (safe-diagonal? positions)
+      )
+
+    (and (safe-row? (cdr positions))
+         (safe-diagonal? (cdr positions))))
+
+  (queen-cols board-size))
+
 ; {{{2 Exercise 2.43:
 ; {{{3 Problem
 ;      Louis Reasoner is having a terrible time doing
