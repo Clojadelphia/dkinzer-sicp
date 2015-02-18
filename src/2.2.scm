@@ -1272,7 +1272,7 @@
   (queen-cols board-size))
 
 (assert (equal? (list '()) (queens 0)) "(queens 0)")
-(assert (equal? (list (list (cons 1 1))) (queens 4)) "(queens 1)")
+(assert (equal? (list (list (cons 1 1))) (queens 1)) "(queens 1)")
 
 ; {{{2 Exercise 2.43:
 ; {{{3 Problem
