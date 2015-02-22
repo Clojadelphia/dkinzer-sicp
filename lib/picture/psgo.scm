@@ -36,7 +36,7 @@
       (graphics-close g3))
   (begin (set! g3 (make-window 256 256 -10 +630))
 	 (graphics-set-coordinate-limits g3 0.0 0.0 1.0 1.0)
-	 (graphics-operation g3 'set-window-name "Graphics: g3"))
-  )
+	 (graphics-operation g3 'set-window-name "Graphics: g3")))
 
 (setup)
+

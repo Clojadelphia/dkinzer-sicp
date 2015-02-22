@@ -29,9 +29,6 @@
 ;;;construct a painter from a Scheme picture
 ;;;(define (picture->painter picture) ....)
 
-;;;The following procedure loads a painter from a image file in the
-;;;6001-image directory 
-
 (define (load-painter file-name)
   (picture->painter
    (pgm-file->picture
