@@ -13,9 +13,9 @@
 ;;;; Primitive painters
 
 ;;;The following procedures create primitive painters.
-;;;They are defined in the file primitive-painters, which is compiled
-;;;so that things will run fast.  You need not deal with the
-;;;implementation of these procedures, just use them as black boxes.
+;;;They are defined in the file (lib/picture/prmpnt.scm).
+;;;You need not deal with the implementation of these procedures,
+;;;just use them as black boxes.
 
 ;;;construct a painter from a number
 ;;;(define (number->painter num) ....)
@@ -54,6 +54,56 @@
      (list (make-segment v1 v2)
            (make-segment v2 v3)
            (make-segment v3 v4)))))
+
+(define blank
+  (segments->painter
+   '()))
+
+(define square
+  (segments->painter
+   (list (make-segment (make-vect 0.0 0.0) (make-vect 1.0 0.0))
+         (make-segment (make-vect 1.0 0.0) (make-vect 1.0 1.0))
+         (make-segment (make-vect 1.0 1.0) (make-vect 0.0 1.0))
+         (make-segment (make-vect 0.0 1.0) (make-vect 0.0 0.0)))))
+
+(define cross
+  (segments->painter
+   (list (make-segment (make-vect 0.0 0.0) (make-vect 1.0 1.0))
+         (make-segment (make-vect 1.0 0.0) (make-vect 0.0 1.0)))))
+
+(define triangle
+  (segments->painter
+   (list (make-segment (make-vect 0.0 0.0) (make-vect 0.5 1.0))
+         (make-segment (make-vect 0.5 1.0) (make-vect 1.0 0.0))
+         (make-segment (make-vect 0.0 0.0) (make-vect 1.0 0.0)))))
+
+(define diamond
+  (segments->painter
+   (list (make-segment (make-vect 0.0 0.5) (make-vect 0.5 1.0))
+         (make-segment (make-vect 0.5 1.0) (make-vect 1.0 0.5))
+         (make-segment (make-vect 1.0 0.5) (make-vect 0.5 0.0))
+         (make-segment (make-vect 0.5 0.0) (make-vect 0.0 0.5)))))
+
+(define wave
+  (segments->painter
+   (list (make-segment (make-vect 0.25 0.00) (make-vect 0.37 0.37)) ;1
+         (make-segment (make-vect 0.40 0.00) (make-vect 0.50 0.25)) ;2
+         (make-segment (make-vect 0.50 0.25) (make-vect 0.62 0.00)) ;3
+         (make-segment (make-vect 0.75 0.00) (make-vect 0.70 0.50)) ;4
+         (make-segment (make-vect 0.70 0.50) (make-vect 1.00 0.30)) ;5
+         (make-segment (make-vect 1.00 0.50) (make-vect 0.75 0.62)) ;6
+         (make-segment (make-vect 0.75 0.62) (make-vect 0.62 0.62)) ;7
+         (make-segment (make-vect 0.62 0.62) (make-vect 0.75 0.75)) ;8
+         (make-segment (make-vect 0.75 0.75) (make-vect 0.62 1.00)) ;9
+         (make-segment (make-vect 0.40 1.00) (make-vect 0.30 0.75)) ;10
+         (make-segment (make-vect 0.30 0.75) (make-vect 0.40 0.62)) ;11
+         (make-segment (make-vect 0.40 0.62) (make-vect 0.25 0.62)) ;12
+         (make-segment (make-vect 0.25 0.62) (make-vect 0.20 0.50)) ;13
+         (make-segment (make-vect 0.20 0.50) (make-vect 0.00 0.70)) ;14
+         (make-segment (make-vect 0.37 0.37) (make-vect 0.30 0.50)) ;15
+         (make-segment (make-vect 0.30 0.50) (make-vect 0.12 0.37)) ;16
+         (make-segment (make-vect 0.12 0.37) (make-vect 0.00 0.50)) ;17
+         )))
 
 (define fovnder (load-painter "fovnder"))
 
@@ -145,4 +195,3 @@
       painter
       (let ((smaller (right-split painter (- n 1))))
         (beside painter (below smaller smaller)))))
-
